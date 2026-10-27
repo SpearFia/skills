@@ -1,0 +1,17 @@
+// <Plugin Name> DCTL v0.1.0 - <one line: what it does>
+// Use: Edit page > Effects > OpenFX > ResolveFX Color > DCTL, then pick this file. Press Reset after edits.
+// Coordinates: p_X 0 = left; p_Y 0 = TOP row. UI labels must not contain parentheses.
+
+DEFINE_UI_PARAMS(amount, Amount, DCTLUI_SLIDER_FLOAT, 1.0, 0.0, 1.0, 0.001)
+
+__DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y,
+                            __TEXTURE__ p_TexR, __TEXTURE__ p_TexG, __TEXTURE__ p_TexB)
+{
+    float r = _tex2D(p_TexR, p_X, p_Y);
+    float g = _tex2D(p_TexG, p_X, p_Y);
+    float b = _tex2D(p_TexB, p_X, p_Y);
+    float3 src = make_float3(r, g, b);
+    // TODO: the effect. Keep _tex2D calls to a minimum; each one costs bandwidth.
+    float3 fx = src;
+    return src + (fx - src) * amount;
+}

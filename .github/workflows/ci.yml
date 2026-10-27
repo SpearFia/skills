@@ -1,0 +1,23 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every SKILL.md has name and description front matter
+        run: |
+          fail=0
+          for f in */SKILL.md; do
+            head -5 "$f" | grep -q '^name: ' && head -5 "$f" | grep -q '^description: ' || { echo "missing front matter: $f"; fail=1; }
+          done
+          exit $fail
+      - uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: |
+            **/*.md
+            #.spec
+            #**/node_modules
