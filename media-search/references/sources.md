@@ -18,7 +18,12 @@ All sources here need no API key.
 
 ### Queries
 
-Write 2–3 phrasings per subject and merge results:
+Start with long raw dumps; one download covers a whole franchise or round:
+
+- `<game> all cinematics` · `<game> all cutscenes` · `<game> all cutscenes movie`
+- `<game> gameplay 4k no commentary` · `<film or show> all scenes`
+
+Then, only for cues the dump doesn't cover, write 2–3 phrasings per subject:
 
 - `<character> <action> scene 4k` · `<character> vs <character> fight scene`
 - `<movie> official clip <moment>` · `<movie> trailer 4k`
@@ -40,7 +45,7 @@ yt-dlp "ytsearch15:QUERY" --flat-playlist --dump-json
 
 `reaction`, `reacts`, `react`, `review`, `explained`, `breakdown`, `theory`, `edit`,
 `AMV`, `fan made`, `fanmade`, `concept`, `AI`, `lyrics`, `meme`, `compilation` (unless
-the title shows it's a clean scene compilation), `#shorts`, `shorts`, `TikTok`,
+the title shows it's a clean scene compilation or an "all cinematics/cutscenes" dump), `#shorts`, `shorts`, `TikTok`,
 `podcast`, `live`, `stream`, `gameplay commentary`, `ranking`, `top 10`.
 
 Also reject durations under 10 s and vertical videos (height > width).

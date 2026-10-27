@@ -47,6 +47,22 @@ Searching per sentence is slow and repetitive. Plan per chapter (`##` section) i
   video at 4 s per shot needs about 900 shots, so plan **2–5 source videos per subject**
   and cut several segments from each.
 
+Most cues are pools, not shots: "any Witcher 3 Geralt footage". Fill pools with
+`scripts/pool.py`, one source per pool, three steps:
+
+1. One search for a long raw dump (`<game> all cinematics`, see sources.md). One dump per
+   pool unless the contact sheet shows it's unusable.
+2. `python <skill>/scripts/pool.py cut --project <P> --pool <name> --cues <id,id,...> --url <URL>`
+   downloads once, cuts clips spread across the video (one per ~5 s of narration),
+   runs the checks and writes 4x4 contact sheets. Look at each sheet once. Any clip
+   that shows the pool's game and nothing from the reject list passes. Don't look for
+   the "best" shot.
+3. `pool.py commit --project <P> --batch <batch> --drop <bad numbers>` writes the
+   manifest and library and prints one payload. Pass it to `links_add` in one call.
+
+Only `exact` cues get their own searches and the per-file steps below. Don't call
+`links_list` or `media_list` after each link: call them once per chapter.
+
 Write the plan to `media/plan.md` in the project before searching.
 
 For coordinated runs, also follow [the production contract](references/production.md).
@@ -79,7 +95,10 @@ patterns and filters. In short:
 - Choose segments from chapters, the `heatmap` ("most replayed") in the metadata, the
   transcript, or a quick look at sampled frames. Avoid title cards, credits, ads, intros
   and talking heads.
-- Download only what you need, with 1 s padding on each side:
+- For long dumps, download the full video once to a cache folder and cut segments locally
+  with `ffmpeg -ss <start> -i <file> -t <len> -an -c:v libx264 -crf 18 <out>`; delete the
+  cache file when its cues are done. `--download-sections` is far slower per clip.
+- For single short sources, download only what you need, with 1 s padding on each side:
 
   ```text
   yt-dlp -f "bv*[height<=1080][height>=720]" --download-sections "*83-101" -o "<library>/youtube/%(id)s/%(id)s_%(section_start)d-%(section_end)d.%(ext)s" "URL"

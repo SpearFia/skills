@@ -21,7 +21,8 @@ Reject, or trim to a clean range, when you see:
 
 - A watermark, channel logo or network bug that would show in the final frame (crop it
   out only if it sits in a letterbox bar that gets cropped anyway).
-- Burned-in subtitles or captions (the video adds its own animated captions).
+- Subtitles or captions the uploader added (translations, commentary text). A game's own
+  dialogue subtitles in raw cutscene dumps are fine: keep those clips.
 - A reactor's face cam, picture-in-picture, borders, frames, split screens.
 - Text overlays, emoji, arrows, "SUBSCRIBE", end cards.
 - Visible AI artifacts or fan-made CGI passed off as the real thing.
