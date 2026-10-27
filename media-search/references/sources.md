@@ -20,8 +20,17 @@ All sources here need no API key.
 
 Start with long raw dumps; one download covers a whole franchise or round:
 
-- `<game> all cinematics` · `<game> all cutscenes` · `<game> all cutscenes movie`
-- `<game> gameplay 4k no commentary` · `<film or show> all scenes`
+- Story, characters, named moments: `<game> all cinematics` · `<game> all cutscenes` ·
+  `<game> all cutscenes movie`, with variations `4k`, `no commentary`, `full movie`,
+  `game movie`.
+- Gameplay or background that shows nothing specific: `<game> full walkthrough gameplay
+  no commentary 4k`, with variations `full game`, `longplay`, `100% walkthrough`,
+  `no commentary 4k 60fps`. These run 5–10+ hours.
+- `<film or show> all scenes`
+
+One long dump serves every cue in its pool: cut each cue from a different part of the
+same video (`pool.py` spreads the cuts and never reuses a range) instead of searching
+again per cue. Search for a second source only when the first is used up or fails QC.
 
 Then, only for cues the dump doesn't cover, write 2–3 phrasings per subject:
 
