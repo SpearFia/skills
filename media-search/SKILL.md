@@ -47,23 +47,32 @@ Searching per sentence is slow and repetitive. Plan per chapter (`##` section) i
   video at 4 s per shot needs about 900 shots, so plan **2–5 source videos per subject**
   and cut several segments from each.
 
-Most cues are pools, not shots: "any Witcher 3 Geralt footage". Fill pools with
-`scripts/pool.py`, one source per pool, three steps:
+**Default: the auto loop.** For film, show and game footage, `scripts/pool.py` does the
+searching, source picking, cutting, rejecting, linking and reporting. The agent only looks
+at contact sheets. Cues sharing a Subject form one pool; exact cues get one search each
+and fall back to clips from that video if the exact moment isn't verified.
 
-1. One search for a long raw dump (`<game> all cinematics`, see sources.md). One dump per
-   pool unless the contact sheet shows it's unusable.
-2. `python <skill>/scripts/pool.py cut --project <P> --pool <name> --cues <id,id,...> --url <URL>`
-   downloads once, cuts clips spread across the video (one per ~5 s of narration),
-   runs the checks and writes 4x4 contact sheets. Look at each sheet once. Any clip
-   that shows the pool's game and nothing from the reject list passes. Don't look for
-   the "best" shot.
-3. `pool.py commit --project <P> --batch <batch> --drop <bad numbers>` writes the
-   manifest and library and prints one payload. Pass it to `links_add` in one call.
+```text
+python <skill>/scripts/pool.py auto --project <P>      # 3 groups per run; reuses library clips first
+# look at each printed sheet once; note clips showing an uploader logo, facecam, menus,
+# the wrong game, or nothing. Game dialogue subtitles are fine. Don't hunt for better shots.
+python <skill>/scripts/pool.py commit --project <P> --drop <BATCH>:3,7 --drop <BATCH>:all
+# repeat auto + commit until it prints "all LIVE cues are linked"
+```
 
-Only `exact` cues get their own searches and the per-file steps below. Don't call
-`links_list` or `media_list` after each link: call them once per chapter.
+- `commit` links through `spearfia mcp` itself and rewrites `production/media-report.md`;
+  don't call `links_add`, `links_list` or `media_list` yourself.
+- `BATCH:all` rejects that source; the next `auto` picks another.
+- State comes from `links.json`, so a new session just runs `auto` again.
+- "no source passed the filters": run `pool.py cut --url <URL>` for that pool with a source
+  you found, or leave it for the creator.
+- If the script breaks on real data, fix `pool.py` (keep `--self-test` passing). Never write
+  one-off batch scripts.
 
-Write the plan to `media/plan.md` in the project before searching.
+Use the manual steps below only for what `auto` can't do: real-world subjects, stills,
+Wikimedia/Internet Archive sources, or a creator-requested exact shot.
+
+For the manual path, write the plan to `media/plan.md` in the project before searching.
 
 For coordinated runs, also follow [the production contract](references/production.md).
 Persist a task per cue or subject pool, its dependencies and attempted candidates, so
@@ -166,5 +175,6 @@ required source decision unresolved.
 ## Limits
 
 - No paid or keyed APIs in this version (Pexels, Pixabay come later).
-- Relevance and watermark checks rely on the agent's own vision; the script only flags.
+- Relevance relies on the agent's own look at the sheets; `pool.py` recuts black, frozen and
+  likely-watermarked clips itself and flags what remains.
 - Clips are not timed to the narration here; FilmCraft assembly does that.
