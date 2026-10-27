@@ -103,7 +103,34 @@ def unfilled(project):
 
 
 def clips_needed(cue, length):
+    if "_need" in cue:  # set by gaps(): extra clips for a stretch the timeline left uncovered
+        return cue["_need"]
     return max(1, round(len(cue["anchor"]["quote"].split()) / WPS / length))
+
+
+def gaps(project, length, min_gap=1.0):
+    """LIVE cues whose stretch in the newest pushed plan isn't covered, with _need set to the
+    clips that would cover it. Uses real voiceover timing, so run it after a push."""
+    plans = sorted((project / "sync" / "plans").glob("plan-*.json"), key=lambda p: p.stat().st_mtime)
+    if not plans:
+        raise SystemExit("no pushed plan yet: run `spearfia push filmcraft` first")
+    plan = json.loads(plans[-1].read_text("utf-8"))
+    fps = plan["timebase"]["num"] / plan["timebase"]["den"]
+    quote_of = {l["id"]: l["quote"] for l in links(project)}
+    spans = {}
+    for it in plan["items"]:
+        if it["kind"] != "clip" or it["track"] != "V2" or it["cue_id"] not in quote_of:
+            continue
+        end = it["start_frame"] + (it.get("intent") or {}).get("duration_frames", it["duration_frames"])
+        s = spans.setdefault(quote_of[it["cue_id"]], [it["start_frame"], end, 0])
+        s[0], s[1], s[2] = min(s[0], it["start_frame"]), max(s[1], end), s[2] + it["duration_frames"]
+    out = []
+    for c in all_cues(project):
+        s = spans.get(c["anchor"]["quote"]) if c.get("method") == "LIVE footage" else None
+        missing = (s[1] - s[0] - s[2]) / fps if s else 0
+        if missing >= min_gap:
+            out.append({**c, "_need": max(1, round(missing / length))})
+    return out
 
 
 def free_times(lo, hi, length, used):
@@ -249,9 +276,9 @@ def auto(a):
                if not p.stem.endswith(".committed") and p.stem != "excluded"}
     if pending:
         raise SystemExit(f"commit or drop the pending batches first: {', '.join(sorted(pending))}")
-    empty = unfilled(project)
+    empty = gaps(project, a.len) if a.fill_gaps else unfilled(project)
     if not empty:
-        print("all LIVE cues are linked")
+        print("no uncovered stretches in the newest plan" if a.fill_gaps else "all LIVE cues are linked")
         return
     excluded_path = project / "media" / "pool-batches" / "excluded.json"
     excluded = set(json.loads(excluded_path.read_text("utf-8"))) if excluded_path.exists() else set()
@@ -523,6 +550,13 @@ def self_test():
         main(["commit", "--project", str(proj2)])
         assert not unfilled(proj2)
         assert all("proj2" in r["used_in"] for r in jsonl(lib / "library.jsonl") if r["qc"]["verdict"] == "pass")
+        # gaps(): a plan where c1's stretch is 600 frames but its clips cover 150 needs 15 s more.
+        (proj / "sync" / "plans").mkdir(parents=True)
+        (proj / "sync" / "plans" / "plan-1.json").write_text(json.dumps({"timebase": {"num": 30, "den": 1}, "items": [
+            {"kind": "clip", "track": "V2", "cue_id": "k1", "start_frame": 0, "duration_frames": 150,
+             "intent": {"start_frame": 0, "duration_frames": 600}}]}), "utf-8")
+        g = gaps(proj, 5)
+        assert [(c["id"], c["_need"]) for c in g] == [("c1", 3)], g
         # BATCH:all rejects the source.
         main(["cut", *base, "--pool", "T", "--cues", "c1", "--file", str(src), "--library", str(lib),
               "--skip-head", "5", "--skip-tail", "5"])
@@ -554,6 +588,8 @@ def main(argv):
     au.add_argument("--library", default=r"D:\SpearFia\library")
     au.add_argument("--limit", type=int, default=3, help="groups per run (each may download a long video)")
     au.add_argument("--len", type=int, default=5)
+    au.add_argument("--fill-gaps", action="store_true",
+                    help="after a push: add clips where the timeline shows uncovered picture time")
     c = sub.add_parser("cut")
     c.add_argument("--project", required=True)
     c.add_argument("--pool", required=True)

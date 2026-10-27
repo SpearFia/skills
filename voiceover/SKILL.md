@@ -53,7 +53,12 @@ creator inspection; restarting or retrying must not trigger another generation.
    `--force` with `--sections` to redo specific sections after script fixes.
 4. Link the files: pass the `links_add` payload the script prints to the `links_add` tool.
    `links_list` must show each link `linked`.
-5. Report: sections generated, total duration (from `media/vo.json`), failures and their
+5. Word timing: `D:\SpearFia\tools\whisper\Scripts\python.exe <skill>/scripts/vo_words.py --project <P>`
+   transcribes every voiceover file with word timestamps into `media/vo-words.json`
+   (about a minute for 30 minutes of audio on the GPU). The FilmCraft push aligns them to the
+   script so footage, edits and captions land on the spoken word. Rerun it after
+   regenerating a section; unchanged files are skipped.
+6. Report: sections generated, total duration (from `media/vo.json`), failures and their
    errors, and anything that sounded wrong.
 
 The script writes to `A-roll/voiceover/` (the project's voiceover folder, so links are
