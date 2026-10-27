@@ -14,6 +14,7 @@ rule-shaped: the full set goes into every video snapshot and agent brief.
 | `tools.md` | voice, media and edit agents | VoiceStudio voice spec and other tool settings |
 | `production.md` | orchestrating agent | App workflow (unchanged) and channel-specific stages |
 | `lessons.md` | all, after review | Dated entries. DNA adds one entry per version |
+| `execution.md` | caption, mix and editing compiler | Validated caption/audio settings and executable recipes; see execution.md in the skill references |
 
 ## Rule format
 

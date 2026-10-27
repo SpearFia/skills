@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """Measure a downloaded clip for the media-search checks and print JSON.
 
 Usage:
@@ -14,6 +15,7 @@ import statistics
 import subprocess
 import sys
 import tempfile
+from collections import Counter
 from pathlib import Path
 
 W, H = 160, 90  # analysis size
@@ -21,8 +23,12 @@ SAMPLES = 12
 CORNER = 0.2  # corner box: 20% of width and height
 
 
-def run(args):
-    return subprocess.run(args, capture_output=True, text=True, check=False)
+def run(args, text=True):
+    result = subprocess.run(args, capture_output=True, text=text, check=False, timeout=300)
+    if result.returncode:
+        message=result.stderr if text else result.stderr.decode(errors="replace")
+        raise RuntimeError(f"{args[0]} failed: {message[-3000:].strip()}")
+    return result
 
 
 def probe(path):
@@ -40,7 +46,8 @@ def probe(path):
     bitrate = float(video.get("bit_rate") or data["format"].get("bit_rate") or 0)
     w, h = int(video["width"]), int(video["height"])
     bpp = bitrate / (w * h * fps) if w and h and fps else 0.0
-    return {"width": w, "height": h, "fps": round(fps, 3), "duration": round(duration, 3),
+    still = video.get("codec_name") in {"png", "mjpeg", "bmp", "webp", "tiff"} and duration == 0
+    return {"kind": "image" if still else "video", "width": w, "height": h, "fps": round(fps, 3), "duration": round(duration, 3),
             "bitrate": int(bitrate), "bits_per_pixel": round(bpp, 4)}
 
 
@@ -57,7 +64,10 @@ def crop(path, w, h):
     found = re.findall(r"crop=(\d+):(\d+):(\d+):(\d+)", err)
     if not found:
         return None
-    cw, ch, cx, cy = (int(v) for v in found[-1])
+    candidate, count = Counter(found).most_common(1)[0]
+    if count < len(found) * 0.6:
+        return None  # mixed framing: inspect samples rather than crop a whole clip
+    cw, ch, cx, cy = (int(v) for v in candidate)
     # Ignore trims of a few pixels (encoder edges).
     if w - cw <= max(8, w // 50) and h - ch <= max(8, h // 50):
         return None
@@ -66,10 +76,12 @@ def crop(path, w, h):
 
 def gray_frames(path, duration):
     rate = SAMPLES / duration if duration else 1
-    out = subprocess.run(["ffmpeg", "-v", "error", "-i", str(path), "-vf",
+    out = run(["ffmpeg", "-v", "error", "-i", str(path), "-vf",
                           f"fps={rate},scale={W}:{H},format=gray", "-f", "rawvideo", "-"],
-                         capture_output=True, check=False).stdout
+                         text=False).stdout
     size = W * H
+    if len(out) < size:
+        raise RuntimeError("Decoder produced no complete analysis frames.")
     return [out[i:i + size] for i in range(0, len(out) - size + 1, size)][:SAMPLES]
 
 
@@ -126,7 +138,7 @@ def save_frames(path, duration, out_dir):
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     saved = []
-    for i in range(4):
+    for i in range(4 if duration else 1):
         t = duration * (i + 0.5) / 4
         target = out_dir / f"{Path(path).stem}_{i + 1}.jpg"
         run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t:.3f}", "-i", str(path),
@@ -138,6 +150,15 @@ def save_frames(path, duration, out_dir):
 
 def measure(path, frames_dir=None):
     info = probe(path)
+    if info["kind"] == "image":
+        run(["ffmpeg", "-v", "error", "-i", str(path), "-frames:v", "1", "-f", "null", "-"])
+        info.update(black_ratio=None, crop=None, static_corners=[], frozen=None,
+                    manual_checks=["subject match", "watermarks/text", "framing", "image resolution"])
+        if frames_dir:
+            info["frames"] = save_frames(path, 0, frames_dir)
+        return info
+    if info["duration"] <= 0:
+        raise RuntimeError("Video has no measurable duration; temporal QC is unavailable.")
     info["black_ratio"] = black_ratio(path, info["duration"])
     info["crop"] = crop(path, info["width"], info["height"])
     corners, frozen = static_corners(gray_frames(path, info["duration"]), info["crop"],
@@ -177,6 +198,17 @@ def self_test():
         b = measure(bars)
         assert b["crop"] is not None and b["crop"]["h"] <= 280, b
         assert b["static_corners"] == [], b
+        still=tmp / "still.png"
+        run(["ffmpeg","-v","error","-y","-i",str(clean),"-frames:v","1",str(still)])
+        image=measure(still,tmp / "still-frames")
+        assert image["kind"]=="image" and image["frozen"] is None and len(image["frames"])==1,image
+        corrupt=tmp / "broken.mp4";corrupt.write_text("invalid")
+        try:
+            measure(corrupt)
+        except RuntimeError:
+            pass
+        else:
+            raise AssertionError("Corrupt media must fail QC, not appear clean")
     print("self-test passed")
 
 

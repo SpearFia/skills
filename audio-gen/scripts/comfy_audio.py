@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """Generate music beds and sound effects with Stable Audio 3 through ComfyUI's API.
 
 Usage:
@@ -12,6 +13,7 @@ converted to WAV with ffmpeg. Existing outputs are kept unless --force. Standard
 only.
 """
 
+import hashlib
 import argparse
 import json
 import os
@@ -118,11 +120,21 @@ def run_jobs(jobs, steps, force):
     results = []
     for job in jobs:
         out = Path(job["out"])
+        proof=out.with_suffix(out.suffix+".request.json")
+        key=hashlib.sha256(json.dumps({"job":job,"steps":steps,"url":url()},sort_keys=True).encode()).hexdigest()
+        previous=json.loads(proof.read_text(encoding="utf-8")) if proof.exists() else {}
+        if previous.get("state")=="uncertain" and not force:
+            results.append({"out":str(out),"error":"Inspect ComfyUI before --force; the previous request may still exist. Prefer native jobs_run for resumable prompt IDs."});continue
         if out.exists() and not force:
+            if previous.get("request_hash")!=key or previous.get("output_hash")!=hashlib.sha256(out.read_bytes()).hexdigest():
+                results.append({"out":str(out),"error":"Existing output has no matching request/content proof."});continue
             results.append({"out": str(out), "kept": True, "seconds": seconds_of(out)})
             continue
+        out.parent.mkdir(parents=True,exist_ok=True)
+        proof.write_text(json.dumps({"request_hash":key,"state":"uncertain"}),encoding="utf-8")
         try:
             path, seed = generate(job, steps)
+            proof.write_text(json.dumps({"request_hash":key,"output_hash":hashlib.sha256(path.read_bytes()).hexdigest(),"state":"complete","seed":seed}),encoding="utf-8")
             results.append({"out": str(path), "seed": seed, "prompt": job["prompt"],
                             "seconds": seconds_of(path)})
         except (RuntimeError, urllib.error.URLError, OSError) as e:
