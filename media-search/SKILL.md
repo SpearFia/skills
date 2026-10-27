@@ -49,6 +49,11 @@ Searching per sentence is slow and repetitive. Plan per chapter (`##` section) i
 
 Write the plan to `media/plan.md` in the project before searching.
 
+For coordinated runs, also follow [the production contract](references/production.md).
+Persist a task per cue or subject pool, its dependencies and attempted candidates, so
+restarting does not repeat completed searches or downloads. Exact requirements remain
+exact: a lower match level is unresolved until the creator changes the requirement.
+
 ### 2. Search
 
 Follow [references/sources.md](references/sources.md) for the source order, query
@@ -128,16 +133,16 @@ Record the verdict and reason for every candidate, including rejects.
 Report per chapter: cues filled (by match level), cues unfilled and why, total clip
 seconds versus narration seconds, risk classes used, and any rule you couldn't meet. Do
 not claim a cue is filled until its link is saved and `links_list` shows it `linked`.
+Save this report as `production/media-report.md` for the production coordinator.
 
 ## Fair use and risk
 
-This channel uses copyrighted film and TV clips under a fair-use reading: short clips,
-muted, under original commentary, never whole scenes. That lowers but doesn't remove the
-risk of Content ID claims or demonetization, and downloading from YouTube is against
-YouTube's terms. The creator has accepted this for this channel. Keep each clip short
-(≤ 20 s, most 3–8 s), vary sources, keep the commentary carrying the video, and record
-every source in the manifest so claims can be disputed. Follow stricter rules in the
-channel's `production.md` when present.
+Source acceptance is channel-specific. Read the current channel's saved source rules;
+never infer acceptance from this skill, a reference channel, or a previous project.
+Retain the exact license/attribution metadata and the creator's selected source class
+in each manifest entry. An unknown license is not permission to use a file. Existing
+explicit creator choices remain authoritative; ask only when the channel leaves a
+required source decision unresolved.
 
 ## Limits
 

@@ -10,6 +10,20 @@ creator's ComfyUI (Stable Audio 3 Medium); placement uses Spear Fia links on fol
 the `music` and `sfx` roles, which the FilmCraft push puts on tracks A2 and A3 without
 touching the voiceover timing on A1.
 
+## Coordinated production
+
+When Spear Fia exposes `jobs_status`, use its durable runner instead of starting the
+manual helper below. Read the current stage and plan revision. Plan new
+ComfyUI API workflows with `jobs_plan`: set the current `audio-sample` or `audio` stage,
+dependencies, exact output node/index, project media path, role and narration anchor.
+Use `jobs_run` for that stage. Its saved prompt ID survives restarts; library files
+still need source/QC verification. Wait for sample review before scoring the remainder.
+
+Save actual `voice_db`, `music_db`, `sfx_db`, fades, duck dB, attack and release in the
+execution style through `style_save`, using `jobs_status.style_revision`. Assembly
+applies these values to FilmCraft gains and automation. A2/A3 placement alone is not
+a completed mix. Inspect the saved review for clipping, audibility and cue placement.
+
 ## Before starting
 
 1. `project_context`: the script must be approved. Read `channel_read` (style.md § Sound
@@ -92,3 +106,7 @@ time. Note beds shorter than their span (they'll show as "short" after the push)
 
 - Prompt rewriting with the workflow's Qwen step is skipped; the agent writes final prompts.
 - Mixing (ducking under VO, fades) happens in FilmCraft, not here.
+
+`jobs_run` is asynchronous over MCP/HTTP. Poll `jobs_status` until `running` is false,
+inspect every requested job and worker error, then verify the expected files and links.
+A returned `started` acknowledgement does not complete a production stage.

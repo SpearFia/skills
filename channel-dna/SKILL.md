@@ -49,9 +49,15 @@ media drive if the creator has one.
    yt-dlp --flat-playlist --dump-json "https://www.youtube.com/@HANDLE/videos" > uploads.jsonl
    ```
 
+   Flat-playlist entries may omit views, dates or durations. Fetch full metadata for the
+   bounded comparison pool before ranking outliers; keep unavailable values unknown.
+
 2. Pick the corpus (see **Corpus** in [references/dna-checklist.md](references/dna-checklist.md)):
    about 3 outliers, 3 typical and 1 recent long-form video. Record the choice in
    `sources.md`.
+   Deduplicate the corpus by video ID. Keep the held-out video outside synthesis, and
+   record its later validation separately. Save collection/analysis checkpoints and
+   input hashes so an update processes new evidence without repeating completed work.
 3. For each chosen video: captions, thumbnail and metadata.
 
    ```text
@@ -118,6 +124,11 @@ Turn the analysis into rules using [references/channel-docs.md](references/chann
    gaps.
 6. Do not touch project snapshots. Existing videos keep their snapshots until the creator
    chooses **Replace / refresh from selected channel**.
+7. Write the machine-executable editing contract described in
+   [references/execution.md](references/execution.md), distinguishing measured settings
+   from proposed settings that still need review. Save the coordinator's completion
+   summary to `production/channel-dna.md` in its project; the actual deliverable remains
+   the saved shared guides, with their paths and content revisions in that summary.
 
 ### 5. Check
 

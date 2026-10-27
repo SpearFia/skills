@@ -39,4 +39,10 @@ Record what the clip actually delivers:
 - `subject`: the right subject in another context (Thanos fighting someone else).
 - `mood`: only the feel.
 
-A cue asking for `exact` and getting `subject` is fine to link, but list it in the report.
+A cue asking for `exact` and getting `subject` remains unresolved. Save the candidate
+and explain the difference; link it as the accepted treatment only after the creator
+changes the cue requirement. Apply the same rule to a subject cue with only mood footage.
+
+Still images have no shot duration, bitrate-per-frame or temporal watermark test. Judge
+their pixel dimensions and inspect the image itself. A failed decoder/QC command is an
+error requiring repair or rejection, never an empty set of passing quality flags.

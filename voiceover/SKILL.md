@@ -10,6 +10,21 @@ Turn the approved script into narration files with VoiceStudio (local API), one 
 timelines, the Visual Script and the FilmCraft push use the recorded lengths instead of
 the 150-words-per-minute estimate.
 
+## Coordinated production
+
+When Spear Fia exposes `jobs_status`, use its durable runner instead of starting the
+manual helper below. Read the current stage and plan revision. Use `voiceover_plan`
+with the recorded URL, profile ID, instruction, language, speed and steps; run only
+`voiceover-sample` first with `jobs_run`. Wait for the saved creator review gate before
+running `voiceover`. The runner verifies the WAV and registers its narration link.
+After narration, use `alignment_plan`, `jobs_run` for `word-alignment`, and
+`captions_build`. Missing or reordered measured words need correction, never estimated
+word timestamps.
+
+VoiceStudio ordinary TTS has no resumable request ID. The runner saves a seed before
+submission and reconciles completed takes through history. An uncertain take requires
+creator inspection; restarting or retrying must not trigger another generation.
+
 ## Before starting
 
 1. `project_context` (MCP server `spearfia`): the script must be approved. Generating
@@ -57,3 +72,7 @@ If the creator edits a section after VO exists, regenerate just that section wit
   itself.
 - Pronunciation fixes go in VoiceStudio (its pronunciation dictionary) or as spelling in a
   copy of the text; never edit the approved script just for pronunciation.
+
+`jobs_run` is asynchronous over MCP/HTTP. Poll `jobs_status` until `running` is false,
+inspect every requested job and worker error, then verify the expected files and links.
+A returned `started` acknowledgement does not complete a production stage.

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 """Generate one voiceover file per script section with VoiceStudio's local API.
 
 Usage:
@@ -7,14 +8,15 @@ Usage:
 
 Reads the sections from `spearfia sections` (the real script parser), sends each
 section's VO lines to VoiceStudio's POST /generate, and saves
-<project>/A-roll/voiceover/<NN>_<slug>.wav. Existing files are kept unless --force, so a
-long script can be resumed. Writes <project>/media/vo.json (files, durations) and prints
+<project>/A-roll/voiceover/<NN>_<slug>.wav. Existing files are reused only when request and content hashes match.
+An interrupted submission requires explicit inspection before --force. Writes <project>/media/vo.json (files, durations) and prints
 the links_add payload that links each file to its section's first VO line.
 
 VoiceStudio must be open (its backend listens on 127.0.0.1:3900, or OMNIVOICE_URL /
 OMNIVOICE_PORT). Standard library only.
 """
 
+import hashlib
 import argparse
 import json
 import os
@@ -106,19 +108,33 @@ def run(args):
         text = "\n".join(line["text"] for line in s["lines"])
         entry = {"section": s["index"], "title": s["title"], "file": rel, "line": first["line"],
                  "quote": first["text"], "words": s["words"]}
+        key=hashlib.sha256(json.dumps({"text":text,"url":url,"profile":args.profile_id,"instruct":args.instruct,"language":args.language,"speed":args.speed,"steps":args.steps},sort_keys=True).encode()).hexdigest()
+        previous=manifest.get(str(s["index"]),{})
         if args.dry_run:
             print(f"would generate {rel} ({s['words']} words)")
+        elif not args.force and previous.get("state") in {"submitting","uncertain"}:
+            failed.append({"section":s["index"],"error":"Previous submission is uncertain; inspect VoiceStudio history before --force."})
+            continue
         elif (out_dir / name).exists() and not args.force:
-            print(f"kept {rel}")
+            if previous.get("request_hash")!=key or previous.get("output_hash")!=hashlib.sha256((out_dir/name).read_bytes()).hexdigest():
+                failed.append({"section":s["index"],"error":"Existing output has no matching request/content proof; inspect it or choose an explicit --force regeneration."})
+                continue
+            entry.update({"request_hash":key,"output_hash":previous["output_hash"],"state":"complete"})
+            print(f"kept verified {rel}")
         else:
+            manifest[str(s["index"])]=dict(entry,request_hash=key,state="submitting")
+            manifest_path.parent.mkdir(parents=True,exist_ok=True)
+            partial=manifest_path.with_suffix(".json.part")
+            partial.write_text(json.dumps(manifest,indent=2)+"\n",encoding="utf-8");os.replace(partial,manifest_path)
             try:
                 body, duration = generate(url, text, args)
             except (urllib.error.URLError, OSError, RuntimeError) as e:
+                manifest[str(s["index"])]["state"]="uncertain"
                 failed.append({"section": s["index"], "error": str(e)})
                 print(f"FAILED {rel}: {e}", file=sys.stderr)
                 continue
             (out_dir / name).write_bytes(body)
-            entry["duration"] = duration
+            entry.update(duration=duration,request_hash=key,output_hash=hashlib.sha256(body).hexdigest(),state="complete")
             print(f"wrote {rel} ({duration or '?'} s)")
         manifest[str(s["index"])] = {**manifest.get(str(s["index"]), {}), **entry}
         links.append({"line": first["line"], "quote": first["text"], "media": rel})
