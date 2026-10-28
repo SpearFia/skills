@@ -63,6 +63,9 @@ python <skill>/scripts/pool.py commit --project <P> --drop <BATCH>:3,7 --drop <B
 - `commit` links through `spearfia mcp` itself and rewrites `production/media-report.md`;
   don't call `links_add`, `links_list` or `media_list` yourself.
 - `BATCH:all` rejects that source; the next `auto` picks another.
+- After a push, `auto --fill-gaps` covers stretches with no picture, including under text
+  cards and section openers (from the neighbouring section's pool). Filler may repeat this
+  video's own clips, least used first, and downloads only when a pool has none.
 - State comes from `links.json`, so a new session just runs `auto` again.
 - "no source passed the filters": run `pool.py cut --url <URL>` for that pool with a source
   you found, or leave it for the creator.

@@ -36,6 +36,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -124,13 +125,51 @@ def gaps(project, length, min_gap=1.0):
         end = it["start_frame"] + (it.get("intent") or {}).get("duration_frames", it["duration_frames"])
         s = spans.setdefault(quote_of[it["cue_id"]], [it["start_frame"], end, 0])
         s[0], s[1], s[2] = min(s[0], it["start_frame"]), max(s[1], end), s[2] + it["duration_frames"]
+    cues = all_cues(project)
     out = []
-    for c in all_cues(project):
+    for c in cues:
         s = spans.get(c["anchor"]["quote"]) if c.get("method") == "LIVE footage" else None
         missing = (s[1] - s[0] - s[2]) / fps if s else 0
         if missing >= min_gap:
             out.append({**c, "_need": max(1, round(missing / length))})
-    return out
+    # Stretches outside every footage cue (under a card, before a section's first clip) go to
+    # the unlinked cue sitting there, filled from the neighbouring footage cue's pool.
+    order = {c["anchor"]["quote"]: i for i, c in enumerate(cues)}
+    pics = sorted((it["start_frame"], it["start_frame"] + it["duration_frames"], order.get(quote_of.get(it["cue_id"]), -1))
+                  for it in plan["items"] if it["kind"] == "clip" and it["track"] == "V2")
+    vo_end = max((it["start_frame"] + it["duration_frames"] for it in plan["items"]
+                  if it["kind"] == "clip" and it["track"] == "A1"), default=0)
+    covered = sorted([(a, b) for a, b, _ in pics] + [(s[0], s[1]) for s in spans.values()])
+    holes, at = [], 0
+    for a, b in covered + [(vo_end, vo_end)]:
+        if a - at >= min_gap * fps:
+            holes.append((at, min(a, vo_end)))
+        at = max(at, b)
+    # The push's edit listing gives each card's cue and time, and each section start.
+    listing = plans[-1].with_suffix(".edit.txt")
+    card_at, section_at = {}, []
+    for line in (listing.read_text("utf-8").splitlines() if listing.exists() else []):
+        m = re.match(r"(\d+):(\d\d)\s+rule (generated (\S+)|section)", line)
+        if m:
+            t = (int(m.group(1)) * 60 + int(m.group(2))) * fps
+            (section_at.append(t) if m.group(3) == "section" else card_at.__setitem__(m.group(4), t))
+    linked = set(quote_of.values())
+    extra = {}
+    for a, b in holes:
+        before = [p[2] for p in pics if p[1] <= a and p[2] >= 0]
+        after = [p[2] for p in pics if p[0] >= b and p[2] >= 0]
+        lo, hi = (before[-1] if before else -1), (after[0] if after else len(cues))
+        # Listed times are whole seconds, so a card up to 1 s before the hole counts as in it.
+        spot = [c for c in cues[lo + 1:hi] if c["anchor"]["quote"] not in linked
+                and a - fps <= card_at.get(c["id"], -1e9) < b]
+        for t in spot:  # each takes a share: the previous section's footage before a section start, else the next
+            ends_section = any(card_at[t["id"]] < s <= b for s in section_at)
+            ref = next((cues[i] for i in ((lo, hi) if ends_section else (hi, lo)) if 0 <= i < len(cues)
+                        and cues[i].get("method") == "LIVE footage" and cues[i]["details"].get("Subject")), None)
+            if ref:
+                e = extra.setdefault(t["id"], {**t, "details": {**ref["details"], "match": "subject"}, "_need": 0})
+                e["_need"] += max(1, round((b - a) / fps / length / len(spot)))
+    return out + list(extra.values())
 
 
 def free_times(lo, hi, length, used):
@@ -247,7 +286,11 @@ def make_batch(project, library, pool, chosen, source, src_id, url, info, length
                               "quote": c["anchor"]["quote"], "match": c["details"].get("match", "subject"),
                               "file": f"B-roll/{dst}", "library_file": lib_file.relative_to(library).as_posix(),
                               "start": t, "end": t + length, "qc": m, "flags": fl})
-    batch = f"{pool}-{src_id}"
+    # Pool slugs are short, so two pools (or two runs) can share a name: never reuse a batch's file.
+    bdir, batch, k = project / "media" / "pool-batches", f"{pool}-{src_id}", 1
+    while (bdir / f"{batch}.json").exists() or (bdir / f"{batch}.committed.json").exists():
+        k += 1
+        batch = f"{pool}-{src_id}-{k}"
     sheets_dir = project / "media" / "pool-batches" / batch
     sheets_dir.mkdir(parents=True, exist_ok=True)
     for i, c in enumerate(clips):
@@ -295,8 +338,12 @@ def auto(a):
         subject = chosen[0]["details"].get("Subject", "")
         exact = chosen[0]["details"].get("match") == "exact"
         pool = slug(subject or chosen[0]["chapter"])
-        reuse = [r for r in lib_rows if r.get("subject") == subject and r.get("qc", {}).get("verdict") == "pass"
-                 and r["file"] not in in_use and (library / r["file"]).exists()] if subject else []
+        ok = [r for r in lib_rows if r.get("subject") == subject and r.get("qc", {}).get("verdict") == "pass"
+              and (library / r["file"]).exists()] if subject else []
+        reuse = [r for r in ok if r["file"] not in in_use]
+        if a.fill_gaps:  # filler may repeat this video's own clips (least used first) before downloading
+            uses = Counter(m.get("library_file") for m in jsonl(project / "media" / "manifest.jsonl"))
+            reuse += sorted((r for r in ok if r["file"] in in_use), key=lambda r: uses[r["file"]])
         need = sum(clips_needed(c, a.len) for c in chosen)
         source = src_id = url = None
         info = {"title": "library", "uploader": None, "license": None}
@@ -546,6 +593,10 @@ def self_test():
         (proj2 / "visuals" / "visuals.md").write_text("## X - one\n" + cue("d1", 3, 20) + "\n", "utf-8")
         main(["auto", "--project", str(proj2), "--library", str(lib)])
         st2 = json.loads((proj2 / "media/pool-batches/game-a-library.json").read_text("utf-8"))
+        # A second batch with the same pool and source gets its own name instead of overwriting.
+        make_batch(proj2, lib, "game-a", [], None, "library", None, {"title": "library", "uploader": None, "license": None})
+        assert (proj2 / "media/pool-batches/game-a-library-2.json").exists()
+        (proj2 / "media/pool-batches/game-a-library-2.json").unlink()
         assert len(st2["clips"]) == 2 and all(c["reused"] for c in st2["clips"]), st2["clips"]
         main(["commit", "--project", str(proj2)])
         assert not unfilled(proj2)
@@ -557,10 +608,26 @@ def self_test():
              "intent": {"start_frame": 0, "duration_frames": 600}}]}), "utf-8")
         g = gaps(proj, 5)
         assert [(c["id"], c["_need"]) for c in g] == [("c1", 3)], g
+        # gaps(): 10 s with no picture under a card before c1 goes to the card's cue, from c1's pool.
+        proj3 = tmp / "proj3"
+        (proj3 / "visuals").mkdir(parents=True)
+        card = "<!-- visual-cue " + json.dumps({"id": "g1", "method": "Generated artwork",
+                                                 "anchor": {"line": 3, "quote": "ROUND ONE"}, "details": {}}) + " -->"
+        (proj3 / "visuals" / "visuals.md").write_text("## A - one\n" + card + "\n" + cue("c1", 5, 10) + "\n", "utf-8")
+        (proj3 / "links.json").write_text(json.dumps({"links": [
+            {"id": "k1", "line": 5, "quote": "qc1 " + " ".join(["word"] * 10), "media": {"path": "B-roll/a.mp4"}}]}), "utf-8")
+        (proj3 / "sync" / "plans").mkdir(parents=True)
+        (proj3 / "sync" / "plans" / "plan-1.json").write_text(json.dumps({"timebase": {"num": 30, "den": 1}, "items": [
+            {"kind": "clip", "track": "A1", "cue_id": "vo", "start_frame": 0, "duration_frames": 900},
+            {"kind": "clip", "track": "V2", "cue_id": "k1", "start_frame": 300, "duration_frames": 600}]}), "utf-8")
+        (proj3 / "sync" / "plans" / "plan-1.edit.txt").write_text(
+            '0:00  rule generated g1 Card { text: Some("ROUND ONE"), seconds: None }\n', "utf-8")
+        g = gaps(proj3, 5)
+        assert [(c["id"], c["_need"], c["details"]["Subject"]) for c in g] == [("g1", 2, "Game A")], g
         # BATCH:all rejects the source.
         main(["cut", *base, "--pool", "T", "--cues", "c1", "--file", str(src), "--library", str(lib),
               "--skip-head", "5", "--skip-tail", "5"])
-        main(["commit", *base, "--drop", "T-src:all", "--no-link"])
+        main(["commit", *base, "--drop", "T-src-2:all", "--no-link"])
         assert json.loads((proj / "media/pool-batches/excluded.json").read_text()) == ["src"]
         # Bad clips are recut: a black stretch at 50-80 s never survives as a black clip.
         blk = tmp / "blk.mp4"
