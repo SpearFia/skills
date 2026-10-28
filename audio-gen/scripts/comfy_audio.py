@@ -4,6 +4,7 @@
 Usage:
   python comfy_audio.py --prompt TEXT --seconds 8 --out FILE.wav [--seed N] [--steps 8]
   python comfy_audio.py --jobs jobs.json        [{"prompt", "seconds", "out", "seed"?}, ...]
+  add --qc [N] to check each file (clipping, sudden peaks, dropouts, voice) and re-roll fails
   python comfy_audio.py --self-test             checks the graph offline
   python comfy_audio.py --self-test --live      also generates a 3 s clip
 
@@ -112,7 +113,32 @@ def seconds_of(path):
         return None
 
 
-def run_jobs(jobs, steps, force):
+def load_qc():
+    """video-gen's qc.py (same skills repo): clipping, sudden peaks, dropouts, voice-like sound."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "video-gen" / "scripts"))
+    import qc
+    return qc
+
+
+def generate_checked(job, steps, retries):
+    """generate(), then with --qc check the file and re-roll the seed on a fail (the failed
+    take is kept as <stem>.rejected-<n>.wav). retries=None skips QC."""
+    if retries is None:
+        path, seed = generate(job, steps)
+        return path, seed, None
+    qc, out = load_qc(), Path(job["out"])
+    seed, attempts = int(job.get("seed", random.randrange(2**31))), []
+    for n in range(retries + 1):
+        path, s = generate({**job, "seed": seed + n * 1009}, steps)
+        r = qc.check_audio(path)
+        attempts.append({"seed": s, "fails": r["fails"]})
+        if r["ok"]:
+            return path, s, attempts
+        path.replace(out.with_name(f"{out.stem}.rejected-{n + 1}{out.suffix}"))
+    raise RuntimeError(f"{out.name} failed QC {retries + 1} times: {attempts[-1]['fails']}")
+
+
+def run_jobs(jobs, steps, force, qc_retries=None):
     try:
         call("/system_stats")
     except (urllib.error.URLError, OSError) as e:
@@ -133,10 +159,10 @@ def run_jobs(jobs, steps, force):
         out.parent.mkdir(parents=True,exist_ok=True)
         proof.write_text(json.dumps({"request_hash":key,"state":"uncertain"}),encoding="utf-8")
         try:
-            path, seed = generate(job, steps)
+            path, seed, attempts = generate_checked(job, steps, qc_retries)
             proof.write_text(json.dumps({"request_hash":key,"output_hash":hashlib.sha256(path.read_bytes()).hexdigest(),"state":"complete","seed":seed}),encoding="utf-8")
             results.append({"out": str(path), "seed": seed, "prompt": job["prompt"],
-                            "seconds": seconds_of(path)})
+                            "seconds": seconds_of(path), **({"qc": attempts} if attempts else {})})
         except (RuntimeError, urllib.error.URLError, OSError) as e:
             results.append({"out": str(out), "error": str(e)})
     print(json.dumps(results, indent=2))
@@ -173,6 +199,8 @@ def main():
     p.add_argument("--jobs", help="JSON file with a list of {prompt, seconds, out, seed?}")
     p.add_argument("--steps", type=int, default=8)
     p.add_argument("--force", action="store_true")
+    p.add_argument("--qc", type=int, metavar="RETRIES", nargs="?", const=2,
+                   help="check each file with video-gen's qc.py and re-roll fails (default 2 retries)")
     a = p.parse_args()
     if a.jobs:
         jobs = json.loads(Path(a.jobs).read_text("utf-8"))
@@ -181,7 +209,7 @@ def main():
                  **({"seed": a.seed} if a.seed is not None else {})}]
     else:
         p.error("give --prompt, --seconds and --out, or --jobs")
-    sys.exit(run_jobs(jobs, a.steps, a.force))
+    sys.exit(run_jobs(jobs, a.steps, a.force, a.qc))
 
 
 if __name__ == "__main__":
