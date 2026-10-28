@@ -11,7 +11,8 @@ segment: plays the clips in shuffled order (never the same clip twice in a row),
 repeating until the picture is exactly as long as the segment audio. Keeps the clips' own
 audio; the segment audio itself is mixed in by render.
 
-render: reads script/script.md (## = movement, VO: Snn ... = segment), joins Spliced/Snn.mp4
+render: reads media/mix.json if present (per-segment volume and EQ for the segment, clip and
+bed layers; see mix_sheet), reads script/script.md (## = movement, VO: Snn ... = segment), joins Spliced/Snn.mp4
 with Segments/Snn.wav in order, dips the picture to black between segments and movements
 (audio crossfades), loops each movement's ambient bed Beds/Mnn.wav under it if present, mixes
 and normalises loudness. Levels and fades come from the spearfia-style block in the project's channel.md
@@ -129,11 +130,73 @@ def style(project):
     return s
 
 
+# Named EQ moves, so a mix note can say "crisp" instead of a frequency.
+EQ_PRESETS = {
+    "crisp": [{"freq": 4500, "gain": 4, "q": 0.8}],      # crunch, crackle, splash detail
+    "soften": [{"freq": 6500, "gain": -4, "q": 0.9}],    # tame hiss and harsh highs
+    "warm": [{"freq": 250, "gain": 3, "q": 0.8}],        # body, softness
+    "clean-low": [{"highpass": 60}],                     # rumble, handling thumps
+}
+LAYERS = ("segment", "clip", "bed")
+
+
+def eq_filters(eq):
+    """ffmpeg filters for a list of presets and/or {freq, gain, q} / {highpass} / {lowpass}."""
+    out = []
+    for e in eq:
+        for band in EQ_PRESETS[e] if isinstance(e, str) else [e]:
+            if "highpass" in band:
+                out.append(f"highpass=f={float(band['highpass'])}")
+            elif "lowpass" in band:
+                out.append(f"lowpass=f={float(band['lowpass'])}")
+            else:
+                out.append(f"equalizer=f={float(band['freq'])}:t=q:w={float(band.get('q', 1))}"
+                           f":g={float(band['gain'])}")
+    return out
+
+
+def mix_sheet(project, ids):
+    """media/mix.json: {"*" | "Snn": {"segment" | "clip" | "bed": {"db": n, "eq": [...]}}}.
+    "*" applies to every segment; a segment's own entry adds to it (dB add, EQ appends).
+    Typos are errors, not silent no-ops: the creator should hear what they wrote."""
+    f = Path(project) / "media" / "mix.json"
+    sheet = json.loads(f.read_text("utf-8-sig")) if f.exists() else {}
+    for key, layers in sheet.items():
+        if key != "*" and key not in ids:
+            raise SystemExit(f"mix.json: unknown segment {key!r} (segments: {', '.join(ids)})")
+        for layer, v in layers.items():
+            if layer not in LAYERS:
+                raise SystemExit(f"mix.json {key}: unknown layer {layer!r} (use {', '.join(LAYERS)})")
+            if set(v) - {"db", "eq"}:
+                raise SystemExit(f"mix.json {key}.{layer}: only 'db' and 'eq' are allowed")
+            for e in v.get("eq", []):
+                if isinstance(e, str) and e not in EQ_PRESETS:
+                    raise SystemExit(f"mix.json {key}.{layer}: unknown EQ preset {e!r} "
+                                     f"(presets: {', '.join(EQ_PRESETS)})")
+                if isinstance(e, dict) and not ({"highpass"} <= set(e) or {"lowpass"} <= set(e)
+                                                or {"freq", "gain"} <= set(e)):
+                    raise SystemExit(f"mix.json {key}.{layer}: EQ band needs freq+gain, highpass or lowpass")
+    result = {}
+    for sid in ids:
+        result[sid] = {}
+        for layer in LAYERS:
+            parts = [sheet.get("*", {}).get(layer, {}), sheet.get(sid, {}).get(layer, {})]
+            result[sid][layer] = {"db": sum(float(x.get("db", 0)) for x in parts),
+                                  "eq": [e for x in parts for e in x.get("eq", [])]}
+    return result
+
+
+def layer_chain(base_db, layer):
+    """The layer's EQ filters, then its volume (channel level + mix.json dB)."""
+    return ",".join([*eq_filters(layer["eq"]), f"volume={base_db + layer['db']}dB"])
+
+
 def render(project, out):
     p, s = Path(project), style(project)
     segs = session(project)
     if not segs:
         raise SystemExit("script/script.md has no 'VO: Snn' segment lines")
+    mixes = mix_sheet(project, [sid for sid, _ in segs])
     missing = [f for sid, _ in segs for f in (p / "Spliced" / f"{sid}.mp4", p / "Segments" / f"{sid}.wav")
                if not f.exists()]
     if missing:
@@ -161,10 +224,13 @@ def render(project, out):
             # picture + clip audio at sfx_db + segment audio at voice_db (+ bed at music_db)
             m = Path(tmp) / f"{sid}.mkv"
             ins = ["-i", str(p / "Spliced" / f"{sid}.mp4"), "-i", str(p / "Segments" / f"{sid}.wav")]
-            mix = (f"[0:a]volume={s['sfx_db']}dB[c];[1:a]aresample=48000,volume={s['voice_db']}dB[g];")
+            mx = mixes[sid]
+            mix = (f"[0:a]{layer_chain(s['sfx_db'], mx['clip'])}[c];"
+                   f"[1:a]aresample=48000,{layer_chain(s['voice_db'], mx['segment'])}[g];")
             if mv in beds:
                 ins += ["-ss", f"{off:.3f}", "-t", f"{ln:.3f}", "-i", str(beds[mv])]
-                mix += f"[2:a]volume={s['music_db']}dB[b];[c][g][b]amix=inputs=3:duration=first:normalize=0[a]"
+                mix += (f"[2:a]{layer_chain(s['music_db'], mx['bed'])}[b];"
+                        "[c][g][b]amix=inputs=3:duration=first:normalize=0[a]")
             else:
                 mix += "[c][g]amix=inputs=2:duration=first:normalize=0[a]"
             ffmpeg([*ins, "-filter_complex", mix, "-map", "0:v", "-map", "[a]", "-c:v", "copy",
@@ -175,15 +241,39 @@ def render(project, out):
         fade = min(s["final_fade_seconds"], total / 2)
         graph = (chain(mixed, lengths, xs, "fadeblack").replace("[v]", "[vj]").replace("[a]", "[aj]") +
                  f";[vj]fade=t=out:st={total - fade:.3f}:d={fade}[v];"
-                 f"[aj]afade=t=out:st={total - fade:.3f}:d={fade},"
-                 f"loudnorm=I={s['loudness_lufs']}:TP={s['true_peak_db']}:LRA={s['lra_max']},"
-                 "aresample=48000[a]")
-        Path(out).parent.mkdir(parents=True, exist_ok=True)
+                 f"[aj]afade=t=out:st={total - fade:.3f}:d={fade}[a]")
+        # Two-pass loudness: encode the picture once with the mix as PCM, measure the mix, then
+        # copy the picture and normalise the sound linearly to the measured values, so the
+        # target and true peak land on the first render.
+        joined = Path(tmp) / "joined.mkv"
         ffmpeg([*[a for m in mixed for a in ("-i", str(m))], "-filter_complex", graph,
-                "-map", "[v]", "-map", "[a]", *ENCODE, str(out)])
+                "-map", "[v]", "-map", "[a]", *ENCODE[:8], "-c:a", "pcm_s24le", str(joined)])
+        target = f"I={s['loudness_lufs']}:TP={s['true_peak_db']}:LRA={s['lra_max']}"
+        m = loudnorm_json(["-i", str(joined), "-af", f"loudnorm={target}:print_format=json",
+                           "-f", "null", "-"])
+        Path(out).parent.mkdir(parents=True, exist_ok=True)
+        done = loudnorm_json(["-i", str(joined), "-map", "0:v", "-map", "0:a", "-c:v", "copy", "-af",
+                              f"loudnorm={target}:measured_I={m['input_i']}:measured_TP={m['input_tp']}"
+                              f":measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}"
+                              f":offset={m['target_offset']}:linear=true:print_format=json,aresample=48000",
+                              *ENCODE[8:], "-y", str(out)])
     return {"out": str(out), "seconds": round(seconds(out), 2), "segments": len(segs),
             "beds": sorted(f"M{m:02d}" for m in beds),
-            "expected_seconds": round(total, 2), "style": s}
+            "mix": {sid: m for sid, m in mixes.items()
+                    if any(v["db"] or v["eq"] for v in m.values())},
+            "expected_seconds": round(total, 2), "style": s,
+            "loudness": {"lufs": float(done["output_i"]), "true_peak_db": float(done["output_tp"]),
+                         "lra": float(done["output_lra"]),
+                         "mode": done.get("normalization_type", "")}}
+
+
+def loudnorm_json(args):
+    """Run ffmpeg with a loudnorm print_format=json filter and return its measurement."""
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", *args], capture_output=True, text=True,
+                       check=False)
+    if r.returncode:
+        raise SystemExit(f"ffmpeg failed: {r.stderr.strip()[-2000:]}")
+    return json.loads(r.stderr[r.stderr.rindex("{"):r.stderr.rindex("}") + 1])
 
 
 def self_test():
@@ -210,10 +300,32 @@ def self_test():
         (t / "script").mkdir()
         (t / "script" / "script.md").write_text("## 1 · A\n\nVO: S01 a\n\nVO: S02 b\n\n## 2 · B\n\nVO: S03 c\n",
                                                 "utf-8")
+        mx = mix_sheet(t, ["S01", "S02", "S03"])  # no mix.json: all flat
+        assert mx["S02"]["segment"] == {"db": 0, "eq": []}
+        (t / "media").mkdir()
+        (t / "media" / "mix.json").write_text(json.dumps(
+            {"*": {"bed": {"db": -2}}, "S02": {"segment": {"db": 3, "eq": ["crisp", {"highpass": 60}]},
+                                               "bed": {"db": -1}}}), "utf-8")
+        mx = mix_sheet(t, ["S01", "S02", "S03"])
+        assert mx["S02"]["bed"]["db"] == -3 and mx["S01"]["bed"]["db"] == -2
+        assert eq_filters(mx["S02"]["segment"]["eq"]) == ["equalizer=f=4500.0:t=q:w=0.8:g=4.0", "highpass=f=60.0"]
+        for bad in ({"S09": {}}, {"S01": {"crunch": {}}}, {"S01": {"bed": {"eq": ["sparkly"]}}}):
+            (t / "media" / "mix.json").write_text(json.dumps(bad), "utf-8")
+            try:
+                mix_sheet(t, ["S01"])
+                raise AssertionError(f"accepted {bad}")
+            except SystemExit:
+                pass
+        (t / "media" / "mix.json").write_text(json.dumps(
+            {"S02": {"segment": {"db": 3, "eq": ["crisp"]}, "clip": {"eq": ["soften"]}}}), "utf-8")
         r = render(t, t / "out.mp4")
+        assert r["mix"] == {"S02": {"segment": {"db": 3.0, "eq": ["crisp"]}, "clip": {"db": 0, "eq": ["soften"]},
+                                    "bed": {"db": 0, "eq": []}}}, r["mix"]
         # 10 + 7 + 9 - 2 (segment join) - 4 (movement join) = 20
         assert abs(r["expected_seconds"] - 20) < 0.1 and abs(r["seconds"] - r["expected_seconds"]) < 0.2, r
         assert r["beds"] == ["M01"], r
+        # Lands on the channel's loudness defaults first time (-18 LUFS, -2 dBTP).
+        assert abs(r["loudness"]["lufs"] + 18) <= 1 and r["loudness"]["true_peak_db"] <= -1.5, r["loudness"]
         # mid-transition frame (segment join at about 9 s) is near black
         ffmpeg(["-ss", "9.0", "-i", str(t / "out.mp4"), "-frames:v", "1", "-vf", "scale=1:1",
                 "-f", "rawvideo", "-pix_fmt", "gray", str(t / "px.raw")])

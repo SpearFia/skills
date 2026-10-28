@@ -10,7 +10,8 @@ Usage:
 
 ComfyUI must be running (default http://127.0.0.1:8188, or COMFYUI_URL) with
 stable_audio_3_medium.safetensors and t5gemma_b_b_ul2.safetensors installed. Outputs are
-converted to WAV with ffmpeg. Existing outputs are kept unless --force. Standard library
+converted to WAV with ffmpeg and turned down to a -1 dBFS peak when hotter (Stable Audio
+normalises to 0 dBFS, which QC reads as clipping). Existing outputs are kept unless --force. Standard library
 only.
 """
 
@@ -87,7 +88,7 @@ def generate(job, steps, timeout=1800):
                 raw = call("/view?" + urllib.parse.urlencode(
                     {"filename": f["filename"], "subfolder": f.get("subfolder", ""),
                      "type": f.get("type", "output")}))
-                return save_wav(raw, Path(f["filename"]).suffix, out), seed
+                return peak_normalize(save_wav(raw, Path(f["filename"]).suffix, out)), seed
         time.sleep(1.0)
     raise RuntimeError(f"ComfyUI didn't finish {out.name} within {timeout} s")
 
@@ -102,6 +103,34 @@ def save_wav(raw, suffix, out):
         if r.returncode:
             raise RuntimeError(f"ffmpeg couldn't convert the output: {r.stderr.strip()}")
     return out
+
+
+def peak_db(path):
+    r = subprocess.run(["ffmpeg", "-i", str(path), "-af", "volumedetect", "-f", "null", "-"],
+                       capture_output=True, text=True, check=False)
+    for line in r.stderr.splitlines():
+        if "max_volume:" in line:
+            return float(line.split("max_volume:")[1].split()[0])
+    return None
+
+
+def peak_gain(peak, ceiling=-1.0):
+    """dB to apply so the peak sits at `ceiling`; 0 when it already does. Only turns down:
+    Stable Audio peak-normalises to 0 dBFS, which reads as clipping, while quiet takes stay
+    quiet so their noise floor isn't raised."""
+    return 0.0 if peak is None or peak <= ceiling else round(ceiling - peak, 2)
+
+
+def peak_normalize(path, ceiling=-1.0):
+    gain = peak_gain(peak_db(path), ceiling)
+    if gain:
+        tmp = path.with_name(f"{path.stem}.norm{path.suffix}")
+        r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(path), "-af", f"volume={gain}dB",
+                            "-c:a", "pcm_s16le", str(tmp)], capture_output=True, text=True, check=False)
+        if r.returncode:
+            raise RuntimeError(f"ffmpeg couldn't normalise {path.name}: {r.stderr.strip()}")
+        tmp.replace(path)
+    return path
 
 
 def seconds_of(path):
@@ -170,6 +199,8 @@ def run_jobs(jobs, steps, force, qc_retries=None):
 
 
 def self_test(live):
+    assert peak_gain(0.0) == -1.0 and peak_gain(-0.3) == -0.7
+    assert peak_gain(-6.0) == 0.0 and peak_gain(None) == 0.0
     g = graph("big cinematic hit", 3, 7, 8, "spearfia/test")
     assert g["6"]["inputs"]["seed"] == 7 and g["5"]["inputs"]["seconds"] == 3
     for node in g.values():  # every link points at a node that exists
