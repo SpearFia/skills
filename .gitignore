@@ -3,3 +3,4 @@ node_modules/
 Thumbs.db
 .vscode/*
 !.vscode/extensions.json
+__pycache__/
