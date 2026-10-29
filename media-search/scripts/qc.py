@@ -58,16 +58,27 @@ def black_ratio(path, duration):
     return round(black / duration, 3) if duration else 0.0
 
 
-def crop(path, w, h):
+def detect(path, strip):
+    """cropdetect's most common box inside `strip`, or None for mixed framing."""
     err = run(["ffmpeg", "-hide_banner", "-i", str(path), "-vf",
-               "fps=2,cropdetect=limit=24:round=2:reset=0", "-an", "-f", "null", "-"]).stderr
+               f"fps=2,{strip},cropdetect=limit=24:round=2:reset=0", "-an", "-f", "null", "-"]).stderr
     found = re.findall(r"crop=(\d+):(\d+):(\d+):(\d+)", err)
     if not found:
         return None
     candidate, count = Counter(found).most_common(1)[0]
     if count < len(found) * 0.6:
         return None  # mixed framing: inspect samples rather than crop a whole clip
-    cw, ch, cx, cy = (int(v) for v in candidate)
+    return [int(v) for v in candidate]
+
+
+def crop(path, w, h):
+    # Measure the bars through the middle of the frame only: a channel logo printed on a
+    # letterbox bar's corner would otherwise count as picture and keep the bar (and the logo).
+    rows = detect(path, f"crop={w // 2}:{h}:{w // 4}:0")
+    cols = detect(path, f"crop={w}:{h // 2}:0:{h // 4}")
+    if not rows or not cols:
+        return None
+    cw, ch, cx, cy = cols[0], rows[1], cols[2], rows[3]
     # Ignore trims of a few pixels (encoder edges).
     if w - cw <= max(8, w // 50) and h - ch <= max(8, h // 50):
         return None

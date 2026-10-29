@@ -16,6 +16,27 @@ All sources here need no API key.
 
 ## YouTube (yt-dlp)
 
+### Channels: trusted first, watermarks never
+
+`<library>/channels.json` holds three lists of YouTube channel IDs: `trusted` (clean game
+uploads, no logos or watermarks), `film` (clean movie and TV scene uploads) and `watermark`
+(channels that brand their videos). A game pool searches the `trusted` channels first, a
+pool marked `Footage: film` the `film` channels, in list order, by the game's or film's name
+("Resident Evil 4 Remake", "John Wick Chapter 4"), and takes their longest upload of exactly
+that title. Only when none of
+them has it does a general search run, and it skips every `watermark` channel, even if its
+video is the best match. `pool.py` does both; when you search by hand, do the same: check
+the trusted channels' uploads first and never pick a watermark channel's video.
+
+Grow the lists while reviewing contact sheets: `pool.py commit --trust BATCH` for a clean
+source, `pool.py commit --watermark BATCH` when any frame shows a channel logo or
+semi-transparent mark (usually a corner). The second also rejects the source.
+
+A logo printed only on a letterbox bar, outside the picture, is not a watermark: every clip's
+bars are cropped away (measured through the middle of the frame, so a logo in a bar's corner
+doesn't count as picture), and the logo goes with them. Movieclips does this; it is trusted.
+Mark a channel `watermark` only when its logo sits on the picture itself.
+
 ### Queries
 
 Start with long raw dumps; one download covers a whole franchise or round:

@@ -63,6 +63,47 @@ python <skill>/scripts/pool.py commit --project <P> --drop <BATCH>:3,7 --drop <B
 - `commit` links through `spearfia mcp` itself and rewrites `production/media-report.md`;
   don't call `links_add`, `links_list` or `media_list` yourself.
 - `BATCH:all` rejects that source; the next `auto` picks another.
+- Handles: every clip file is the 5 s shot plus 2.5 s of spare footage each side (10 s),
+  and its link starts at the shot (`in` 2.5). The push then lets a clip run on into its
+  tail handle when its slot is longer, closing small gaps, and the editor can drag either
+  end out in FilmCraft. Sheets show the shot; the 1080p upgrade keeps the handles.
+- Sources: `auto` searches the trusted channels in `<library>/channels.json` first (no
+  watermarks; by the game's name, longest full-game upload of exactly that game), then a
+  general search that skips the `watermark` channels and prefers the longest cutscene
+  compilation of the right game. A Search that asks for cutscenes, cinematics or a trailer
+  takes only titles that say so (any trusted channel, then the general search) before it
+  settles for a longplay. DLC and spin-offs (GTA Online, Vice City Stories) are never used
+  unless the Search names them. Titles with parody, challenge, "I beat", speedrun, mod or
+  "but it's" are rejected. One source gives a pool at most 25 clips, so big pools mix
+  several videos instead of one player's session. All trusted
+  channels are searched at once (still preferred in list order). Sources of 10+ minutes come
+  first; when none exist (film channels upload 2-5 minute scenes) it takes 1+ minute ones,
+  trusted first. A short source fills as many whole cues as it has room for and the next
+  `auto` picks a fresh one for the rest; a source already cut down to nothing is skipped.
+  For films, write the Search as the film title plus the scene ("John Wick Chapter 4
+  fight scene"): every word of it except generic ones must be in the video's title.
+- Game or film: a pool whose cues have `Footage: film` (movie and TV characters) searches
+  the `film` channels in channels.json; every other pool searches the `trusted` (game)
+  channels. `commit --trust` files the channel under the batch's kind. Manual `cut` takes
+  `--footage film` for the same.
+- Proxy first: `auto` and `cut` download a 360-480p proxy (about a tenth of the size) and
+  cut the review clips from it. `commit` queues every kept proxy clip and starts a background
+  upgrader (`pool.py upgrade --watch`, log in media/pool-batches/upgrade.log). For each kept
+  clip it fetches only the stream segments within 10 s of it at up to 1080p (YouTube's HLS
+  stream; about 20-30 MB a clip, seconds each), re-cuts the clip (same timestamps, crop
+  scaled up) and replaces the files in place, so links don't change. If a source has no
+  usable segment stream, it downloads that one whole video at 1080p instead. Don't wait for it
+  or poll it: keep reviewing, and check `pool.py status` once at the end. It stops itself
+  after 20 idle minutes; if status says it isn't running, `pool.py upgrade` finishes the
+  queue in the foreground. Use `--full` on
+  `auto`/`cut` to skip the proxy.
+- Raw sources download and get cut in `C:\SpearFia\cache\<project>` (set `SPEARFIA_CACHE`
+  to move it), on the fast local disk; the project drive may be a slow external one. Only
+  finished clips go into the project and library. Sources are deleted after commit.
+- Teach it as you review sheets: `commit --trust BATCH` when a source is clean (its channel
+  gets searched first next time), `commit --watermark BATCH` when you see a channel logo or
+  watermark (the source is rejected and the channel is never used again). A logo only on a
+  letterbox bar is fine: the bars are cropped off every clip, logo included.
 - After a push, `auto --fill-gaps` covers stretches with no picture, including under text
   cards and section openers (from the neighbouring section's pool). Filler may repeat this
   video's own clips, least used first, and downloads only when a pool has none.
