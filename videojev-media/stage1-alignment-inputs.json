@@ -1,0 +1,878 @@
+[
+  {
+    "fps": 0.2,
+    "rounding": "near",
+    "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\alignment-0.2-near.mp4",
+    "filename": "alignment-0.2-near.mp4",
+    "source_start": 257.2814583,
+    "frames": [
+      {
+        "output_time": 0.0,
+        "selected_time": 2.478042,
+        "error": 2.478042
+      },
+      {
+        "output_time": 5.0,
+        "selected_time": 7.483042,
+        "error": 2.483042
+      },
+      {
+        "output_time": 10.0,
+        "selected_time": 12.488042,
+        "error": 2.488042
+      },
+      {
+        "output_time": 15.0,
+        "selected_time": 17.493042,
+        "error": 2.493041999999999
+      },
+      {
+        "output_time": 20.0,
+        "selected_time": 22.498042,
+        "error": 2.4980420000000017
+      },
+      {
+        "output_time": 25.0,
+        "selected_time": 27.461333,
+        "error": 2.4613329999999998
+      }
+    ],
+    "max_abs_error": 2.4980420000000017,
+    "reference_source_start": 240.0314583
+  },
+  {
+    "fps": 0.2,
+    "rounding": "up",
+    "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\alignment-0.2-up.mp4",
+    "filename": "alignment-0.2-up.mp4",
+    "source_start": 257.2814583,
+    "frames": [
+      {
+        "output_time": 0.0,
+        "selected_time": 0.01725,
+        "error": 0.01725
+      },
+      {
+        "output_time": 5.0,
+        "selected_time": 4.980542,
+        "error": -0.019458000000000197
+      },
+      {
+        "output_time": 10.0,
+        "selected_time": 9.985542,
+        "error": -0.014457999999999416
+      },
+      {
+        "output_time": 15.0,
+        "selected_time": 14.990542,
+        "error": -0.00945800000000041
+      },
+      {
+        "output_time": 20.0,
+        "selected_time": 19.995542,
+        "error": -0.004457999999999629
+      },
+      {
+        "output_time": 25.0,
+        "selected_time": 24.958833,
+        "error": -0.04116700000000151
+      }
+    ],
+    "max_abs_error": 0.04116700000000151,
+    "reference_source_start": 240.0314583
+  },
+  {
+    "fps": 0.5,
+    "rounding": "near",
+    "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\alignment-0.5-near.mp4",
+    "filename": "alignment-0.5-near.mp4",
+    "source_start": 257.2814583,
+    "frames": [
+      {
+        "output_time": 0.0,
+        "selected_time": 0.976542,
+        "error": 0.976542
+      },
+      {
+        "output_time": 2.0,
+        "selected_time": 2.978542,
+        "error": 0.978542
+      },
+      {
+        "output_time": 4.0,
+        "selected_time": 4.980542,
+        "error": 0.9805419999999998
+      },
+      {
+        "output_time": 6.0,
+        "selected_time": 6.982542,
+        "error": 0.9825419999999996
+      },
+      {
+        "output_time": 8.0,
+        "selected_time": 8.984542,
+        "error": 0.9845419999999994
+      },
+      {
+        "output_time": 10.0,
+        "selected_time": 10.986542,
+        "error": 0.986542
+      },
+      {
+        "output_time": 12.0,
+        "selected_time": 12.988542,
+        "error": 0.9885420000000007
+      },
+      {
+        "output_time": 14.0,
+        "selected_time": 14.990542,
+        "error": 0.9905419999999996
+      },
+      {
+        "output_time": 16.0,
+        "selected_time": 16.992542,
+        "error": 0.9925420000000003
+      },
+      {
+        "output_time": 18.0,
+        "selected_time": 18.994542,
+        "error": 0.9945419999999991
+      },
+      {
+        "output_time": 20.0,
+        "selected_time": 20.996542,
+        "error": 0.9965420000000016
+      },
+      {
+        "output_time": 22.0,
+        "selected_time": 22.998542,
+        "error": 0.9985420000000005
+      },
+      {
+        "output_time": 24.0,
+        "selected_time": 24.958833,
+        "error": 0.9588329999999985
+      },
+      {
+        "output_time": 26.0,
+        "selected_time": 26.960833,
+        "error": 0.9608330000000009
+      },
+      {
+        "output_time": 28.0,
+        "selected_time": 28.962833,
+        "error": 0.9628329999999998
+      }
+    ],
+    "max_abs_error": 0.9985420000000005,
+    "reference_source_start": 240.0314583
+  },
+  {
+    "fps": 0.5,
+    "rounding": "up",
+    "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\alignment-0.5-up.mp4",
+    "filename": "alignment-0.5-up.mp4",
+    "source_start": 257.2814583,
+    "frames": [
+      {
+        "output_time": 0.0,
+        "selected_time": 0.01725,
+        "error": 0.01725
+      },
+      {
+        "output_time": 2.0,
+        "selected_time": 1.977542,
+        "error": -0.02245800000000009
+      },
+      {
+        "output_time": 4.0,
+        "selected_time": 3.979542,
+        "error": -0.020458000000000087
+      },
+      {
+        "output_time": 6.0,
+        "selected_time": 5.981542,
+        "error": -0.018457999999999863
+      },
+      {
+        "output_time": 8.0,
+        "selected_time": 7.983542,
+        "error": -0.016458000000000084
+      },
+      {
+        "output_time": 10.0,
+        "selected_time": 9.985542,
+        "error": -0.014457999999999416
+      },
+      {
+        "output_time": 12.0,
+        "selected_time": 11.987542,
+        "error": -0.012458000000000524
+      },
+      {
+        "output_time": 14.0,
+        "selected_time": 13.989542,
+        "error": -0.010457999999999856
+      },
+      {
+        "output_time": 16.0,
+        "selected_time": 15.991542,
+        "error": -0.008457999999999188
+      },
+      {
+        "output_time": 18.0,
+        "selected_time": 17.993542,
+        "error": -0.0064579999999985205
+      },
+      {
+        "output_time": 20.0,
+        "selected_time": 19.995542,
+        "error": -0.004457999999999629
+      },
+      {
+        "output_time": 22.0,
+        "selected_time": 21.997542,
+        "error": -0.0024580000000007374
+      },
+      {
+        "output_time": 24.0,
+        "selected_time": 23.999542,
+        "error": -0.0004579999999982931
+      },
+      {
+        "output_time": 26.0,
+        "selected_time": 25.959833,
+        "error": -0.040167000000000286
+      },
+      {
+        "output_time": 28.0,
+        "selected_time": 27.961833,
+        "error": -0.038167000000001394
+      }
+    ],
+    "max_abs_error": 0.040167000000000286,
+    "reference_source_start": 240.0314583
+  },
+  {
+    "fps": 2.0,
+    "rounding": "near",
+    "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\alignment-2.0-near.mp4",
+    "filename": "alignment-2.0-near.mp4",
+    "source_start": 257.2814583,
+    "frames": [
+      {
+        "output_time": 0.0,
+        "selected_time": 0.225792,
+        "error": 0.225792
+      },
+      {
+        "output_time": 0.5,
+        "selected_time": 0.726292,
+        "error": 0.22629200000000005
+      },
+      {
+        "output_time": 1.0,
+        "selected_time": 1.226792,
+        "error": 0.2267920000000001
+      },
+      {
+        "output_time": 1.5,
+        "selected_time": 1.727292,
+        "error": 0.22729200000000005
+      },
+      {
+        "output_time": 2.0,
+        "selected_time": 2.227792,
+        "error": 0.227792
+      },
+      {
+        "output_time": 2.5,
+        "selected_time": 2.728292,
+        "error": 0.22829200000000016
+      },
+      {
+        "output_time": 3.0,
+        "selected_time": 3.228792,
+        "error": 0.22879199999999988
+      },
+      {
+        "output_time": 3.5,
+        "selected_time": 3.729292,
+        "error": 0.22929200000000005
+      },
+      {
+        "output_time": 4.0,
+        "selected_time": 4.229792,
+        "error": 0.22979199999999977
+      },
+      {
+        "output_time": 4.5,
+        "selected_time": 4.730292,
+        "error": 0.23029200000000039
+      },
+      {
+        "output_time": 5.0,
+        "selected_time": 5.230792,
+        "error": 0.2307920000000001
+      },
+      {
+        "output_time": 5.5,
+        "selected_time": 5.731292,
+        "error": 0.23129199999999983
+      },
+      {
+        "output_time": 6.0,
+        "selected_time": 6.231792,
+        "error": 0.23179200000000044
+      },
+      {
+        "output_time": 6.5,
+        "selected_time": 6.732292,
+        "error": 0.23229200000000017
+      },
+      {
+        "output_time": 7.0,
+        "selected_time": 7.232792,
+        "error": 0.2327919999999999
+      },
+      {
+        "output_time": 7.5,
+        "selected_time": 7.733292,
+        "error": 0.2332919999999996
+      },
+      {
+        "output_time": 8.0,
+        "selected_time": 8.233792,
+        "error": 0.23379199999999933
+      },
+      {
+        "output_time": 8.5,
+        "selected_time": 8.734292,
+        "error": 0.23429199999999994
+      },
+      {
+        "output_time": 9.0,
+        "selected_time": 9.234792,
+        "error": 0.23479200000000056
+      },
+      {
+        "output_time": 9.5,
+        "selected_time": 9.735292,
+        "error": 0.2352919999999994
+      },
+      {
+        "output_time": 10.0,
+        "selected_time": 10.235792,
+        "error": 0.235792
+      },
+      {
+        "output_time": 10.5,
+        "selected_time": 10.736292,
+        "error": 0.2362920000000006
+      },
+      {
+        "output_time": 11.0,
+        "selected_time": 11.236792,
+        "error": 0.23679199999999945
+      },
+      {
+        "output_time": 11.5,
+        "selected_time": 11.737292,
+        "error": 0.23729200000000006
+      },
+      {
+        "output_time": 12.0,
+        "selected_time": 12.237792,
+        "error": 0.23779200000000067
+      },
+      {
+        "output_time": 12.5,
+        "selected_time": 12.738292,
+        "error": 0.2382919999999995
+      },
+      {
+        "output_time": 13.0,
+        "selected_time": 13.238792,
+        "error": 0.23879200000000012
+      },
+      {
+        "output_time": 13.5,
+        "selected_time": 13.739292,
+        "error": 0.23929200000000073
+      },
+      {
+        "output_time": 14.0,
+        "selected_time": 14.239792,
+        "error": 0.23979199999999956
+      },
+      {
+        "output_time": 14.5,
+        "selected_time": 14.740292,
+        "error": 0.24029200000000017
+      },
+      {
+        "output_time": 15.0,
+        "selected_time": 15.240792,
+        "error": 0.24079200000000078
+      },
+      {
+        "output_time": 15.5,
+        "selected_time": 15.741292,
+        "error": 0.24129199999999962
+      },
+      {
+        "output_time": 16.0,
+        "selected_time": 16.241792,
+        "error": 0.24179200000000023
+      },
+      {
+        "output_time": 16.5,
+        "selected_time": 16.742292,
+        "error": 0.24229199999999906
+      },
+      {
+        "output_time": 17.0,
+        "selected_time": 17.242792,
+        "error": 0.24279200000000145
+      },
+      {
+        "output_time": 17.5,
+        "selected_time": 17.743292,
+        "error": 0.24329200000000029
+      },
+      {
+        "output_time": 18.0,
+        "selected_time": 18.243792,
+        "error": 0.24379199999999912
+      },
+      {
+        "output_time": 18.5,
+        "selected_time": 18.744292,
+        "error": 0.2442920000000015
+      },
+      {
+        "output_time": 19.0,
+        "selected_time": 19.244792,
+        "error": 0.24479200000000034
+      },
+      {
+        "output_time": 19.5,
+        "selected_time": 19.745292,
+        "error": 0.24529199999999918
+      },
+      {
+        "output_time": 20.0,
+        "selected_time": 20.245792,
+        "error": 0.24579200000000156
+      },
+      {
+        "output_time": 20.5,
+        "selected_time": 20.746292,
+        "error": 0.2462920000000004
+      },
+      {
+        "output_time": 21.0,
+        "selected_time": 21.246792,
+        "error": 0.24679199999999923
+      },
+      {
+        "output_time": 21.5,
+        "selected_time": 21.747292,
+        "error": 0.24729200000000162
+      },
+      {
+        "output_time": 22.0,
+        "selected_time": 22.247792,
+        "error": 0.24779200000000046
+      },
+      {
+        "output_time": 22.5,
+        "selected_time": 22.748292,
+        "error": 0.2482919999999993
+      },
+      {
+        "output_time": 23.0,
+        "selected_time": 23.248792,
+        "error": 0.24879200000000168
+      },
+      {
+        "output_time": 23.5,
+        "selected_time": 23.749292,
+        "error": 0.2492920000000005
+      },
+      {
+        "output_time": 24.0,
+        "selected_time": 24.249792,
+        "error": 0.24979199999999935
+      },
+      {
+        "output_time": 24.5,
+        "selected_time": 24.708583,
+        "error": 0.20858300000000085
+      },
+      {
+        "output_time": 25.0,
+        "selected_time": 25.209083,
+        "error": 0.20908299999999969
+      },
+      {
+        "output_time": 25.5,
+        "selected_time": 25.709583,
+        "error": 0.20958299999999852
+      },
+      {
+        "output_time": 26.0,
+        "selected_time": 26.210083,
+        "error": 0.2100830000000009
+      },
+      {
+        "output_time": 26.5,
+        "selected_time": 26.710583,
+        "error": 0.21058299999999974
+      },
+      {
+        "output_time": 27.0,
+        "selected_time": 27.211083,
+        "error": 0.21108299999999858
+      },
+      {
+        "output_time": 27.5,
+        "selected_time": 27.711583,
+        "error": 0.21158300000000096
+      },
+      {
+        "output_time": 28.0,
+        "selected_time": 28.212083,
+        "error": 0.2120829999999998
+      },
+      {
+        "output_time": 28.5,
+        "selected_time": 28.712583,
+        "error": 0.21258299999999863
+      },
+      {
+        "output_time": 29.0,
+        "selected_time": 29.213083,
+        "error": 0.21308300000000102
+      },
+      {
+        "output_time": 29.5,
+        "selected_time": 29.713583,
+        "error": 0.21358299999999986
+      }
+    ],
+    "max_abs_error": 0.24979199999999935,
+    "reference_source_start": 240.0314583
+  },
+  {
+    "fps": 2.0,
+    "rounding": "up",
+    "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\alignment-2.0-up.mp4",
+    "filename": "alignment-2.0-up.mp4",
+    "source_start": 257.2814583,
+    "frames": [
+      {
+        "output_time": 0.0,
+        "selected_time": 0.01725,
+        "error": 0.01725
+      },
+      {
+        "output_time": 0.5,
+        "selected_time": 0.476042,
+        "error": -0.02395799999999998
+      },
+      {
+        "output_time": 1.0,
+        "selected_time": 0.976542,
+        "error": -0.02345799999999998
+      },
+      {
+        "output_time": 1.5,
+        "selected_time": 1.477042,
+        "error": -0.022958000000000034
+      },
+      {
+        "output_time": 2.0,
+        "selected_time": 1.977542,
+        "error": -0.02245800000000009
+      },
+      {
+        "output_time": 2.5,
+        "selected_time": 2.478042,
+        "error": -0.021958000000000144
+      },
+      {
+        "output_time": 3.0,
+        "selected_time": 2.978542,
+        "error": -0.021457999999999977
+      },
+      {
+        "output_time": 3.5,
+        "selected_time": 3.479042,
+        "error": -0.02095799999999981
+      },
+      {
+        "output_time": 4.0,
+        "selected_time": 3.979542,
+        "error": -0.020458000000000087
+      },
+      {
+        "output_time": 4.5,
+        "selected_time": 4.480042,
+        "error": -0.01995799999999992
+      },
+      {
+        "output_time": 5.0,
+        "selected_time": 4.980542,
+        "error": -0.019458000000000197
+      },
+      {
+        "output_time": 5.5,
+        "selected_time": 5.481042,
+        "error": -0.018957999999999586
+      },
+      {
+        "output_time": 6.0,
+        "selected_time": 5.981542,
+        "error": -0.018457999999999863
+      },
+      {
+        "output_time": 6.5,
+        "selected_time": 6.482042,
+        "error": -0.01795800000000014
+      },
+      {
+        "output_time": 7.0,
+        "selected_time": 6.982542,
+        "error": -0.017458000000000418
+      },
+      {
+        "output_time": 7.5,
+        "selected_time": 7.483042,
+        "error": -0.016957999999999807
+      },
+      {
+        "output_time": 8.0,
+        "selected_time": 7.983542,
+        "error": -0.016458000000000084
+      },
+      {
+        "output_time": 8.5,
+        "selected_time": 8.484042,
+        "error": -0.015957999999999473
+      },
+      {
+        "output_time": 9.0,
+        "selected_time": 8.984542,
+        "error": -0.015458000000000638
+      },
+      {
+        "output_time": 9.5,
+        "selected_time": 9.485042,
+        "error": -0.014958000000000027
+      },
+      {
+        "output_time": 10.0,
+        "selected_time": 9.985542,
+        "error": -0.014457999999999416
+      },
+      {
+        "output_time": 10.5,
+        "selected_time": 10.486042,
+        "error": -0.013958000000000581
+      },
+      {
+        "output_time": 11.0,
+        "selected_time": 10.986542,
+        "error": -0.01345799999999997
+      },
+      {
+        "output_time": 11.5,
+        "selected_time": 11.487042,
+        "error": -0.012957999999999359
+      },
+      {
+        "output_time": 12.0,
+        "selected_time": 11.987542,
+        "error": -0.012458000000000524
+      },
+      {
+        "output_time": 12.5,
+        "selected_time": 12.488042,
+        "error": -0.011957999999999913
+      },
+      {
+        "output_time": 13.0,
+        "selected_time": 12.988542,
+        "error": -0.011457999999999302
+      },
+      {
+        "output_time": 13.5,
+        "selected_time": 13.489042,
+        "error": -0.010958000000000467
+      },
+      {
+        "output_time": 14.0,
+        "selected_time": 13.989542,
+        "error": -0.010457999999999856
+      },
+      {
+        "output_time": 14.5,
+        "selected_time": 14.490042,
+        "error": -0.009957999999999245
+      },
+      {
+        "output_time": 15.0,
+        "selected_time": 14.990542,
+        "error": -0.00945800000000041
+      },
+      {
+        "output_time": 15.5,
+        "selected_time": 15.491042,
+        "error": -0.0089579999999998
+      },
+      {
+        "output_time": 16.0,
+        "selected_time": 15.991542,
+        "error": -0.008457999999999188
+      },
+      {
+        "output_time": 16.5,
+        "selected_time": 16.492042,
+        "error": -0.007957999999998577
+      },
+      {
+        "output_time": 17.0,
+        "selected_time": 16.992542,
+        "error": -0.007457999999999743
+      },
+      {
+        "output_time": 17.5,
+        "selected_time": 17.493042,
+        "error": -0.006958000000000908
+      },
+      {
+        "output_time": 18.0,
+        "selected_time": 17.993542,
+        "error": -0.0064579999999985205
+      },
+      {
+        "output_time": 18.5,
+        "selected_time": 18.494042,
+        "error": -0.005957999999999686
+      },
+      {
+        "output_time": 19.0,
+        "selected_time": 18.994542,
+        "error": -0.005458000000000851
+      },
+      {
+        "output_time": 19.5,
+        "selected_time": 19.495042,
+        "error": -0.004957999999998464
+      },
+      {
+        "output_time": 20.0,
+        "selected_time": 19.995542,
+        "error": -0.004457999999999629
+      },
+      {
+        "output_time": 20.5,
+        "selected_time": 20.496042,
+        "error": -0.003958000000000794
+      },
+      {
+        "output_time": 21.0,
+        "selected_time": 20.996542,
+        "error": -0.003457999999998407
+      },
+      {
+        "output_time": 21.5,
+        "selected_time": 21.497042,
+        "error": -0.002957999999999572
+      },
+      {
+        "output_time": 22.0,
+        "selected_time": 21.997542,
+        "error": -0.0024580000000007374
+      },
+      {
+        "output_time": 22.5,
+        "selected_time": 22.498042,
+        "error": -0.00195799999999835
+      },
+      {
+        "output_time": 23.0,
+        "selected_time": 22.998542,
+        "error": -0.0014579999999995152
+      },
+      {
+        "output_time": 23.5,
+        "selected_time": 23.499042,
+        "error": -0.0009580000000006805
+      },
+      {
+        "output_time": 24.0,
+        "selected_time": 23.999542,
+        "error": -0.0004579999999982931
+      },
+      {
+        "output_time": 24.5,
+        "selected_time": 24.458333,
+        "error": -0.04166700000000034
+      },
+      {
+        "output_time": 25.0,
+        "selected_time": 24.958833,
+        "error": -0.04116700000000151
+      },
+      {
+        "output_time": 25.5,
+        "selected_time": 25.459333,
+        "error": -0.04066699999999912
+      },
+      {
+        "output_time": 26.0,
+        "selected_time": 25.959833,
+        "error": -0.040167000000000286
+      },
+      {
+        "output_time": 26.5,
+        "selected_time": 26.460333,
+        "error": -0.03966700000000145
+      },
+      {
+        "output_time": 27.0,
+        "selected_time": 26.960833,
+        "error": -0.039166999999999064
+      },
+      {
+        "output_time": 27.5,
+        "selected_time": 27.461333,
+        "error": -0.03866700000000023
+      },
+      {
+        "output_time": 28.0,
+        "selected_time": 27.961833,
+        "error": -0.038167000000001394
+      },
+      {
+        "output_time": 28.5,
+        "selected_time": 28.462333,
+        "error": -0.03766699999999901
+      },
+      {
+        "output_time": 29.0,
+        "selected_time": 28.962833,
+        "error": -0.03716700000000017
+      },
+      {
+        "output_time": 29.5,
+        "selected_time": 29.463333,
+        "error": -0.03666700000000134
+      }
+    ],
+    "max_abs_error": 0.04166700000000034,
+    "reference_source_start": 240.0314583
+  }
+]

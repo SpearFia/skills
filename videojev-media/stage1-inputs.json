@@ -1,0 +1,187 @@
+{
+  "contexts": [
+    8192,
+    16384,
+    32768
+  ],
+  "context_limit": 32768,
+  "cache_features": false,
+  "questions": [
+    {
+      "id": "car",
+      "task": "grounding",
+      "query": "A car is visible."
+    },
+    {
+      "id": "fight",
+      "task": "grounding",
+      "query": "People are fighting."
+    },
+    {
+      "id": "name-drive",
+      "task": "grounding",
+      "query": "John Wick drives a car"
+    },
+    {
+      "id": "description-drive",
+      "task": "grounding",
+      "query": "a man in a black suit drives a car"
+    },
+    {
+      "id": "absent",
+      "task": "grounding",
+      "query": "A giraffe walks across a field."
+    }
+  ],
+  "sources": [
+    {
+      "id": "wick-driving",
+      "video_id": "s6ySzbScPvc",
+      "url": "https://www.youtube.com/watch?v=s6ySzbScPvc",
+      "source_path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\s6ySzbScPvc.proxy.mp4",
+      "source_probe": {
+        "kind": "video",
+        "width": 854,
+        "height": 480,
+        "fps": 23.976,
+        "duration": 530.447,
+        "bitrate": 81346,
+        "bits_per_pixel": 0.0083
+      },
+      "crop": {
+        "w": 854,
+        "h": 356,
+        "x": 0,
+        "y": 62
+      },
+      "source_start": 240,
+      "duration": 120,
+      "fps": 2,
+      "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\wick-driving.mp4",
+      "filename": "wick-driving.mp4",
+      "sha256": "a2f7231a1f96cc2dd9888fda8bacf401c2ea011c6716e99a10ec80e4c4c86b49",
+      "sampling_seconds": 0.5729302000254393,
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-y",
+        "-ss",
+        "240",
+        "-t",
+        "120",
+        "-i",
+        "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\s6ySzbScPvc.proxy.mp4",
+        "-an",
+        "-vf",
+        "fps=2:start_time=0:round=up,trim=duration=120,crop=854:356:0:62",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "ultrafast",
+        "-g",
+        "1",
+        "-t",
+        "120",
+        "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\wick-driving.mp4"
+      ]
+    },
+    {
+      "id": "wick-fight",
+      "video_id": "tfJShk6hmqM",
+      "url": "https://www.youtube.com/watch?v=tfJShk6hmqM",
+      "source_path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\tfJShk6hmqM.proxy.mp4",
+      "source_probe": {
+        "kind": "video",
+        "width": 854,
+        "height": 480,
+        "fps": 23.976,
+        "duration": 478.645,
+        "bitrate": 195767,
+        "bits_per_pixel": 0.0199
+      },
+      "crop": null,
+      "source_start": 180,
+      "duration": 120,
+      "fps": 2,
+      "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\wick-fight.mp4",
+      "filename": "wick-fight.mp4",
+      "sha256": "a3464d24ce75efaff9644f01c0e160d7bebc4f2cff589a7fb3dfe324e5cf4ffd",
+      "sampling_seconds": 0.9615317999850959,
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-y",
+        "-ss",
+        "180",
+        "-t",
+        "120",
+        "-i",
+        "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\tfJShk6hmqM.proxy.mp4",
+        "-an",
+        "-vf",
+        "fps=2:start_time=0:round=up,trim=duration=120",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "ultrafast",
+        "-g",
+        "1",
+        "-t",
+        "120",
+        "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\wick-fight.mp4"
+      ]
+    },
+    {
+      "id": "long-gameplay",
+      "video_id": "xxloZbzqVIk",
+      "url": "https://www.youtube.com/watch?v=xxloZbzqVIk",
+      "source_path": "C:\\SpearFia\\cache\\current\\xxloZbzqVIk.proxy.mp4",
+      "source_probe": {
+        "kind": "video",
+        "width": 854,
+        "height": 480,
+        "fps": 30.004,
+        "duration": 26709.633,
+        "bitrate": 430748,
+        "bits_per_pixel": 0.035
+      },
+      "crop": null,
+      "source_start": 600,
+      "duration": 1800,
+      "fps": 0.2,
+      "path": "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\long-gameplay.mp4",
+      "filename": "long-gameplay.mp4",
+      "sha256": "ef2e9d783cd1e6b844c34dee5b1839718798b6b367ebf9eba05b58884d5f7276",
+      "sampling_seconds": 12.171939699910581,
+      "ffmpeg_command": [
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-y",
+        "-ss",
+        "600",
+        "-t",
+        "1800",
+        "-i",
+        "C:\\SpearFia\\cache\\current\\xxloZbzqVIk.proxy.mp4",
+        "-an",
+        "-vf",
+        "fps=0.2:start_time=0:round=up,trim=duration=1800",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "ultrafast",
+        "-g",
+        "1",
+        "-t",
+        "1800",
+        "C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\stage1\\long-gameplay.mp4"
+      ]
+    }
+  ]
+}

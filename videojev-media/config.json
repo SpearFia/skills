@@ -17,6 +17,8 @@
     "context": 8192
   },
   "context": 32768,
+  "context_limit": 32768,
+  "cache_features": false,
   "runtime": {
     "attn_implementation": "sdpa",
     "min_free_vram_mib": 12288
