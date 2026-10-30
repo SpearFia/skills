@@ -1,0 +1,97 @@
+{
+  "status": "failed",
+  "phase": "long:single-questions",
+  "versions": {
+    "torch": "2.8.0+cu128",
+    "torchvision": "0.23.0+cu128",
+    "transformers": "5.14.1",
+    "av": "18.1.0",
+    "flash-linear-attention": "0.4.2",
+    "fla-core": "0.4.2"
+  },
+  "torch_cpu_threads": 2,
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "free_vram_mib": 15037.0,
+  "total_vram_mib": 16302.5625,
+  "attention": "sdpa",
+  "cases": [
+    {
+      "name": "long",
+      "duration_seconds": 1800,
+      "fps": 0.2,
+      "sha256": "65128b1d2a3f2ce4feaf7ae1e717efee3f77cb549b1e5e063d0f2f2e6efdc49e",
+      "prepare_seconds": 2.515148799866438,
+      "record": {
+        "frames": 360,
+        "fps": 0.2,
+        "grid_thw": [
+          180,
+          18,
+          32
+        ],
+        "tokens": 25920,
+        "sampled_duration": 1800.0
+      },
+      "encode_first_seconds": 1.7511758001055568,
+      "encode_seconds": [
+        1.7045885000843555,
+        1.6959162999410182
+      ],
+      "encode_median_seconds": 1.7002524000126868
+    }
+  ],
+  "pins": {
+    "id": "ZhuYuhan/VideoJev-4B",
+    "revision": "b614f1a6248ba1f169cd3bec9e4392758b566e5d",
+    "code_revision": "b614f1a6248ba1f169cd3bec9e4392758b566e5d"
+  },
+  "load_seconds": 6.328687000088394,
+  "attention_readback": {
+    "model": "sdpa",
+    "text": "sdpa",
+    "vision": "sdpa"
+  },
+  "demo_outputs": [
+    {
+      "id": "grounding-1",
+      "task": "grounding",
+      "probabilities": [
+        0.005252848379313946,
+        0.009859762154519558,
+        0.02311760000884533,
+        0.9049592018127441,
+        0.9878408312797546,
+        0.9887083768844604,
+        0.9892758131027222,
+        0.9840322136878967,
+        0.8018642067909241,
+        0.27911946177482605
+      ],
+      "interval": [
+        3.0,
+        10.0
+      ]
+    },
+    {
+      "id": "qa-1",
+      "task": "choice",
+      "probabilities": [
+        0.9999175071716309,
+        5.738539039157331e-05,
+        2.5165494662360288e-05
+      ],
+      "answer_index": 0,
+      "answer": "A. Pasta."
+    }
+  ],
+  "demo_first_seconds": 1.3198122000321746,
+  "demo_warm_seconds": 0.7285933000966907,
+  "demo_peak_allocated_mib": 10281.3642578125,
+  "demo_peak_reserved_mib": 10398.0,
+  "demo_passed": true,
+  "error": "CUDA out of memory. Tried to allocate 52.53 GiB. GPU 0 has a total capacity of 15.92 GiB of which 0 bytes is free. Of the allocated memory 15.86 GiB is allocated by PyTorch, and 331.80 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\dev\\spearfia\\skills-videojev\\videojev-media\\benchmark.py\", line 191, in <module>\n    run(job, result, save)\n  File \"C:\\dev\\spearfia\\skills-videojev\\videojev-media\\benchmark.py\", line 138, in run\n    predict(questions[:1])\n  File \"C:\\dev\\spearfia\\skills-videojev\\videojev-media\\benchmark.py\", line 137, in predict\n    return model.predict_features(processor, features, record, rows, context=32768)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\utils\\_contextlib.py\", line 120, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\benchmark\\windows-cache\\modules\\transformers_modules\\b614f1a6248ba1f169cd3bec9e4392758b566e5d\\38850b3ee47a8a0b\\modeling_videojev.py\", line 186, in predict_features\n    output = self(**batch, visual_features=features)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1773, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1784, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\benchmark\\windows-cache\\modules\\transformers_modules\\b614f1a6248ba1f169cd3bec9e4392758b566e5d\\38850b3ee47a8a0b\\modeling_videojev.py\", line 160, in forward\n    hidden = self.backbone.language_model(**native).last_hidden_state[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1773, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1784, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\transformers\\utils\\generic.py\", line 1040, in wrapper\n    output = func(self, *args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\transformers\\utils\\output_capturing.py\", line 262, in wrapper\n    outputs = func(self, *args, **kwargs)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\transformers\\models\\qwen3_5\\modeling_qwen3_5.py\", line 1212, in forward\n    hidden_states = decoder_layer(\n                    ^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\transformers\\modeling_layers.py\", line 110, in __call__\n    return super().__call__(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1773, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1784, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\transformers\\models\\qwen3_5\\modeling_qwen3_5.py\", line 796, in forward\n    hidden_states, _ = self.self_attn(\n                       ^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1773, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1784, in _call_impl\n    return forward_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\transformers\\models\\qwen3_5\\modeling_qwen3_5.py\", line 706, in forward\n    attn_output, attn_weights = attention_interface(\n                                ^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\caesa\\AppData\\Local\\SpearFia\\cache\\videojev\\venv-win\\Lib\\site-packages\\transformers\\integrations\\sdpa_attention.py\", line 154, in sdpa_attention_forward\n    attn_output = torch.nn.functional.scaled_dot_product_attention(\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntorch.OutOfMemoryError: CUDA out of memory. Tried to allocate 52.53 GiB. GPU 0 has a total capacity of 15.92 GiB of which 0 bytes is free. Of the allocated memory 15.86 GiB is allocated by PyTorch, and 331.80 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)\n",
+  "wall_seconds": 61.65593219990842,
+  "failure_peak_allocated_mib": 16242.20263671875,
+  "failure_peak_reserved_mib": 19644.0
+}

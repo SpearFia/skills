@@ -1,0 +1,230 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=xxloZbzqVIk",
+  "source_title": "Resident Evil 4 Remake Longplay - Part 2 of 2 - Full Game Walkthrough - No Commentary",
+  "source_proxy": "C:\\SpearFia\\cache\\current\\xxloZbzqVIk.proxy.mp4",
+  "context": 32768,
+  "groups_per_chunk": 16,
+  "cpu_threads": 2,
+  "questions": [
+    {
+      "id": "q01",
+      "task": "grounding",
+      "query": "A person walks through a village."
+    },
+    {
+      "id": "q02",
+      "task": "grounding",
+      "query": "A man runs along a road."
+    },
+    {
+      "id": "q03",
+      "task": "grounding",
+      "query": "A person fires a gun."
+    },
+    {
+      "id": "q04",
+      "task": "grounding",
+      "query": "A person reloads a handgun."
+    },
+    {
+      "id": "q05",
+      "task": "grounding",
+      "query": "A person aims a rifle."
+    },
+    {
+      "id": "q06",
+      "task": "grounding",
+      "query": "A person opens a door."
+    },
+    {
+      "id": "q07",
+      "task": "grounding",
+      "query": "A person climbs a ladder."
+    },
+    {
+      "id": "q08",
+      "task": "grounding",
+      "query": "A person jumps over a fence."
+    },
+    {
+      "id": "q09",
+      "task": "grounding",
+      "query": "A person climbs through a window."
+    },
+    {
+      "id": "q10",
+      "task": "grounding",
+      "query": "A person picks up an object."
+    },
+    {
+      "id": "q11",
+      "task": "grounding",
+      "query": "A person walks up stairs."
+    },
+    {
+      "id": "q12",
+      "task": "grounding",
+      "query": "A person descends stairs."
+    },
+    {
+      "id": "q13",
+      "task": "grounding",
+      "query": "A person enters a building."
+    },
+    {
+      "id": "q14",
+      "task": "grounding",
+      "query": "A person leaves a building."
+    },
+    {
+      "id": "q15",
+      "task": "grounding",
+      "query": "A person stands beside a vehicle."
+    },
+    {
+      "id": "q16",
+      "task": "grounding",
+      "query": "A person drives a car."
+    },
+    {
+      "id": "q17",
+      "task": "grounding",
+      "query": "A person fights with a knife."
+    },
+    {
+      "id": "q18",
+      "task": "grounding",
+      "query": "An explosion fills the screen."
+    },
+    {
+      "id": "q19",
+      "task": "grounding",
+      "query": "A person runs away from an explosion."
+    },
+    {
+      "id": "q20",
+      "task": "grounding",
+      "query": "A person walks through a dark hallway."
+    },
+    {
+      "id": "q21",
+      "task": "grounding",
+      "query": "A person crosses a bridge."
+    },
+    {
+      "id": "q22",
+      "task": "grounding",
+      "query": "A person approaches a wooden gate."
+    },
+    {
+      "id": "q23",
+      "task": "grounding",
+      "query": "A person walks beside a river."
+    },
+    {
+      "id": "q24",
+      "task": "grounding",
+      "query": "A person stands near a fire."
+    },
+    {
+      "id": "q25",
+      "task": "grounding",
+      "query": "A person looks through binoculars."
+    },
+    {
+      "id": "q26",
+      "task": "grounding",
+      "query": "A person pushes a heavy object."
+    },
+    {
+      "id": "q27",
+      "task": "grounding",
+      "query": "Two people talk inside a room."
+    },
+    {
+      "id": "q28",
+      "task": "grounding",
+      "query": "A person hides behind a wall."
+    },
+    {
+      "id": "q29",
+      "task": "grounding",
+      "query": "A person falls to the ground."
+    },
+    {
+      "id": "q30",
+      "task": "grounding",
+      "query": "A person uses a flashlight."
+    },
+    {
+      "id": "q31",
+      "task": "grounding",
+      "query": "A person walks across a courtyard."
+    },
+    {
+      "id": "q32",
+      "task": "grounding",
+      "query": "A person searches a wooden house."
+    },
+    {
+      "id": "q33",
+      "task": "grounding",
+      "query": "A person approaches a church."
+    },
+    {
+      "id": "q34",
+      "task": "grounding",
+      "query": "A person turns a metal handle."
+    },
+    {
+      "id": "q35",
+      "task": "grounding",
+      "query": "A person kicks an enemy."
+    },
+    {
+      "id": "q36",
+      "task": "grounding",
+      "query": "A person carries a wounded person."
+    },
+    {
+      "id": "q37",
+      "task": "grounding",
+      "query": "A person runs through a forest."
+    },
+    {
+      "id": "q38",
+      "task": "grounding",
+      "query": "A person rides in a boat."
+    },
+    {
+      "id": "q39",
+      "task": "grounding",
+      "query": "A person walks through a stone tunnel."
+    },
+    {
+      "id": "q40",
+      "task": "grounding",
+      "query": "A person looks at a map."
+    }
+  ],
+  "cases": [
+    {
+      "name": "long",
+      "source_start": 600,
+      "duration_seconds": 1800,
+      "fps": 0.2,
+      "filename": "long-1800s-0.2fps.mp4",
+      "sha256": "65128b1d2a3f2ce4feaf7ae1e717efee3f77cb549b1e5e063d0f2f2e6efdc49e",
+      "sampling_seconds": 12.738193399971351
+    },
+    {
+      "name": "short",
+      "source_start": 1200,
+      "duration_seconds": 120,
+      "fps": 2.0,
+      "filename": "short-120s-2fps.mp4",
+      "sha256": "84b63a760bdd4c3c7fefafc8920101c52230dbb11287def6e087366848db1aee",
+      "sampling_seconds": 1.1036840002052486
+    }
+  ]
+}
