@@ -1,0 +1,20 @@
+{
+  "upstream": {
+    "repository": "https://github.com/MCG-NJU/VideoJev",
+    "commit": "7f8b38aa7df67721303cdc61f06d8435f3c7db89"
+  },
+  "model": {
+    "id": "ZhuYuhan/VideoJev-4B",
+    "revision": "b614f1a6248ba1f169cd3bec9e4392758b566e5d",
+    "code_revision": "b614f1a6248ba1f169cd3bec9e4392758b566e5d"
+  },
+  "demo": {
+    "repository": "ZhuYuhan/VideoJev-Demo",
+    "revision": "7e2b9685bca592c3b929268f6fcf82c4ad74b267",
+    "filename": "eating_spaghetti.mp4",
+    "fps": 2.0,
+    "max_frames": 2048,
+    "context": 8192
+  },
+  "context": 32768
+}
