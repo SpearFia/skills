@@ -1,0 +1,87 @@
+{
+  "status": "passed",
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "total_vram_mib": 16302.5625,
+  "free_vram_mib": 15037.0,
+  "comfy_queue": {
+    "queue_running": [],
+    "queue_pending": []
+  },
+  "pins": {
+    "upstream": {
+      "repository": "https://github.com/MCG-NJU/VideoJev",
+      "commit": "7f8b38aa7df67721303cdc61f06d8435f3c7db89"
+    },
+    "model": {
+      "id": "ZhuYuhan/VideoJev-4B",
+      "revision": "b614f1a6248ba1f169cd3bec9e4392758b566e5d",
+      "code_revision": "b614f1a6248ba1f169cd3bec9e4392758b566e5d"
+    },
+    "demo": {
+      "repository": "ZhuYuhan/VideoJev-Demo",
+      "revision": "7e2b9685bca592c3b929268f6fcf82c4ad74b267",
+      "filename": "eating_spaghetti.mp4",
+      "fps": 2.0,
+      "max_frames": 2048,
+      "context": 8192
+    },
+    "context": 32768,
+    "runtime": {
+      "attn_implementation": "sdpa",
+      "min_free_vram_mib": 12288
+    }
+  },
+  "download_seconds": 111.68381150020286,
+  "load_seconds": 16.815259599825367,
+  "attention": {
+    "model": "sdpa",
+    "text": "sdpa",
+    "vision": "sdpa"
+  },
+  "outputs": [
+    {
+      "id": "grounding-1",
+      "task": "grounding",
+      "probabilities": [
+        0.005252848379313946,
+        0.009859762154519558,
+        0.02311760000884533,
+        0.9049592018127441,
+        0.9878408312797546,
+        0.9887083768844604,
+        0.9892758131027222,
+        0.9840322136878967,
+        0.8018642067909241,
+        0.27911946177482605
+      ],
+      "interval": [
+        3.0,
+        10.0
+      ]
+    },
+    {
+      "id": "qa-1",
+      "task": "choice",
+      "probabilities": [
+        0.9999175071716309,
+        5.738539039157331e-05,
+        2.5165494662360288e-05
+      ],
+      "answer_index": 0,
+      "answer": "A. Pasta."
+    }
+  ],
+  "inference_seconds": 47.775266400072724,
+  "comparison": {
+    "readme_interval": [
+      3.0,
+      10.0
+    ],
+    "readme_answer": "A. Pasta.",
+    "interval_iou": 1.0,
+    "choice_matches": true
+  },
+  "wall_seconds": 188.0939283000771,
+  "peak_allocated_mib": 10281.724609375,
+  "peak_reserved_mib": 10646.0
+}

@@ -1,7 +1,9 @@
 # VideoJev media search: Stage 0
 
-Status: **pending; blocked on creator-installed WSL**. Recorded 2026-10-30.
-The README demo has not run. Stage 1 has not started.
+Status: **passed on native Windows with SDPA**. Recorded 2026-10-30.
+The pinned README demo returned sensible answers and fit on the RTX 5070 Ti.
+This follows the creator's revised section 4. Stopped at the Stage 0 gate;
+Stage 1 has not started.
 
 ## Scope and isolation
 
@@ -12,12 +14,12 @@ The README demo has not run. Stage 1 has not started.
   `86ce40c0a8871a32a6562749171f6b62fb347218`.
 - PR [SpearFia/skills#4](https://github.com/SpearFia/skills/pull/4) was open
   when the base was selected.
-- Stage 0 changes reach only this report and `config.json` in `videojev-media/`.
+- Stage 0 changes reach this report, `config.json`, the isolated demo runner,
+  its readiness test, saved results and resolved Windows dependency lock in `videojev-media/`.
   There are no changed callers, fixtures, exports or shared media-search code.
-  The model's remote code was downloaded for inspection, without executing it.
 - The original skills checkout, Gemini pilot, Spear Fia checkout and cwi-003
-  project received no file edits. No project media or model weights were downloaded.
-  No push, PR creation or merge was performed.
+  project received no file edits. Model weights and the upstream 10-second demo
+  use the C: cache outside the repo. No push, PR creation or merge was performed.
 
 ## Machine checks
 
@@ -26,17 +28,19 @@ The README demo has not run. Stage 1 has not started.
 | GPU | NVIDIA GeForce RTX 5070 Ti |
 | Driver | 610.88 |
 | VRAM total | 16,303 MiB |
-| VRAM free at check | 14,730 MiB |
-| C: free at check | 74,161,098,752 bytes, about 69.1 GiB |
-| Windows Python | 3.11 and 3.14; no 3.12 |
-| WSL | Both `wsl --status` and `wsl --list --verbose` report not installed |
+| VRAM free before environment setup | 14,711 MiB |
+| VRAM free reported by CUDA before model loading | 15,037 MiB |
+| C: free before environment setup | 74,116,759,552 bytes, about 69.0 GiB |
+| Windows Python | Isolated uv-managed CPython 3.12.15 |
+| WSL | Not used |
 | Tools | git, gh, ffmpeg, ffprobe and uv available |
-| Inference runs | 0 |
+| ComfyUI queue before demo | 0 running, 0 pending |
+| CUDA capability reported by PyTorch | 12.0 (`sm_120`) |
 
-Free VRAM is a snapshot; ComfyUI job state was not checked. No VRAM floor,
-context limit, inference time or feature size has been measured yet.
-`config.json` starts pipeline context at 32,768 as the plan requests;
-the upstream demo uses 8,192. Neither is a validated machine limit.
+The runner checks the ComfyUI queue and requires at least 12,288 MiB free VRAM
+before loading the model. That floor is provisional, not a measured minimum.
+`config.json` starts pipeline context at 32,768 as the plan requests; the README
+demo uses 8,192. Maximum context and feature sizes belong to Stage 1.
 
 ## Source pins and code review
 
@@ -76,45 +80,105 @@ Review findings:
 - `prepare_for_inference()` promotes the vision encoder and head to FP32;
   BF16 weight size alone cannot establish whether inference fits.
 - CUDA forward passes packed-sequence arguments to the language model.
-  Retain FlashAttention 2 for the runtime check.
+  The revised plan requires testing those arguments with SDPA, without changing
+  the model code.
 - `read_video()` decodes the complete input with PyAV, so later rounds must
   receive sampled windows. Its frame cap can lower fps; later code must check it.
 - Grounding's decoder always produces a span, even for all-negative scores.
   Later stages must decode `probabilities` themselves as the plan specifies.
 
-## Resume Stage 0
+## Native Windows environment
 
-The build plan section 4 explicitly says: "The creator runs `wsl --install`."
-Installing WSL changes Windows, so this step is reserved for the creator.
-In an elevated PowerShell window, run:
+The environment and uv-managed interpreter are outside the repo, under
+`C:\Users\caesa\AppData\Local\SpearFia\cache\videojev`:
 
-```powershell
-wsl --install -d Ubuntu
-```
+- Environment: `venv-win` (interpreter: `venv-win\Scripts\python.exe`).
+- Python installation: `python`.
+- uv download cache: `uv`; Hugging Face cache: `hf`; remote code cache:
+  `hf-modules`; Triton cache: `triton`.
+- Job, output and logs: `stage0-job.json`, `stage0-result.json`,
+  `stage0-stdout.log`, `stage0-stderr.log`.
 
-Restart if requested and finish Ubuntu's first-run username/password setup.
-Then resume Stage 0 here. The remaining work is:
+| Package | Installed version |
+| --- | --- |
+| PyTorch | 2.8.0+cu128 |
+| torchvision | 0.23.0+cu128 (processor's image/video dependency) |
+| Transformers | 5.14.1 |
+| Triton Windows | 3.4.0.post21 (module reports 3.4.0) |
+| flash-linear-attention / fla-core | 0.4.2 / 0.4.2 |
+| PyAV | 18.1.0 |
+| accelerate / safetensors | 1.15.0 / 0.8.0 |
+| numpy / pillow | 2.5.4 / 13.0.0 |
+| flash-attn / causal-conv1d | Absent, as requested |
 
-1. Verify WSL2 Ubuntu and CUDA visibility; create a Python 3.12 venv in the
-   Linux filesystem. Keep environment/model caches on C: via WSL storage.
-2. Install the upstream inference stack: PyTorch 2.8 / CUDA 12.8, Triton 3.4,
-   `transformers==5.14.1`, `av==18.1.0`, `flash-linear-attention==0.4.2`,
-   `fla-core==0.4.2`, FlashAttention 2, causal-conv1d, accelerate, safetensors,
-   numpy and pillow. Record the resolved runtime versions after installation.
-3. Check ComfyUI is idle and add the required free-VRAM guard before model
-   execution. Use the pinned revisions for both processor and model code.
-4. Run the pinned README's 10-second spaghetti demo, with grounding and choice
-   questions, BF16, `cuda:0`, FlashAttention 2, 2 fps and context 8,192.
-5. Record actual outputs, load/inference times and peak VRAM, then report
-   the Stage 0 gate. Stop there before Stage 1.
+The complete resolved environment is in
+[requirements-windows.lock.txt](requirements-windows.lock.txt). Install it into
+a separate Python 3.12 venv with `uv pip install --python <venv-python> -r
+videojev-media/requirements-windows.lock.txt`.
 
-The gate remains pending until that demo succeeds on this GPU. RTX 5070 Ti
-compatibility and memory fit are unverified; no substitute model is authorized.
+The runner uses `attn_implementation="sdpa"`, BF16 on `cuda:0`,
+`prepare_for_inference()`, and the exact README questions, fps, frame cap and
+demo context. It verifies downloaded Python files against the previously
+reviewed copies before loading remote code. No upstream model code is patched.
+
+Run `demo.py <job.json>` with the environment's interpreter. The job contains
+`cache_dir` and `result_path` paths; all other settings come from `config.json`.
+The demo was launched with `Start-Process -WindowStyle Hidden`, redirected logs
+and unbuffered output. Results and failures are saved as JSON.
+
+## Demo gate results
+
+One cold-process run completed successfully. The gate compares the choice
+with the README's `A. Pasta.` and the grounding with its interval `[3, 10]`
+seconds. The runner requires a matching choice and temporal IoU of at least
+0.5 as a sensible demo match; this run matched the interval exactly (IoU 1.0).
+
+| Measurement | Result |
+| --- | --- |
+| Pinned demo and model download | 111.68 s |
+| Processor/model load and inference preparation, after download | 16.82 s |
+| First inference, both questions | 47.78 s |
+| Whole process, including imports and downloads | 188.09 s |
+| Peak PyTorch allocated VRAM, load plus inference | 10,281.72 MiB (10.04 GiB) |
+| Peak PyTorch reserved VRAM, load plus inference | 10,646.00 MiB (10.40 GiB) |
+| Attention implementation: model / text / vision | SDPA / SDPA / SDPA |
+
+CUDA synchronization brackets load and inference timing. Peak memory values
+come from PyTorch's allocator and exclude allocations outside that allocator.
+The first inference may include kernel compilation; its share was not profiled.
+
+| Output | Windows SDPA | Pinned README |
+| --- | --- | --- |
+| Grounding: woman in green eats pasta | 3.0–10.0 s | 3.0–10.0 s |
+| Choice: what is she eating? | A. Pasta. | A. Pasta. |
+| Probability of Pasta | 0.9999175072 | 0.9999161959 |
+
+The ten grounding probabilities differ from the published FlashAttention
+output by a maximum of 0.05126035 and a mean absolute difference of 0.00891772.
+Both full probability arrays and all recorded metrics are saved in
+[demo-result.json](demo-result.json).
+
+The CUDA packed-sequence arguments caused no runtime errors under SDPA. The
+vision encoder also loaded and ran with SDPA. Transformers logged its expected
+torch fallback warning for the omitted fast-path library. FlashAttention and
+causal-conv1d remain uninstalled; the pinned model source is unchanged.
+
+This smoke check establishes fit and sensible answers for the 10-second demo
+at context 8,192. It does not establish production grounding accuracy, maximum
+context, warm inference speed or throughput for three-hour sources. No long
+source or Stage 1 checks were run. Pipeline context 32,768 remains unvalidated.
 
 ## Validation completed
 
 - Parsed the config and checked all four revisions are exact 40-character hashes.
 - Verified all six code comparisons and every recorded SHA-256 hash.
+- Rechecked the six downloaded runtime modules against the reviewed copies
+  before executing them; the upstream checkout remains clean.
+- `uv pip check`: all 44 installed packages compatible.
+- Readiness unit test passed in the Python 3.12 environment: accepts an idle
+  queue at the VRAM floor; rejects active/pending jobs, low VRAM and malformed queues.
+- Saved-result checks: both README answers match exactly; model, text and
+  vision attention all report SDPA.
 - Markdownlint passed with zero issues. Git whitespace checks passed.
 - Confirmed the worktree has no changes outside `videojev-media/` against its base.
 

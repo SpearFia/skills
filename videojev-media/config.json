@@ -16,5 +16,9 @@
     "max_frames": 2048,
     "context": 8192
   },
-  "context": 32768
+  "context": 32768,
+  "runtime": {
+    "attn_implementation": "sdpa",
+    "min_free_vram_mib": 12288
+  }
 }
