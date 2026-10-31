@@ -12,6 +12,7 @@ from pathlib import Path
 from filmcraft_rpc import FilmCraft
 from stage4_assign import FPS,SPEARFIA,assert_no_overlap
 from stage3_sources import command,pool,save_json
+from jev import require_legacy
 
 TICKS=254016000000
 def ticks(frames):return frames*TICKS//FPS
@@ -19,6 +20,7 @@ def load(path):return json.loads(path.read_text(encoding='utf-8'))
 
 
 def build(project):
+    require_legacy(project)
     folder=project/'media/jev';a=load(folder/'assignment.json');inputs=load(folder/'input-cues.json')
     original=Path(inputs['source_project']).resolve()
     if project.resolve()==original:raise ValueError('Original project is read-only')

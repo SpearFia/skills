@@ -12,7 +12,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
-from jev import expand_sources, parse_checklist, paste_targets, validate_needs
+from jev import expand_sources, parse_checklist, paste_targets, validate_needs, require_legacy
 
 sys.path.insert(0, str(Path(__file__).parents[1]/"media-search"/"scripts"))
 import pool
@@ -35,6 +35,7 @@ def video_id(url):
 
 
 def prepare_project(project):
+    require_legacy(project)
     folder = project/"media"/"jev"
     inputs = json.loads((folder/"input-cues.json").read_text(encoding="utf-8"))
     original = Path(inputs["source_project"])

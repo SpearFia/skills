@@ -14,6 +14,7 @@ from pathlib import Path
 
 from stage3_index import Indexer, digest, merge_windows, runs, scope_status, subtract, union
 from stage3_sources import command, save_json
+from jev import require_legacy
 
 
 class StopRequested(Exception):
@@ -594,6 +595,7 @@ class BudgetIndexer(Indexer):
 
 
 def run(project):
+    require_legacy(project)
     index=BudgetIndexer(project)
     try:
         index.run()
@@ -619,6 +621,7 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--project',type=Path,required=True)
     project=parser.parse_args().project
+    require_legacy(project)
     log=Path('C:/SpearFia/cache')/project.name/'stage3-logs'/'resume-v2.log'
     log.parent.mkdir(parents=True,exist_ok=True)
     sys.stdout=sys.stderr=log.open('a',encoding='utf-8',buffering=1)

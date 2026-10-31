@@ -16,6 +16,7 @@ import urllib.request
 from pathlib import Path
 
 from stage3_sources import command, pool, qc, save_json
+from jev import require_legacy
 
 
 def digest(value):
@@ -106,6 +107,7 @@ def scope_status(video, need):
 
 class Indexer:
     def __init__(self, project):
+        require_legacy(project)
         self.project = project
         self.folder = project/"media"/"jev"
         self.cache = pool.cache_dir(project)/"jev-index"

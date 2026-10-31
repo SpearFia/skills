@@ -12,6 +12,7 @@ from pathlib import Path
 
 from stage3_index import digest,subtract
 from stage3_sources import command,save_json,pool,qc
+from jev import require_legacy
 
 FPS=30
 HANDLE=2.5
@@ -152,6 +153,7 @@ def film_group(video):
 
 class Assignment:
     def __init__(self,project):
+        require_legacy(project)
         self.project=project;self.folder=project/'media/jev'
         self.cache=pool.cache_dir(project)/'jev-stage4';self.cache.mkdir(exist_ok=True)
         self.hash_cache=self.cache/'hashes';self.hash_cache.mkdir(exist_ok=True)

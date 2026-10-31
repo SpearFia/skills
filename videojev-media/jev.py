@@ -17,6 +17,11 @@ SOURCE_GROUPS = {
 }
 
 
+def require_legacy(project):
+    if (Path(project)/'media/jev/script-first/approval.json').exists():
+        raise ValueError('Approved script-first beats replace the old cue plan; use prepare-beats/general-pools. Legacy index/assign/build are disabled.')
+
+
 def validate_url(url):
     parsed = urlsplit(url if "://" in url else "https://"+url)
     host = (parsed.hostname or "").lower()
@@ -184,6 +189,10 @@ def render_checklist(needs, inputs, sources):
 
 
 def write_checklist(project):
+    if (project/'media/jev/script-first/approval.json').exists():
+        from script_first import prepare
+        result=prepare(project)
+        return project/'production/media-checklist.md',result['questions'],result['pasted_url_entries']
     folder = project / "media" / "jev"
     inputs = json.loads((folder/"input-cues.json").read_text(encoding="utf-8"))
     if project.resolve() == Path(inputs["source_project"]).resolve():
@@ -214,12 +223,19 @@ def write_checklist(project):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build"])
+    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools"])
     parser.add_argument("--project", type=Path, required=True)
     args = parser.parse_args()
-    if args.command == "needs":
+    if args.command == 'prepare-beats':
+        from script_first import prepare
+        prepare(args.project.resolve())
+    elif args.command == 'general-pools':
+        from script_text_screens import scan_pools
+        scan_pools(args.project.resolve())
+    elif args.command == "needs":
         path, count, urls = write_checklist(args.project)
-        print(f"Ready: {count} needs, {urls} pasted URL entries. {path}")
+        label='questions' if (args.project/'media/jev/script-first/approval.json').exists() else 'needs'
+        print(f"Ready: {count} {label}, {urls} pasted URL entries. {path}")
     elif args.command == "index":
         from stage3_sources import run as sources
         if (args.project/'media'/'jev'/'resume-policy.json').exists():
@@ -241,5 +257,5 @@ if __name__ == "__main__":
         from stage4_build import build
         build(args.project.resolve())
     else:
-        status = args.project/"media"/"jev"/"index-status.json"
+        status = args.project/'media/jev/script-first/summary.json' if (args.project/'media/jev/script-first/approval.json').exists() else args.project/"media"/"jev"/"index-status.json"
         print(status.read_text(encoding="utf-8") if status.exists() else "Indexing has not started.")
