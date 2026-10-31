@@ -243,16 +243,19 @@ def prepare(project):
     if quality['status']=='running':summary['status']='general_pool_scans_running'
     elif quality['status']=='complete':summary['status']='general_pools_ready_queries_not_run' if not summary['pools_pending_quality'] else 'waiting_for_source_quality'
     elif quality['status']=='failed':summary['status']='general_pool_scans_failed'
+    query_run=read(folder/'query-run.json') if (folder/'query-run.json').exists() else None
+    if query_run:summary.update(status=query_run['status'],query_run=query_run)
     save_json(folder/'summary.json',summary)
     lines=['# Approved beat implementation — short summary','',
         f"Status: {summary['status']}. {summary['beats']} beats; {len(qs)} deduplicated visual questions; 10 query-free general pools.",'',
         f"Reused native score windows: {len(rows)}. Video/question pairs: "+str(summary['query_pairs'])+'.','',
         f"Cached pairs with untested stretches: {summary['partial_cached_pairs']}. Untested stretches are not evidence that a shot is absent.",'',
-        f"General pools awaiting text/black quality scans: {summary['pools_pending_quality']}. Quality scan state: {quality['status']}. No model query or timeline build was started.",'',
+        f"General pools awaiting text/black quality scans: {summary['pools_pending_quality']}. Quality scan state: {quality['status']}. Specific-query run: {query_run['status'] if query_run else 'not started'}. No timeline build was started.",'',
         'Blocked videos: '+', '.join('`'+b['video_id']+'` ('+b['reason']+')' for b in blocked)+'. Age gates are not bypassed.','',
         'The current checklist keeps group URLs and migrates equivalent optional URLs. Unmapped optional URLs remain archived in the checklist. Existing needs, scores, completed-video results, assignments and FilmCraft reviews are preserved.','',
         'The old cue-based index/assign/build commands are disabled for this project. New general pools require completed deterministic quality scans before selection. Stage 5 remains stopped.']
     if quality.get('error'):lines+=['','Quality scan error: '+quality['error'][:1000]]
+    if query_run and query_run.get('review'):lines+=['','Specific-query review: `'+query_run['review']+'`.']
     lines+=['','## General pool supply','','| Group | Sources | Quality complete | Usable seconds |','| --- | ---: | ---: | ---: |']
     for p in pools:
         ready=[v for v in p['videos'] if v['status']=='ready']

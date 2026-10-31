@@ -223,7 +223,7 @@ def write_checklist(project):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools"])
+    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools", "specific-queries"])
     parser.add_argument("--project", type=Path, required=True)
     args = parser.parse_args()
     if args.command == 'prepare-beats':
@@ -232,6 +232,9 @@ if __name__ == "__main__":
     elif args.command == 'general-pools':
         from script_text_screens import scan_pools
         scan_pools(args.project.resolve())
+    elif args.command == 'specific-queries':
+        from script_queries import run
+        run(args.project.resolve())
     elif args.command == "needs":
         path, count, urls = write_checklist(args.project)
         label='questions' if (args.project/'media/jev/script-first/approval.json').exists() else 'needs'
@@ -257,5 +260,5 @@ if __name__ == "__main__":
         from stage4_build import build
         build(args.project.resolve())
     else:
-        status = args.project/'media/jev/script-first/summary.json' if (args.project/'media/jev/script-first/approval.json').exists() else args.project/"media"/"jev"/"index-status.json"
+        status = args.project/'media/jev/script-first/query-run.json' if (args.project/'media/jev/script-first/query-run.json').exists() else args.project/'media/jev/script-first/summary.json' if (args.project/'media/jev/script-first/approval.json').exists() else args.project/"media"/"jev"/"index-status.json"
         print(status.read_text(encoding="utf-8") if status.exists() else "Indexing has not started.")
