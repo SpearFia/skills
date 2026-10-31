@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT OR Apache-2.0
-"""Stage 2 checklist: python jev.py --project <demo-folder> needs."""
+"""Checklist and indexing: python jev.py --project <demo-folder> needs|index|status."""
 import argparse
 import json
 import math
@@ -214,8 +214,17 @@ def write_checklist(project):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["needs"])
+    parser.add_argument("command", choices=["needs", "index", "status"])
     parser.add_argument("--project", type=Path, required=True)
     args = parser.parse_args()
-    path, count, urls = write_checklist(args.project)
-    print(f"Ready: {count} needs, {urls} pasted URL entries. {path}")
+    if args.command == "needs":
+        path, count, urls = write_checklist(args.project)
+        print(f"Ready: {count} needs, {urls} pasted URL entries. {path}")
+    elif args.command == "index":
+        from stage3_sources import run as sources
+        from stage3_index import run as index
+        sources(args.project)
+        index(args.project)
+    else:
+        status = args.project/"media"/"jev"/"index-status.json"
+        print(status.read_text(encoding="utf-8") if status.exists() else "Indexing has not started.")

@@ -20,6 +20,18 @@
   "context_limit": 32768,
   "cache_features": false,
   "filter_black_frames": true,
+  "index": {
+    "skip_round1_under_seconds": 300,
+    "skip_round2_under_seconds": 120,
+    "window_seconds": [1800, 600, 120],
+    "fps": [0.2, 0.5, 2.0],
+    "thresholds": [0.20, 0.30, 0.50],
+    "padding_seconds": [10, 4, 2],
+    "choice_threshold": 0.60,
+    "seed": 264731,
+    "black_pixel_threshold": 0.02,
+    "black_picture_ratio": 0.995
+  },
   "runtime": {
     "attn_implementation": "sdpa",
     "min_free_vram_mib": 12288
