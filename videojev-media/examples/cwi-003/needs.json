@@ -1,0 +1,1161 @@
+[
+  {
+    "id": "wick1-action",
+    "label": "Close fighting and gunfire — John Wick",
+    "query": "A man fights armed attackers at close range.",
+    "generic": true,
+    "fallback": null,
+    "source_scope": "John Wick (2014), original film footage.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fights armed attackers at close range.",
+      "wrong": [
+        "A man drives a car.",
+        "People sit and talk."
+      ]
+    },
+    "cues": [
+      "v18e2e875fdf063b8",
+      "v18e2e8760c47f0e8",
+      "v18e2e87ec4313d24",
+      "v18e2e87ef601f4d8",
+      "v18e2e87f2a4381f8"
+    ]
+  },
+  {
+    "id": "wick1-home-fight",
+    "label": "The home-invasion fight — John Wick",
+    "query": "A man fights armed intruders inside a house.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick (2014), the home invasion; preserve the actual scene.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fights armed intruders in a house.",
+      "wrong": [
+        "A police officer talks at a front door.",
+        "A man drives through traffic."
+      ]
+    },
+    "cues": [
+      "v18e2e875bd49061c",
+      "v18e2e875c944f264",
+      "v18e2e875e4052f38"
+    ]
+  },
+  {
+    "id": "wick1-police-visit",
+    "label": "The policeman visiting the house — John Wick",
+    "query": "A uniformed police officer talks to a man at a front door.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick (2014), Jimmy visiting the house.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A police officer speaks to a man at a house entrance.",
+      "wrong": [
+        "Armed men fight inside a house.",
+        "Police cars chase a vehicle."
+      ]
+    },
+    "cues": [
+      "v18e2e875986a1c64",
+      "v18e2e875a4222114"
+    ]
+  },
+  {
+    "id": "wick1-nightclub-movement",
+    "label": "Movement through the nightclub — John Wick",
+    "query": "A man moves through a crowded nightclub with a handgun.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick (2014), Red Circle bathhouse, nightclub and upper levels.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "An armed man moves through a nightclub crowd.",
+      "wrong": [
+        "A man drives along a crowded street.",
+        "A man rests alone in a bedroom."
+      ]
+    },
+    "cues": [
+      "v18e2e878725e0bcc",
+      "v18e2e87887d89594",
+      "v18e2e8789f4da868",
+      "v18e2e878cf3babd8",
+      "v18e2e878eb50eb80"
+    ]
+  },
+  {
+    "id": "wick1-nightclub-throw",
+    "label": "Being thrown from the upstairs fight — John Wick",
+    "query": "A man throws another man over an indoor railing.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick (2014), Kirill throwing John out of the upstairs Red Circle exchange.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "One man throws another over an indoor railing.",
+      "wrong": [
+        "A man jumps safely down a staircase.",
+        "Two men talk beside a railing."
+      ]
+    },
+    "cues": [
+      "v18e2e875f0f79140",
+      "v18e2e87904ba76a4"
+    ]
+  },
+  {
+    "id": "wick1-sniper-help",
+    "label": "The sniper intervention — John Wick",
+    "query": "A man aims a sniper rifle from a distant position.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick (2014), Marcus intervening to help John; assistance stays attributed to Marcus.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man uses a sniper rifle from a distant position.",
+      "wrong": [
+        "A man fires a pistol at close range.",
+        "A man drives a car."
+      ]
+    },
+    "cues": [
+      "v18e2e88ef1a6dab0"
+    ]
+  },
+  {
+    "id": "wick2-driving-warehouse",
+    "label": "Driving the recovered car — John Wick Chapter 2",
+    "query": "A man drives a muscle car through violent collisions.",
+    "variants": [
+      "A man steers a muscle car around attackers in a warehouse."
+    ],
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 2, especially Abram's warehouse and the recovered Mustang.",
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man drives a car through collisions with obstacles or attackers.",
+      "wrong": [
+        "A man fights on foot inside a nightclub.",
+        "People inspect a parked car."
+      ]
+    },
+    "cues": [
+      "v18e2e876294a1964",
+      "v18e2e8765dce1780",
+      "v18e2e8766dd68388",
+      "v18e2e876ad47dcb0",
+      "v18e2e87744722b18",
+      "v18e2e896db35a948"
+    ]
+  },
+  {
+    "id": "wick2-wrecked-car",
+    "label": "The wrecked Mustang and its assessment — Chapter 2",
+    "query": "People inspect a badly damaged muscle car.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 2, the damaged Mustang and Aurelio's assessment.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "People inspect a badly damaged car.",
+      "wrong": [
+        "A man drives an undamaged car.",
+        "People fight in a house."
+      ]
+    },
+    "cues": [
+      "v18e2e8769ec45484",
+      "v18e2e876c323ac08",
+      "v18e2e8776969d0d8",
+      "v18e2e877b7382bac",
+      "v18e2e89e686e6118"
+    ]
+  },
+  {
+    "id": "wick2-leave-car",
+    "label": "Leaving the car behind — Chapter 2",
+    "query": "A man gets out of a damaged car.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 2, footage appropriate to leaving the recovered or damaged car.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man leaves a damaged car.",
+      "wrong": [
+        "A man keeps driving a car.",
+        "A man lies in a bed."
+      ]
+    },
+    "cues": [
+      "v18e2e877a641a5bc"
+    ]
+  },
+  {
+    "id": "wick2-pistol-supply",
+    "label": "Receiving the limited pistol supply — Chapter 2",
+    "query": "One man gives another man a handgun.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 2, the Bowery King supplying the seven-round pistol; the number is established by the film context.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man supplies another man with a handgun.",
+      "wrong": [
+        "A man picks a gun up from the floor.",
+        "Two men exchange punches."
+      ]
+    },
+    "cues": [
+      "v18e2e87dcc3c7930"
+    ]
+  },
+  {
+    "id": "wick2-suit-protection",
+    "label": "Using the jacket as protection — Chapter 2",
+    "query": "A man raises his suit jacket to shield himself during gunfire.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 2, tailor/protective suit context and jacket shielding; do not invent an armor rating.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man uses his jacket as protection during gunfire.",
+      "wrong": [
+        "A man puts on a jacket in a quiet room.",
+        "A man drives a car."
+      ]
+    },
+    "cues": [
+      "v18e2e87f93d1a528",
+      "v18e2e87fc58712ec"
+    ]
+  },
+  {
+    "id": "wick2-prepared-escape",
+    "label": "Prepared equipment and the catacombs — Chapter 2",
+    "query": "A man retrieves prepared weapons in underground passages.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 2, Rome catacombs and the actual prepared equipment/route.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man uses weapons prepared in underground passages.",
+      "wrong": [
+        "A man drives through a city.",
+        "An injured man waits for medical treatment."
+      ]
+    },
+    "cues": [
+      "v18e2e8a3aaf6dc68",
+      "v18e2e8a4257a4f60",
+      "v18e2e8a494301c8c",
+      "v18e2e8a5031e9010",
+      "v18e2e8a64b262b24",
+      "v18e2e8a6aeb887f4",
+      "v18e2e8ab1ad9d2f4"
+    ]
+  },
+  {
+    "id": "wick3-action",
+    "label": "Close fighting and gunfire — John Wick Chapter 3",
+    "query": "A man fights several armed attackers.",
+    "generic": true,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 3 — Parabellum; preserve the role of helpers.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fights several armed attackers.",
+      "wrong": [
+        "A man drives a car.",
+        "People sit and talk."
+      ]
+    },
+    "cues": [
+      "v18e2e87858ec76d8",
+      "v18e2e87b4e8716c8",
+      "v18e2e87b73080584",
+      "v18e2e87be3e046e0",
+      "v18e2e87ca5373920",
+      "v18e2e87d23f917ec",
+      "v18e2e88073774ac0",
+      "v18e2e881ceb019e8",
+      "v18e2e88ea4b04ebc",
+      "v18e2e89185b922ec",
+      "v18e2e892d919ea9c",
+      "v18e2e89c2a27fd1c",
+      "v18e2e89fe4d49924",
+      "v18e2e8a0462e721c",
+      "v18e2e8a0abebe544",
+      "v18e2e8a9541b78bc"
+    ]
+  },
+  {
+    "id": "wick3-roof-fall",
+    "label": "The Continental roof fall — Chapter 3",
+    "query": "A man falls from a high building and strikes structures on the way down.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 3 — Parabellum, the interrupted Continental roof fall.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man falls from a building and hits structures below.",
+      "wrong": [
+        "A man walks down a staircase.",
+        "Two men fight inside a room."
+      ]
+    },
+    "cues": [
+      "v18e2e8756559b924",
+      "v18e2e88bb3efc180",
+      "v18e2e88bf9d99608"
+    ]
+  },
+  {
+    "id": "wick3-injured-movement",
+    "label": "Moving while injured — Chapter 3",
+    "query": "An injured man struggles to stand and keep moving.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 3 — Parabellum; visible injury or exhaustion, not a grieving scene substituted for action.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "An injured man struggles to keep moving.",
+      "wrong": [
+        "A relaxed man sits and talks.",
+        "A man drives a car."
+      ]
+    },
+    "cues": [
+      "v18e2e8756f8417c8",
+      "v18e2e880344ac520",
+      "v18e2e882452a041c",
+      "v18e2e88330961198",
+      "v18e2e88b6a34aa10",
+      "v18e2e88c90cf604c",
+      "v18e2e8979351d218",
+      "v18e2e89b0eade7b4",
+      "v18e2e89b70da7808"
+    ]
+  },
+  {
+    "id": "wick3-armored-defense",
+    "label": "The Continental defense against armored attackers — Chapter 3",
+    "query": "A man fights heavily armored attackers inside a hotel.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 3 — Parabellum, Continental defense; Charon and the armory stay visible where the cue credits them.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fights heavily armored attackers in a hotel.",
+      "wrong": [
+        "Unarmed guests talk in a hotel lobby.",
+        "A man drives a car through traffic."
+      ]
+    },
+    "cues": [
+      "v18e2e875044121a4",
+      "v18e2e878b60e83b0",
+      "v18e2e87adf91cda8",
+      "v18e2e87c0bb98be0",
+      "v18e2e87c2f3bb3f4",
+      "v18e2e87ccc2d9b50",
+      "v18e2e886d6146fe0",
+      "v18e2e888ec59e29c",
+      "v18e2e88f430af350"
+    ]
+  },
+  {
+    "id": "wick3-armory",
+    "label": "Rearming together in the Continental armory — Chapter 3",
+    "query": "Two men load powerful guns in a room full of weapons.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 3 — Parabellum, John and Charon rearming with the film's steel-slug ammunition; preserve that assistance.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Two men rearm together in a weapons room.",
+      "wrong": [
+        "One man drives a car.",
+        "Two men fight each other in an empty room."
+      ]
+    },
+    "cues": [
+      "v18e2e87c54fd0c78",
+      "v18e2e87c78d7d858",
+      "v18e2e87cf6ee4038",
+      "v18e2e87d4c0a10b0",
+      "v18e2e8a724254784"
+    ]
+  },
+  {
+    "id": "wick3-library-fight",
+    "label": "The library fight and wound — Chapter 3",
+    "query": "A man fights a much taller man between bookshelves.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 3 — Parabellum, Ernest's library encounter and its injury context.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Two men fight between bookshelves.",
+      "wrong": [
+        "People quietly read books.",
+        "A man drives a car."
+      ]
+    },
+    "cues": [
+      "v18e2e88001912d68"
+    ]
+  },
+  {
+    "id": "wick3-exhausted-zero",
+    "label": "The exhausted final knife fight — Chapter 3",
+    "query": "An exhausted man catches his breath during a knife fight.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 3 — Parabellum, the exhausted John facing Zero near the end.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A visibly exhausted man pauses during a knife fight.",
+      "wrong": [
+        "A relaxed man talks at a table.",
+        "A man drives a car."
+      ]
+    },
+    "cues": [
+      "v18e2e8820d4b3818"
+    ]
+  },
+  {
+    "id": "wick3-rescued",
+    "label": "Being collected after the roof fall — Chapter 3",
+    "query": "A badly injured man is carried to another man's shelter.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 3 — Parabellum, Tick Tock Man bringing John to the Bowery King; do not present this as unaided escape.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Other people bring a badly injured man to shelter.",
+      "wrong": [
+        "A healthy man walks away alone.",
+        "A man drives a car."
+      ]
+    },
+    "cues": [
+      "v18e2e88c425659ac"
+    ]
+  },
+  {
+    "id": "wick4-action",
+    "label": "Fighting through pursuit — John Wick Chapter 4",
+    "query": "A man fights several armed opponents.",
+    "generic": true,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4; generic illustrative action, with allies' interventions kept in context.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fights several armed opponents.",
+      "wrong": [
+        "A man sits alone in a quiet room.",
+        "A man repairs a parked car."
+      ]
+    },
+    "cues": [
+      "v18e2e8598ab18f74",
+      "v18e2e87abf906aa0",
+      "v18e2e87d9f0d6744",
+      "v18e2e87e57f6c674",
+      "v18e2e882f7691730",
+      "v18e2e88b2269a2d0",
+      "v18e2e88e0e06c8b0",
+      "v18e2e89f85bd7c6c",
+      "v18e2e8a1e3a2f508",
+      "v18e2e8a9c333b32c",
+      "v18e2e8ab9775f8d8"
+    ]
+  },
+  {
+    "id": "wick4-driving-traffic",
+    "label": "Driving and shooting amid Paris traffic — Chapter 4",
+    "query": "A man shoots a handgun while driving through busy traffic.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4, Arc de Triomphe driving and gunfight.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man drives and shoots amid moving traffic.",
+      "wrong": [
+        "A man fights on foot inside a room.",
+        "People inspect a parked car."
+      ]
+    },
+    "cues": [
+      "v18e2e8770934a350",
+      "v18e2e8851300a9d4"
+    ]
+  },
+  {
+    "id": "wick4-foot-traffic",
+    "label": "Fighting on foot between moving cars — Chapter 4",
+    "query": "A man fights on foot between moving cars.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4, Arc de Triomphe traffic fighting; keep collisions and changing cover visible.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fights on foot amid moving traffic.",
+      "wrong": [
+        "A man drives a car from inside its cabin.",
+        "People talk inside a quiet building."
+      ]
+    },
+    "cues": [
+      "v18e2e8771baedc6c",
+      "v18e2e8796ad735e4",
+      "v18e2e8798da7255c",
+      "v18e2e879c64ed328"
+    ]
+  },
+  {
+    "id": "wick4-apartment-rooms",
+    "label": "Moving and fighting through divided rooms — Chapter 4",
+    "query": "A man moves between rooms while exchanging gunfire.",
+    "generic": false,
+    "fallback": "wick4-action",
+    "source_scope": "John Wick: Chapter 4, the Paris apartment interior; keep walls and doorways visible.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fights while moving through separate rooms.",
+      "wrong": [
+        "A man drives along an open road.",
+        "People sit and talk at a table."
+      ]
+    },
+    "cues": [
+      "v18e2e879a9eda1b4",
+      "v18e2e8865514953c",
+      "v18e2e8869942161c",
+      "v18e2e8871631f1b0",
+      "v18e2e88868295d90"
+    ]
+  },
+  {
+    "id": "wick4-fire-shotgun",
+    "label": "The acquired flame-burst shotgun — Chapter 4",
+    "query": "A man fires a shotgun that emits a bright stream of sparks.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4, the acquired Dragon's Breath Gen-12 in the Paris apartment; not permanent starting equipment or an anti-tank feat.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fires a shotgun with a large fiery burst.",
+      "wrong": [
+        "A man fires an ordinary handgun.",
+        "A vehicle explodes outdoors."
+      ]
+    },
+    "cues": [
+      "v18e2e8875933ef90",
+      "v18e2e887de30a800",
+      "v18e2e89cebb0bf50"
+    ]
+  },
+  {
+    "id": "wick4-weapon-pickup",
+    "label": "Picking up an opponent's weapon — Chapter 4",
+    "query": "A man picks up a fallen opponent's gun.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4, an actual local weapon pickup; do not imply unlimited ammunition.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man takes a gun left by a fallen opponent.",
+      "wrong": [
+        "Two men exchange punches.",
+        "A man drives a car."
+      ]
+    },
+    "cues": [
+      "v18e2e8879bde2658",
+      "v18e2e888256ed700"
+    ]
+  },
+  {
+    "id": "wick4-osaka-armor",
+    "label": "Fighting armored attackers in Osaka — Chapter 4",
+    "query": "A man fights armored attackers inside a large hotel.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4, Osaka Continental; preserve Koji, Akira and the staff's roles.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man fights armored attackers in a hotel.",
+      "wrong": [
+        "People calmly talk in a hotel.",
+        "A man drives through traffic."
+      ]
+    },
+    "cues": [
+      "v18e2e87d7563753c"
+    ]
+  },
+  {
+    "id": "wick4-suit-hit",
+    "label": "Taking a protected hit and recovering — Chapter 4",
+    "query": "A man recoils from gunfire and struggles back into motion.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4, visible protected impacts and recovery; no invented fatal wound.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man takes a hit and works to keep moving.",
+      "wrong": [
+        "A relaxed man talks at a table.",
+        "A man drives a car."
+      ]
+    },
+    "cues": [
+      "v18e2e87f603c7a80"
+    ]
+  },
+  {
+    "id": "wick4-stairs-fall",
+    "label": "The fall down the Paris stairs — Chapter 4",
+    "query": "A man tumbles down a long outdoor staircase.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4, Chidi sending John down the Paris stairs; distinguish survival from later assisted progress.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A man falls down a long staircase.",
+      "wrong": [
+        "A man calmly climbs stairs.",
+        "A man falls from a building roof."
+      ]
+    },
+    "cues": [
+      "v18e2e899123de6c4",
+      "v18e2e89978a0030c",
+      "v18e2e89aae0cfa94"
+    ]
+  },
+  {
+    "id": "wick4-stairs-allies",
+    "label": "Visible help during the Paris stair fight — Chapter 4",
+    "query": "Allies help a man fight on an outdoor staircase.",
+    "variants": [
+      "A dog attacks an armed man on an outdoor staircase."
+    ],
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick: Chapter 4, Caine's help and Mr. Nobody's dog against Chidi; the cue sequence must retain both interventions where required.",
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Allies intervene to help a man fighting on the stairs.",
+      "wrong": [
+        "A man fights alone inside a room.",
+        "People talk peacefully beside stairs."
+      ]
+    },
+    "cues": [
+      "v18e2e88f995a5354",
+      "v18e2e899e073d5d0",
+      "v18e2e89a4c681f44",
+      "v18e2e8a7977dd994"
+    ]
+  },
+  {
+    "id": "grieving-man",
+    "label": "A grieving man — Stage 3 review control only",
+    "query": "A sad man sits alone with his head bowed.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "John Wick film footage showing grief; this is a review control, not a narration or action substitute.",
+    "review_only": true,
+    "hard": true,
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A visibly sad man sits alone with his head bowed.",
+      "wrong": [
+        "An exhausted man sits catching his breath.",
+        "A man smiles and talks with other people."
+      ]
+    },
+    "cues": []
+  },
+  {
+    "id": "gta6-coastal-roads",
+    "label": "Coastal streets and bridges — official GTA 6 footage",
+    "query": "Cars travel along coastal city roads.",
+    "variants": [
+      "Vehicles cross a long bridge over water."
+    ],
+    "generic": true,
+    "fallback": null,
+    "source_scope": "Official GTA 6 promotional footage only. Setting illustration, not proof of a connected route, tire failure or a dispatch rule; retain OUR GUESS when applicable.",
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Vehicles move through coastal roads or bridges.",
+      "wrong": [
+        "People fight inside a building.",
+        "A military tank crosses a desert."
+      ]
+    },
+    "cues": [
+      "v18e2e87529c9b9a4",
+      "v18e2e876d2313774",
+      "v18e2e876f6ae19dc",
+      "v18e2e8772f7dc7e4",
+      "v18e2e87793dfbda0"
+    ]
+  },
+  {
+    "id": "gta6-six-slot-hud",
+    "label": "The six-slot wanted HUD — official GTA 6 Extended Look",
+    "query": "A wanted display contains six star slots.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Official GTA 6 Extended Look. Show six slots without inventing six active stars or a verified maximum-response roster.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "The wanted display has six star slots.",
+      "wrong": [
+        "The wanted display has five star slots.",
+        "A car is shown without a wanted display."
+      ]
+    },
+    "cues": [
+      "v18e2e875333e31e0"
+    ]
+  },
+  {
+    "id": "gta6-wetlands",
+    "label": "Wetland cover and water — official GTA 6 footage",
+    "query": "Water and dense vegetation cover a wetland.",
+    "generic": true,
+    "fallback": null,
+    "source_scope": "Official GTA 6 Grassrivers promotional footage only. Do not claim verified bogging physics, escape rules or a prepared boat.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "The picture shows water and dense wetland vegetation.",
+      "wrong": [
+        "Cars travel through a crowded city.",
+        "People fight inside a building."
+      ]
+    },
+    "cues": [
+      "v18e2e889306a10d8",
+      "v18e2e8897b7ba8c0",
+      "v18e2e889c12afb28",
+      "v18e2e88a4ac91888",
+      "v18e2e88a915b3588"
+    ]
+  },
+  {
+    "id": "gta6-enter-car",
+    "label": "Entering another vehicle — official GTA 6 footage",
+    "query": "A person gets into a car.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Official GTA 6 material only. Preserve REPORTED: GAMESRADAR; illustrative vehicle footage does not prove recognition was cleared.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A person enters a car.",
+      "wrong": [
+        "A person runs past a parked car.",
+        "A person stands inside a room."
+      ]
+    },
+    "cues": [
+      "v18e2e88cd8b0e9a8",
+      "v18e2e88d71482c94"
+    ]
+  },
+  {
+    "id": "gta5-patrol-foot",
+    "label": "A small police response on foot — GTA 5",
+    "query": "Police officers pursue a person on foot.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA 5 ordinary single-player police pursuit; identify the historical game and retain OUR GUESS for crossover interpretation.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Police officers pursue a person on foot.",
+      "wrong": [
+        "Police cars chase a car.",
+        "Civilians stand and talk."
+      ]
+    },
+    "cues": [
+      "v18e2e8752000d6dc",
+      "v18e2e875b0bb588c"
+    ]
+  },
+  {
+    "id": "gta5-car-chase",
+    "label": "Police cars continuing the chase — GTA 5",
+    "query": "Police cars chase a moving car.",
+    "generic": true,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA 5 ordinary single-player footage; no six-star mods and no military invasion presented as ordinary five-star behavior.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Police cars pursue a moving car.",
+      "wrong": [
+        "Ordinary cars drive without a police pursuit.",
+        "Police officers stand in a room."
+      ]
+    },
+    "cues": [
+      "v18e2e8761c8ecc24",
+      "v18e2e8767f1f85e0",
+      "v18e2e876e4603918",
+      "v18e2e877c9a1c168",
+      "v18e2e883e14ca5c4"
+    ]
+  },
+  {
+    "id": "gta5-police-helicopter",
+    "label": "A police helicopter watching the chase — GTA 5",
+    "query": "A police helicopter flies above city streets.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA 5 ordinary single-player Police Maverick pursuit, including the three-star exact cue; keep GTA 5 identity and OUR GUESS visible.",
+    "hard": true,
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A police helicopter tracks movement above city streets.",
+      "wrong": [
+        "A civilian helicopter flies above the city.",
+        "A police car drives along a road."
+      ]
+    },
+    "cues": [
+      "v18e2e8780122f47c",
+      "v18e2e8781af644f8",
+      "v18e2e8782f34f554",
+      "v18e2e87937e97ffc",
+      "v18e2e87950bc62c4",
+      "v18e2e879e2a739d4",
+      "v18e2e879ffb8a8dc",
+      "v18e2e87a80a0fecc",
+      "v18e2e8815317c484",
+      "v18e2e885d677e01c"
+    ]
+  },
+  {
+    "id": "gta5-cover-escape",
+    "label": "Breaking sightlines and leaving cover — GTA 5",
+    "query": "A person moves behind buildings to hide from police.",
+    "generic": true,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA 5 ordinary single-player pursuit/search footage; do not imply cameras see through roofs or invent an escape timer.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A person uses buildings to get out of the police's view.",
+      "wrong": [
+        "A person stands in an exposed street facing police.",
+        "A tank drives along a road."
+      ]
+    },
+    "cues": [
+      "v18e2e8791d886c18",
+      "v18e2e87a1e36f55c",
+      "v18e2e87a3ce64070",
+      "v18e2e87a60c47cc8",
+      "v18e2e87a9fac13ec",
+      "v18e2e87e8a2a5cb4",
+      "v18e2e880a85b90e8",
+      "v18e2e88189ac0ff0",
+      "v18e2e888acf7f06c",
+      "v18e2e88e5a588028",
+      "v18e2e88fec770de8",
+      "v18e2e897f6b5d6d8",
+      "v18e2e898515a120c",
+      "v18e2e898afe692c8",
+      "v18e2e8a10df8cbbc",
+      "v18e2e8a2584e1f2c"
+    ]
+  },
+  {
+    "id": "gta5-tactical-suv",
+    "label": "Tactical officers arriving in SUVs — GTA 5",
+    "query": "Armed tactical officers arrive in dark SUVs.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA 5 four/five-star ground NOOSE response; retain the four-star exact SUV requirement and historical-game label.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Tactical officers deploy from SUVs.",
+      "wrong": [
+        "Ordinary civilians drive cars.",
+        "Soldiers drive tracked tanks."
+      ]
+    },
+    "cues": [
+      "v18e2e87b9f565b04",
+      "v18e2e87bc10bbed8",
+      "v18e2e87e23fa8f54",
+      "v18e2e883a504fb20"
+    ]
+  },
+  {
+    "id": "gta5-roadblocks",
+    "label": "Police vehicles closing an exit — GTA 5",
+    "query": "Police vehicles block a road ahead of a fleeing person.",
+    "generic": false,
+    "fallback": "gta5-car-chase",
+    "source_scope": "Original unmodded GTA 5 ordinary single-player police response; use roadblocks at an appropriate historical tier.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Police vehicles obstruct an escape route.",
+      "wrong": [
+        "An empty road remains open.",
+        "A man sits in a quiet room."
+      ]
+    },
+    "cues": [
+      "v18e2e880e5ed688c"
+    ]
+  },
+  {
+    "id": "gta5-vehicle-switch",
+    "label": "Getting another car during pursuit — GTA 5",
+    "query": "A person gets into another car during a police chase.",
+    "generic": false,
+    "fallback": "gta5-car-chase",
+    "source_scope": "Original unmodded GTA 5 ordinary single-player footage; a vehicle pickup is not proof of GTA 6 recognition rules.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A person takes another car during an active pursuit.",
+      "wrong": [
+        "A person keeps driving the same car.",
+        "A person walks inside a quiet building."
+      ]
+    },
+    "cues": [
+      "v18e2e8845dc24334",
+      "v18e2e88497d28a48",
+      "v18e2e88599fd0400"
+    ]
+  },
+  {
+    "id": "gta5-exposed-road",
+    "label": "An exposed road under pursuit — GTA 5",
+    "query": "Police cars pursue a car along a long open road.",
+    "generic": false,
+    "fallback": "gta5-car-chase",
+    "source_scope": "Original unmodded GTA 5 ordinary single-player chase footage; identify the game rather than presenting a verified GTA 6 route.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A car remains visible to police on an open road.",
+      "wrong": [
+        "A person hides inside a building.",
+        "People fight in a crowded room."
+      ]
+    },
+    "cues": [
+      "v18e2e884d588adb8",
+      "v18e2e88556ac7dd4"
+    ]
+  },
+  {
+    "id": "gta4-police-pursuit",
+    "label": "The sustained six-star police pursuit — GTA 4",
+    "query": "Police vehicles and armed officers pursue a person through a city.",
+    "generic": true,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA 4 six-star pursuit/search. This is the law-enforcement branch, not an army/tank response.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Police vehicles and armed officers sustain a city pursuit.",
+      "wrong": [
+        "Military tanks occupy the road.",
+        "Civilians walk through a quiet street."
+      ]
+    },
+    "cues": [
+      "v18e2e890da2b39c4",
+      "v18e2e8927f645974",
+      "v18e2e89330b088d8",
+      "v18e2e893890d99d0",
+      "v18e2e8973545aa00",
+      "v18e2e8a2cb1c7b34"
+    ]
+  },
+  {
+    "id": "gta4-helicopter-pair",
+    "label": "Two helicopters in the six-star response — GTA 4",
+    "query": "Two police helicopters fly over a city pursuit.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA 4 six-star pursuit with two Annihilators; retain historical identity, not GTA 6 confirmation.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Two police helicopters support a city pursuit.",
+      "wrong": [
+        "One civilian aircraft flies over a quiet field.",
+        "A tank drives through a city."
+      ]
+    },
+    "cues": [
+      "v18e2e891d9d8b07c"
+    ]
+  },
+  {
+    "id": "gta3-tanks-trucks",
+    "label": "Tanks and army vehicles taking over pursuit — GTA 3",
+    "query": "A tank drives along a road during a military pursuit.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA 3 six-star military response. The exact cue sequence must show Barracks OL trucks as well as Rhino tanks; keep the game identity and OUR GUESS label.",
+    "hard": true,
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A tracked tank takes part in a road pursuit.",
+      "wrong": [
+        "A wheeled armored truck drives along a road.",
+        "Ordinary police cars pursue a vehicle."
+      ]
+    },
+    "cues": [
+      "v18e2e893e593a398",
+      "v18e2e8943eec34f0",
+      "v18e2e8955c0a6d6c"
+    ]
+  },
+  {
+    "id": "gtavc-military-tanks",
+    "label": "Military trucks and tanks — GTA Vice City",
+    "query": "A tank and military trucks drive through city streets.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA Vice City six-star response; do not mix its weapons or vehicles with another game's roster.",
+    "hard": true,
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Tracked tanks and military trucks move through the streets.",
+      "wrong": [
+        "Ordinary police cars travel through the streets.",
+        "A civilian helicopter rests on a helipad."
+      ]
+    },
+    "cues": [
+      "v18e2e894a1cb9f98"
+    ]
+  },
+  {
+    "id": "gtasa-tanks",
+    "label": "Tanks obstructing the escape — GTA San Andreas",
+    "query": "A tank drives along a road beside ordinary vehicles.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA San Andreas military pursuit. Preserve the ordinary non-firing Rhino behavior described in narration; not GTA 6 tank confirmation.",
+    "hard": true,
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A tracked tank moves among ordinary road vehicles.",
+      "wrong": [
+        "An armored truck moves among road vehicles.",
+        "Ordinary police cars chase a car."
+      ]
+    },
+    "cues": [
+      "v18e2e875176775bc",
+      "v18e2e884217f8e7c",
+      "v18e2e894fd1c0a7c",
+      "v18e2e895bb294444",
+      "v18e2e89d47b0add8",
+      "v18e2e89da73e6f9c",
+      "v18e2e89e04be0d94",
+      "v18e2e89ec84ae1d8"
+    ]
+  },
+  {
+    "id": "gtasa-fighter-jet",
+    "label": "Airborne fighter interception — GTA San Andreas",
+    "query": "A fighter jet pursues an aircraft in the sky.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA San Andreas Hydra interception; do not label this as exclusively a six-star addition.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "A military jet intercepts another aircraft.",
+      "wrong": [
+        "A police helicopter hovers above a street.",
+        "A tank moves along a road."
+      ]
+    },
+    "cues": [
+      "v18e2e8961d5fa25c"
+    ]
+  },
+  {
+    "id": "gtasa-military-truck",
+    "label": "Heavy military trucks in pursuit — GTA San Andreas",
+    "query": "Military trucks pursue an ordinary vehicle along a road.",
+    "generic": false,
+    "fallback": null,
+    "source_scope": "Original unmodded GTA San Andreas military pursuit; preserve the slower-vehicle concession rather than merging historical rosters.",
+    "variants": [],
+    "confirm": {
+      "question": "What is visible in this clip?",
+      "right": "Military trucks pursue a road vehicle.",
+      "wrong": [
+        "Fast civilian sports cars race on a track.",
+        "A police helicopter hovers over a building."
+      ]
+    },
+    "cues": [
+      "v18e2e8967d6eab0c"
+    ]
+  }
+]

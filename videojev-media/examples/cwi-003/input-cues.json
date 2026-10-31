@@ -1,0 +1,2980 @@
+{
+  "source_project": "D:\\SpearFia\\projects\\cwi-003-john-wick-gta6-six-stars",
+  "script_sha256": "1164a2d9bb9d9e8da03c119d6076be71771b601af9b6466fbca1a50cc4b47c67",
+  "visuals_sha256": "12ab8e8b2191daa80648d8a7425c0ebc010a093c7691cee2b6a0d5dd65fdd72a",
+  "seconds_method": "Estimated narration words / pool.WPS; exact VO timing is deferred to assignment.",
+  "words_per_second": 2.6,
+  "generated_card_cues_untouched": 45,
+  "cues": [
+    {
+      "index": 0,
+      "id": "v18e2e8598ab18f74",
+      "line": 8,
+      "quote": "Could John Wick survive a six star wanted level in GTA Six, or does Leonida finally give him more trouble than he can shoot his way through?",
+      "chapter": "Cold Open",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 10.385
+    },
+    {
+      "index": 1,
+      "id": "v18e2e875044121a4",
+      "line": 12,
+      "quote": "But there's a star where John can beat everybody in front of him and still be losing. We'll get to the Continental fight that explains why, because the suit alone doesn't answer it.",
+      "chapter": "Cold Open",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.692
+    },
+    {
+      "index": 2,
+      "id": "v18e2e875176775bc",
+      "line": 16,
+      "quote": "And yes, we'll give the old military version its turn too. I want to know whether adding a tank actually changes John's result, or just makes an already terrible evening more expensive.",
+      "chapter": "Cold Open",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 3,
+      "id": "v18e2e8752000d6dc",
+      "line": 18,
+      "quote": "So can he escape, and which star finally makes him stop? Well, let's give him the first patrol and work up from there.",
+      "chapter": "Cold Open",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 8.846
+    },
+    {
+      "index": 4,
+      "id": "v18e2e87529c9b9a4",
+      "line": 22,
+      "quote": "We're putting John in Vice City, inside Rockstar's state of Leonida. That setting is confirmed, and so are Jason Duval and Lucia Caminos as the game's central characters. Well, they aren't joining his team. They've got enough going on without adopting another wanted person.",
+      "chapter": "Rules of Leonida",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 5,
+      "id": "v18e2e875333e31e0",
+      "line": 24,
+      "quote": "As of October twenty ninth, twenty twenty six, GTA Six is still unreleased. Rockstar currently lists November nineteenth. The official Extended Look shows a six slot wanted display, police chases and helicopter presence. That's confirmed footage, but it doesn't give us a complete dispatch chart for every star.",
+      "chapter": "Rules of Leonida",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "exact",
+      "visual": "GTA 6 Extended Look's six-slot wanted HUD; show slots without inventing six active stars.",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 18.462
+    },
+    {
+      "index": 6,
+      "id": "v18e2e8756559b924",
+      "line": 34,
+      "quote": "And he absolutely keeps his ridiculous endurance. The man really survived that Continental roof fall in Chapter Three. I'm not just suddenly making him an ordinary office worker because the opposition has a police badge.",
+      "chapter": "Rules of Leonida",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 7,
+      "id": "v18e2e8756f8417c8",
+      "line": 36,
+      "quote": "But living through a fall and escaping afterward are different achievements. We'll also test a completely fresh John at six stars later, so the early rounds can't just wear him down and rig the answer.",
+      "chapter": "Rules of Leonida",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 8,
+      "id": "v18e2e875986a1c64",
+      "line": 44,
+      "quote": "We do have a policeman in the first John Wick, actually. Jimmy comes to the house afterward. He looks inside, talks to John and leaves, and I always wonder how much of that job he was prepared to do when he knocked on the door.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 9,
+      "id": "v18e2e875a4222114",
+      "line": 46,
+      "quote": "I wouldn't use Jimmy to prove the whole point, though. He chooses to leave. A GTA officer is going to try to catch John, and he doesn't have a history with him. Viggo being terrified of the guy doesn't do anything for John here.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 10,
+      "id": "v18e2e875b0bb588c",
+      "line": 48,
+      "quote": "Well, GTA Five's first star is still a pretty small response. Local police pursue you and try to arrest you. It can become a shooting very quickly if you threaten them, so John has to take it seriously. But it's a situation he can get out of before the whole chase gets going.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 20.385
+    },
+    {
+      "index": 11,
+      "id": "v18e2e875bd49061c",
+      "line": 50,
+      "quote": "Look at the home invasion in the first movie. Viggo sends armed men to kill him, and John is dealing with them coming into different rooms. He's turning, firing, getting his hands on somebody, and he's still watching for the next guy.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "John Wick's home-invasion fight against Viggo's men.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.154
+    },
+    {
+      "index": 12,
+      "id": "v18e2e875c944f264",
+      "line": 52,
+      "quote": "I really like watching him do that in the home invasion. He can be in the middle of a grapple and still make his gun part of what he's doing. He doesn't have to put one whole fight on hold to start the next one.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 13,
+      "id": "v18e2e875e4052f38",
+      "line": 56,
+      "quote": "He isn't just getting that result because they don't know who he is, either. Viggo knows exactly who he's sending them after. John has been retired, but he can still fight like that once they come through the door.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.0
+    },
+    {
+      "index": 14,
+      "id": "v18e2e875f0f79140",
+      "line": 58,
+      "quote": "Now, somebody can get the better of him up close. Kirill does at the Red Circle. They fight upstairs, and John gets thrown down out of that exchange. I like that scene because Kirill really makes him struggle. John can't just walk through a guy that capable.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "Kirill throws John out of the upstairs Red Circle exchange in John Wick.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 18.077
+    },
+    {
+      "index": 15,
+      "id": "v18e2e875fdf063b8",
+      "line": 60,
+      "quote": "But I don't see the first patrol giving him that same fight. If somebody gets hands on him, he's comfortable there. If he has room to move, we've watched him handle several armed men. Then he's got the suit protecting him as well.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 16,
+      "id": "v18e2e8760c47f0e8",
+      "line": 62,
+      "quote": "Could he leave right now? I think so. Honestly, this is when I'd tell him to go. Get through the encounter, get out of view and don't make the night worse than it already is.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 17,
+      "id": "v18e2e8761c8ecc24",
+      "line": 64,
+      "quote": "We're following the incident where the response keeps growing, so more police reach him and force him to move again. He doesn't need to choose to stand in the street waiting for that. We're just giving him the escalating chase from the premise.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 18,
+      "id": "v18e2e876294a1964",
+      "line": 66,
+      "quote": "Once that chase gets him into the Mustang, I want to bring up Chapter Two. The warehouse fight makes John look like a fantastic driver, but then he brings the car to Aurelio, and the car is wrecked. We'll see why that second part matters when the police keep following.",
+      "chapter": "Star 1 — Wick can end this early",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 19.231
+    },
+    {
+      "index": 19,
+      "id": "v18e2e8765dce1780",
+      "line": 72,
+      "quote": "There's water beyond the causeway barriers, a long stretch of road ahead, and the same headlights holding their place behind him.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 8.077
+    },
+    {
+      "index": 20,
+      "id": "v18e2e8766dd68388",
+      "line": 74,
+      "quote": "He can just drive faster. He can't just turn off into the ocean.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 5.0
+    },
+    {
+      "index": 21,
+      "id": "v18e2e8767f1f85e0",
+      "line": 76,
+      "quote": "Well, that's our two star problem. In GTA Five, the backup gets more aggressive and the encounter becomes much more lethal. The officers are trying harder to stop the vehicle. Compared with one patrol trying to catch John on foot, this can keep following him after he has won the first exchange.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 20.0
+    },
+    {
+      "index": 22,
+      "id": "v18e2e8769ec45484",
+      "line": 80,
+      "quote": "John has already taken some contact, and the Mustang is carrying damage. I really like this test for him because Chapter Two actually shows the cost of his driving.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 11.154
+    },
+    {
+      "index": 23,
+      "id": "v18e2e876ad47dcb0",
+      "line": 82,
+      "quote": "At Abram's warehouse, John gets his stolen car back and uses it to fight through the men trying to stop him. He handles violent impacts and keeps controlling the car when most drivers would have lost the whole situation. It's an excellent feat.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "John recovers and fights with the Mustang at Abram's warehouse in Chapter 2.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 24,
+      "id": "v18e2e876c323ac08",
+      "line": 84,
+      "quote": "Then he brings that Mustang home, and Aurelio has to explain how thoroughly he has wrecked it. John achieved his immediate objective. The vehicle paid for a lot of that success.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "The damaged Mustang and Aurelio's assessment in Chapter 2.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 11.923
+    },
+    {
+      "index": 25,
+      "id": "v18e2e876d2313774",
+      "line": 86,
+      "quote": "Well, imagine taking that same kind of damage onto an exposed causeway. Every correction costs him more effort, and the car isn't responding cleanly. His pursuers still have a clear view along the road. He's good enough to keep moving, but just remaining in motion doesn't remove the headlights.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 18.846
+    },
+    {
+      "index": 26,
+      "id": "v18e2e876e4603918",
+      "line": 88,
+      "quote": "And when a helicopter joins this chase at the next level, we'll see why that clear view becomes a different problem. For now, I'm leaving him with the cars and the road.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 27,
+      "id": "v18e2e876f6ae19dc",
+      "line": 90,
+      "quote": "The scenery changes as our chase reaches a neon coastal strip. Light slides across the damaged door and the windshield. Parked cars interrupt the edges of the road, so the inviting space John can see isn't always space he can use.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 28,
+      "id": "v18e2e8770934a350",
+      "line": 92,
+      "quote": "He actually finds a gap, judges the movement of another car and gets through it. That's credible for the man we watch around the Arc de Triomphe in Chapter Four. He can manage the vehicle and a gunfight amid moving traffic. He's not just a great shot who happens to own a muscle car.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "Chapter 4's Arc de Triomphe driving and gunfight amid traffic.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 20.769
+    },
+    {
+      "index": 29,
+      "id": "v18e2e8771baedc6c",
+      "line": 94,
+      "quote": "But the traffic in Paris also puts him outside the car and into danger. Passing vehicles help him interrupt an enemy's view, and then another car can hit him. It's a really uncomfortable place to try to stand up, never mind have a fight.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 30,
+      "id": "v18e2e8772f7dc7e4",
+      "line": 96,
+      "quote": "So in this coastal stretch, I can give John a clever move without making the whole street cooperate. He gets around one vehicle, but another slows the opening ahead. The pursuing cars haven't all forgotten where he went.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 14.615
+    },
+    {
+      "index": 31,
+      "id": "v18e2e87744722b18",
+      "line": 98,
+      "quote": "Does he keep the speed up, or take the tighter opening toward the buildings? Well, with the Mustang limping, I think he takes the chance to get something solid between himself and the next car.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 32,
+      "id": "v18e2e8776969d0d8",
+      "line": 102,
+      "quote": "That's the Mustang problem I promised in the first round. His driving has just bought him room, but the vehicle is now taking that room away again. He can't really use a gap that the car won't physically fit through or turn into.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 33,
+      "id": "v18e2e87793dfbda0",
+      "line": 106,
+      "quote": "There's still a way for John himself to get through this. A building corner and the slow traffic briefly interrupt the ground pursuers' view. He uses that opening to separate himself from the failing car and keep moving.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 14.615
+    },
+    {
+      "index": 34,
+      "id": "v18e2e877a641a5bc",
+      "line": 108,
+      "quote": "That is basically the best part of his adaptability. The Mustang doesn't just have to finish the entire incident for John to finish this exchange. He's basically fought without his favorite weapon before, and he can leave a favorite car when remaining inside it becomes the worse choice.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 18.462
+    },
+    {
+      "index": 35,
+      "id": "v18e2e877b7382bac",
+      "line": 110,
+      "quote": "I would be much less comfortable giving the car another whole round like this. At this point it needs a tire shop more urgently than John needs a new pistol.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 11.538
+    },
+    {
+      "index": 36,
+      "id": "v18e2e877c9a1c168",
+      "line": 112,
+      "quote": "And this escape opportunity depends on what the cars can see from the street. Keep that corner in mind when we put an observer over the buildings.",
+      "chapter": "Star 2 — His car takes the damage",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 10.385
+    },
+    {
+      "index": 37,
+      "id": "v18e2e8780122f47c",
+      "line": 120,
+      "quote": "Well, John hasn't suddenly become less capable. He's dealing with somebody who sees the same street from a different position.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 7.692
+    },
+    {
+      "index": 38,
+      "id": "v18e2e8781af644f8",
+      "line": 122,
+      "quote": "In GTA Five, three stars bring the Police Maverick into the response, with armed personnel aboard. Officers use roadblocks, and some can include spike strips. Near water, police boats also matter. That is a real increase over the more straightforward pursuit at two.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "exact",
+      "visual": "GTA 5 three-star pursuit with the Police Maverick visible.",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 39,
+      "id": "v18e2e8782f34f554",
+      "line": 124,
+      "quote": "NOOSE personnel can already be part of the airborne support here. Basically, the bigger ground deployment comes at four. I'm keeping those steps separate because just remembering that a helicopter appeared sometime during a terrible chase isn't quite the same as remembering which star brought it.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 17.692
+    },
+    {
+      "index": 40,
+      "id": "v18e2e87858ec76d8",
+      "line": 128,
+      "quote": "Well, what can John actually do about being followed? Quite a lot, and I think starting with his pistol undersells him.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 8.077
+    },
+    {
+      "index": 41,
+      "id": "v18e2e878725e0bcc",
+      "line": 130,
+      "quote": "Look at the Red Circle in the first John Wick. He doesn't enter the whole nightclub as one brightly lit target. He moves into a populated space, gets through its different areas and keeps choosing a new position as the fight develops.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "John's movement through the Red Circle in John Wick.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.154
+    },
+    {
+      "index": 42,
+      "id": "v18e2e87887d89594",
+      "line": 132,
+      "quote": "The bathhouse and the dance floor don't give everybody the same view. The club has different levels and obstacles, and John works through them while following Iosef. Somebody who could just see him a moment ago may have to move to see him again.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 43,
+      "id": "v18e2e8789f4da868",
+      "line": 134,
+      "quote": "That's a useful part of his skill. His shooting really helps him survive the attacker directly in front of him, but movement helps prevent every other armed man from having the same opportunity.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.692
+    },
+    {
+      "index": 44,
+      "id": "v18e2e878b60e83b0",
+      "line": 136,
+      "quote": "And we'll test the armored ground response at four, because John's already fought something that looks much harder than an ordinary tactical officer. The interesting question is what he had available when he won that fight.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 45,
+      "id": "v18e2e878cf3babd8",
+      "line": 138,
+      "quote": "Right now, he's still using the city. A man in a dark suit can move among clubgoers before the shooting tells everybody exactly which man to watch. He can change levels, pass behind an obstruction and get a moment to act.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 46,
+      "id": "v18e2e878eb50eb80",
+      "line": 140,
+      "quote": "I like that advantage for him much more than giving him some imaginary ability to vanish because the music got loud. Once he's exchanging shots in public, the people around him don't make him unrecognizable.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 47,
+      "id": "v18e2e87904ba76a4",
+      "line": 142,
+      "quote": "The Red Circle actually proves the limit too. Kirill catches him upstairs and physically throws him out of the exchange. John's movement has helped him beat a string of guards. It hasn't stopped one capable opponent from finding the next opening.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 48,
+      "id": "v18e2e8791d886c18",
+      "line": 144,
+      "quote": "So when he enters a crowd in our chase, I'm giving him the same kind of opportunity. He can interrupt a particular pursuer's view. He still has to get through the space, and anybody who keeps sight of where he emerges can continue the hunt.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 49,
+      "id": "v18e2e87937e97ffc",
+      "line": 146,
+      "quote": "What changes when that watcher is in the sky? The crowd may confuse someone standing behind another person. A helicopter looking across an exposed crossing doesn't have that same problem.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 11.538
+    },
+    {
+      "index": 50,
+      "id": "v18e2e87950bc62c4",
+      "line": 148,
+      "quote": "Its spotlight can keep attention on the moving figure as he leaves the cover. Well, that doesn't automatically identify every face in Leonida. It does make the next bit of open ground a much less comfortable place for John to cross.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 51,
+      "id": "v18e2e8796ad735e4",
+      "line": 150,
+      "quote": "And this is where Chapter Four's Paris scenes actually give him a better answer than just shooting upward. Around the Arc de Triomphe, John uses the traffic. Vehicles pass between combatants, and he moves as those sightlines change.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 14.615
+    },
+    {
+      "index": 52,
+      "id": "v18e2e8798da7255c",
+      "line": 152,
+      "quote": "He's basically making decisions inside a chaotic moving environment. A car can interrupt a gunman's view without John needing to defeat that gunman first. Of course, a car can also hit him, and the film makes sure he gets a few reminders.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.154
+    },
+    {
+      "index": 53,
+      "id": "v18e2e879a9eda1b4",
+      "line": 154,
+      "quote": "The later apartment fight gives him interior divisions to work around. Walls and doorways change what an opponent can see, and he keeps moving through the rooms while handling the next threat.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 54,
+      "id": "v18e2e879c64ed328",
+      "line": 156,
+      "quote": "Those are real advantages for this comparison. I'm not replacing them with a lecture about how a man with a pistol shouldn't fight a helicopter. John is already very good at making a particular attacker's position less useful.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 14.615
+    },
+    {
+      "index": 55,
+      "id": "v18e2e879e2a739d4",
+      "line": 158,
+      "quote": "But in our scenario, the observer above the street can keep following the exposed parts of that movement. John gets behind a wall. The helicopter loses a clear view of him, but it can still watch the area around that cover.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 56,
+      "id": "v18e2e879ffb8a8dc",
+      "line": 160,
+      "quote": "If he crosses into the next open space, the spotlight can find that movement again. The officers on the road don't all have to guess independently which direction he went.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 11.538
+    },
+    {
+      "index": 57,
+      "id": "v18e2e87a1e36f55c",
+      "line": 162,
+      "quote": "Well, a solid roof still works. We're not giving the pilot a camera that sees through concrete, and we aren't making every tree transparent. John can get genuinely out of view.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 11.923
+    },
+    {
+      "index": 58,
+      "id": "v18e2e87a3ce64070",
+      "line": 164,
+      "quote": "The difficult part is leaving that cover while the search is still active. Staying under a roof doesn't by itself move him out of the area. He needs the next opening too.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 59,
+      "id": "v18e2e87a60c47cc8",
+      "line": 166,
+      "quote": "Imagine him reaching a covered entrance after the Mustang escape. For a moment, the vehicles no longer have him in sight, and it really looks like the move has worked. He has just done something useful, and it looks like the move might be enough.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 60,
+      "id": "v18e2e87a80a0fecc",
+      "line": 168,
+      "quote": "Then light sweeps across the exit he was about to use. He can wait or change his movement, but the quick departure he wanted has become another decision under pressure.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 11.538
+    },
+    {
+      "index": 61,
+      "id": "v18e2e87a9fac13ec",
+      "line": 170,
+      "quote": "That's our first really narrow moment for him. Just a little more time here gives the next arriving officers more opportunity to close the distance. His solution still works against a limited view, while the wider pursuit keeps adding new views.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 62,
+      "id": "v18e2e87abf906aa0",
+      "line": 172,
+      "quote": "Well, I still think John gets through this tier. The city has real cover, and the films give him enough movement and awareness to exploit a temporary gap. He has survived people like Kirill catching him in much worse positions than a clear street.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 63,
+      "id": "v18e2e87adf91cda8",
+      "line": 174,
+      "quote": "But in the next round, I want to put him against the armor from that Continental comparison. We'll see why beating protected attackers was possible, and why having a nearby armory made such a difference.",
+      "chapter": "Star 3 — Watch the chase from above",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 64,
+      "id": "v18e2e87b4e8716c8",
+      "line": 180,
+      "quote": "I'd take him over several of them in the kind of close fight his movies keep giving him. Putting a tactical helmet on somebody doesn't suddenly make that person Caine.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 11.538
+    },
+    {
+      "index": 65,
+      "id": "v18e2e87b73080584",
+      "line": 182,
+      "quote": "Well, four stars needs a better argument than the police finally hiring people who know how to fight.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 6.923
+    },
+    {
+      "index": 66,
+      "id": "v18e2e87b9f565b04",
+      "line": 184,
+      "quote": "In GTA Five, this is where the ground NOOSE response becomes a major part of the chase. Tactical units arrive in SUVs, heavier roadblocks close more of the road, and air support can deliver officers. They also have tear gas available. Three stars already made the escape harder to hide. Four can put more dangerous people into the places John wants to use.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "exact",
+      "visual": "GTA 5 four-star ground NOOSE response in SUVs.",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 24.231
+    },
+    {
+      "index": 67,
+      "id": "v18e2e87bc10bbed8",
+      "line": 186,
+      "quote": "We're borrowing that escalation for our Leonida model. It doesn't just mean every one of those people is wearing the High Table's best armor. Actually, giving them that upgrade would make the comparison less fair to John.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 14.231
+    },
+    {
+      "index": 68,
+      "id": "v18e2e87be3e046e0",
+      "line": 188,
+      "quote": "His movies put him against people with excellent protection, and he still gets through them. That's a real reason to think he can win this round.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 10.0
+    },
+    {
+      "index": 69,
+      "id": "v18e2e87c0bb98be0",
+      "line": 190,
+      "quote": "Well, let's give that argument its best scene. In Chapter Three, the Continental loses its protected status, and the High Table sends its heavily armored forces inside. John and Charon defend the hotel, and ordinary hits don't solve the problem the way John expects.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "Chapter 3's Continental defense against armored High Table attackers.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 70,
+      "id": "v18e2e87c2f3bb3f4",
+      "line": 192,
+      "quote": "He has to work much harder to stop the attackers. Just being the best shot in the room doesn't make every round effective against every protected opponent. For a while, his usual speed is tied up in a fight that refuses to end quickly.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 71,
+      "id": "v18e2e87c54fd0c78",
+      "line": 194,
+      "quote": "In a moment, we'll go back to the armory with him. That's the detail I want to keep when we bring the result across to Leonida, because it explains how this actually becomes a victory.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 72,
+      "id": "v18e2e87c78d7d858",
+      "line": 196,
+      "quote": "John asks for more firepower. He and Charon rearm with the ammunition the film identifies as armor piercing steel slugs. With those movie weapons available, they can deal with the armored forces much more effectively.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "John and Charon rearm in the Continental armory in Chapter 3.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 73,
+      "id": "v18e2e87ca5373920",
+      "line": 198,
+      "quote": "I'm granting that scene exactly as the film presents it. I like John too much to pretend the armored troops just beat him because their outfits look expensive.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 10.769
+    },
+    {
+      "index": 74,
+      "id": "v18e2e87ccc2d9b50",
+      "line": 200,
+      "quote": "But where does he get the answer? He gets it inside the Continental, with Charon and an armory that he can reach during the battle.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 9.615
+    },
+    {
+      "index": 75,
+      "id": "v18e2e87cf6ee4038",
+      "line": 202,
+      "quote": "Well, that's a very useful hotel amenity. Most places just want you to pay for whatever you took from the minibar.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 8.077
+    },
+    {
+      "index": 76,
+      "id": "v18e2e87d23f917ec",
+      "line": 204,
+      "quote": "John's ability to notice that his current weapon isn't doing enough is part of his skill. The available replacement weapon is basically part of the situation. He needs both to reproduce that particular victory.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.077
+    },
+    {
+      "index": 77,
+      "id": "v18e2e87d4c0a10b0",
+      "line": 206,
+      "quote": "In our chase, he doesn't know there's a room full of the right equipment behind the next door. He has what he carried, and whatever he can plausibly acquire during the incident. That really does change how comfortable I feel giving him the same result.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 78,
+      "id": "v18e2e87d7563753c",
+      "line": 208,
+      "quote": "It doesn't make him helpless. Chapter Four's Osaka battle shows him working through armored attackers with different weapons and close fighting. The larger hotel defense basically involves Koji, Akira and the staff, but John himself still has excellent fights inside it.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 79,
+      "id": "v18e2e87d9f0d6744",
+      "line": 210,
+      "quote": "His adaptability is probably the reason he gets this far in Leonida. He can just change what he's doing when the simple answer stops working. He doesn't just stare at a protected opponent and demand that the next shot behave differently.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 80,
+      "id": "v18e2e87dcc3c7930",
+      "line": 212,
+      "quote": "There's actually another useful comparison in Chapter Two. The Bowery King gives him a pistol with seven rounds. John doesn't get an endless supply because he has a particularly important destination. He has to make the available equipment carry him into the next encounter.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "The Bowery King supplies the seven-round pistol in Chapter 2.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 81,
+      "id": "v18e2e87e23fa8f54",
+      "line": 216,
+      "quote": "So for this four star encounter, I'm giving him a credible local pickup after he handles an immediate threat. That lets him keep fighting. I'm not giving every fallen opponent the exact equipment and full supply he would have ordered ahead of time.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 82,
+      "id": "v18e2e87e57f6c674",
+      "line": 218,
+      "quote": "Can he win with that? Yes, I think he can, and the comparison with the High Table is why. The officers don't all need to be more skilled or better protected than those movie opponents for the response to be dangerous.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 83,
+      "id": "v18e2e87e8a2a5cb4",
+      "line": 220,
+      "quote": "They need to hold him in a bad situation long enough for the next part of the response to arrive. We'll test that exit after he wins, because that's where a great Wick fight can leave him with a surprisingly bad result.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.154
+    },
+    {
+      "index": 84,
+      "id": "v18e2e87ec4313d24",
+      "line": 222,
+      "quote": "In our encounter, John reaches the close space he wanted. An officer has to deal with him directly, and John uses the combination of movement, grappling and shooting that kept him alive at the Red Circle. He creates room and moves into it.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 85,
+      "id": "v18e2e87ef601f4d8",
+      "line": 224,
+      "quote": "For that moment, this looks like the right place for him. The people nearby can't all use their range at once. A vehicle on the road isn't automatically helping a person trying to keep up with him through a tight interior.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 86,
+      "id": "v18e2e87f2a4381f8",
+      "line": 226,
+      "quote": "That's a fair advantage, and I don't want to hand it away. It is basically what makes Wick so hard to fight when somebody manages to get close. The distance that should stop his shooting can put another part of his skill into the same exchange.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 17.692
+    },
+    {
+      "index": 87,
+      "id": "v18e2e87f603c7a80",
+      "line": 228,
+      "quote": "But this John has already left a damaged car and worked through the three star search. He has taken impacts, and now another hit forces him to recover before the next move. His suit keeps that from being an immediate end, like an ordinary jacket would. It doesn't make the interruption disappear.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 20.0
+    },
+    {
+      "index": 88,
+      "id": "v18e2e87f93d1a528",
+      "line": 230,
+      "quote": "The tailor in Chapter Two is pretty clear that protection can still be painful. John also uses the jacket to cover himself in later gunfights, which tells you he is managing exposure. He isn't just walking through every attack as if the clothes turned his whole body into armor.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 18.846
+    },
+    {
+      "index": 89,
+      "id": "v18e2e87fc58712ec",
+      "line": 232,
+      "quote": "I really wouldn't want to be the person trying to explain the dry cleaning bill afterward. Still, that is protection I have to count in his favor.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 10.385
+    },
+    {
+      "index": 90,
+      "id": "v18e2e88001912d68",
+      "line": 234,
+      "quote": "When Ernest wounds him in Chapter Three's library fight, John goes to a doctor. He can win an ugly close encounter and still need somebody to treat the damage. The wound doesn't just politely wait until the scene has finished being impressive.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.154
+    },
+    {
+      "index": 91,
+      "id": "v18e2e880344ac520",
+      "line": 236,
+      "quote": "Well, that's how I'm carrying the damage in this round. He takes protected hits, gets knocked around and has less comfortable movement afterward. I'm not assigning an invisible fatal injury so I can announce that four stars beat him.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.0
+    },
+    {
+      "index": 92,
+      "id": "v18e2e88073774ac0",
+      "line": 238,
+      "quote": "He beats the immediate group. He gets the local weapon he needed, handles the closest attackers and opens a way out of that particular fight. Against the police directly in front of him, his performance is outstanding.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 14.231
+    },
+    {
+      "index": 93,
+      "id": "v18e2e880a85b90e8",
+      "line": 240,
+      "quote": "Well, now look past them.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 1.923
+    },
+    {
+      "index": 94,
+      "id": "v18e2e880e5ed688c",
+      "line": 242,
+      "quote": "The wider response is still there. A vehicle can just approach the next exit while John is occupied inside. An observer can watch the area even when the room itself is covered. The officers he has beaten haven't taken all that pressure with them.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 95,
+      "id": "v18e2e8815317c484",
+      "line": 246,
+      "quote": "Compared with three, the extra problem is how much he has to spend to reach the next gap. The helicopter already complicated leaving cover. Now the ground fight can use up the time, ammunition and strength he needed for that departure.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 96,
+      "id": "v18e2e88189ac0ff0",
+      "line": 248,
+      "quote": "In Five, the search can end when you break contact and stay unobserved. Winning a close fight doesn't automatically satisfy that condition. If the next unit sees you leave, the incident continues.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 97,
+      "id": "v18e2e881ceb019e8",
+      "line": 250,
+      "quote": "And this is just where I think John's four movie body count can mislead people. Four hundred plus kills spread across separate battles do not mean four hundred people can keep arriving at one doorway forever. He gets pauses, help and changes of situation in those films.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 18.077
+    },
+    {
+      "index": 98,
+      "id": "v18e2e8820d4b3818",
+      "line": 252,
+      "quote": "Zero's fight at the end of Chapter Three also shows a man who's tired. John wins, but the exhaustion is visible and even acknowledged by his opponent. That matters more to this argument than pretending he looked perfectly fresh in every earlier scene.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "The exhausted John faces Zero near the end of Chapter 3.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 99,
+      "id": "v18e2e882452a041c",
+      "line": 254,
+      "quote": "Our John has enough left to move on, but he hasn't won a rest. He's really gained a temporary route out of the immediate clash while the broader response keeps him moving.",
+      "chapter": "Star 4 — He wins the fight and stays wanted",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 100,
+      "id": "v18e2e882f7691730",
+      "line": 262,
+      "quote": "If you want to get John out of this, give him somewhere useful to go. I think that is a much stronger argument than just adding another hundred people to his kill count.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.692
+    },
+    {
+      "index": 101,
+      "id": "v18e2e88330961198",
+      "line": 264,
+      "quote": "He's beaten the immediate group at four stars. He's still moving, his equipment is less comfortable than it was, and he has to find an opening before the next encounter uses up what remains.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.077
+    },
+    {
+      "index": 102,
+      "id": "v18e2e883a504fb20",
+      "line": 268,
+      "quote": "First, what has five stars changed? In GTA Five, this is the maximum wanted level. The police and NOOSE pressure gets denser and more aggressive, with more of the tactical response involved. Air support and roadblocks keep making a getaway difficult.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 103,
+      "id": "v18e2e883e14ca5c4",
+      "line": 270,
+      "quote": "It doesn't suddenly become a general army invasion of Los Santos. The military at Fort Zancudo and the troops in particular missions are real exceptions. They don't turn every ordinary five star chase into a military deployment.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 14.231
+    },
+    {
+      "index": 104,
+      "id": "v18e2e884217f8e7c",
+      "line": 272,
+      "quote": "We'll get to the older games that really do send the army, because their sixth star is worth comparing separately. For this round, more of the existing pursuit is already a serious problem.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 12.692
+    },
+    {
+      "index": 105,
+      "id": "v18e2e8845dc24334",
+      "line": 274,
+      "quote": "Well, can John get back to a car and just outrun it? Well, he'd certainly like a better vehicle than the Mustang he has left behind. Give him an opportunity to acquire another car in our scenario, and I think he takes it.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 106,
+      "id": "v18e2e88497d28a48",
+      "line": 276,
+      "quote": "That really buys him movement. It doesn't give him the preparation or knowledge of the road that a planned getaway would have. He is choosing from the opening he has, with the pursuit already active.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 107,
+      "id": "v18e2e884d588adb8",
+      "line": 278,
+      "quote": "The causeway example from two stars showed the uncomfortable side of a long road. A clear stretch lets him move, but it also lets somebody see him moving. With the heavier response, being able to drive quickly doesn't automatically remove the observer behind him.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 108,
+      "id": "v18e2e8851300a9d4",
+      "line": 280,
+      "quote": "And John's best driving scene actually happens amid the mess around the Arc de Triomphe. He can read traffic, control the vehicle and handle people attacking him. There are moving obstacles he can use, even though those same obstacles can hurt him.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.154
+    },
+    {
+      "index": 109,
+      "id": "v18e2e88556ac7dd4",
+      "line": 282,
+      "quote": "On an open stretch, a lot of that changing cover is gone. I trust his control of the car. I'm much less willing to turn his control into a guarantee that he can reach the next unseen turning before somebody keeps him in view.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 110,
+      "id": "v18e2e88599fd0400",
+      "line": 284,
+      "quote": "A fast car still helps. I'm not saying the whole road option is useless. It can just open distance, move him away from a bad immediate encounter and give him another choice about where to leave it.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 14.231
+    },
+    {
+      "index": 111,
+      "id": "v18e2e885d677e01c",
+      "line": 286,
+      "quote": "But if we keep the air observer on him for this attempt, he carries the chase into the next area. He's improved his position without finishing the task. Compared with four stars, it's harder to keep the local success from turning into another immediate engagement.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 112,
+      "id": "v18e2e8865514953c",
+      "line": 290,
+      "quote": "So what about the building? This is the one I'd expect Wick fans to defend hardest. They have the Continental, the Osaka hotel and that apartment in Paris to point to. Those are much better examples than a generic claim that he's good indoors.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 113,
+      "id": "v18e2e8869942161c",
+      "line": 292,
+      "quote": "Well, I like this for John in an immediate fight. Once he's inside, the helicopter can't just watch through a roof. The people coming after him have to work around the interior, and his movement becomes much more useful than it was on the road.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 114,
+      "id": "v18e2e886d6146fe0",
+      "line": 294,
+      "quote": "The High Table's men found that out in Chapter Three. They had protection and serious weapons, and John still helped beat them.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 8.462
+    },
+    {
+      "index": 115,
+      "id": "v18e2e8871631f1b0",
+      "line": 294,
+      "quote": "In Chapter Four, the apartment fight gives him a different kind of opportunity, with opponents moving through separate rooms.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 7.308
+    },
+    {
+      "index": 116,
+      "id": "v18e2e8875933ef90",
+      "line": 296,
+      "quote": "And he makes excellent use of a weapon he didn't bring. The Dragon's Breath shotgun he takes in Paris changes what he can do during that encounter. He doesn't require a familiar pistol in his hand to remain dangerous.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "John uses the acquired Dragon's Breath Gen-12 in Chapter 4's apartment fight.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.0
+    },
+    {
+      "index": 117,
+      "id": "v18e2e8879bde2658",
+      "line": 298,
+      "quote": "Well, that's a genuine point for him. In our building, an enemy's dropped weapon can extend the fight. John is really good at making an ugly situation give him something he can use.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.692
+    },
+    {
+      "index": 118,
+      "id": "v18e2e887de30a800",
+      "line": 300,
+      "quote": "But the shotgun in Paris belongs to that scene. It isn't a permanent starting item he has been carrying through every earlier location. Taking one useful weapon doesn't establish that the next building contains another, or that he has an unlimited supply for it.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 119,
+      "id": "v18e2e888256ed700",
+      "line": 302,
+      "quote": "We already gave him a credible pickup at four. That helped him survive that fight. It didn't create a stocked hotel behind every door he might try.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 10.385
+    },
+    {
+      "index": 120,
+      "id": "v18e2e88868295d90",
+      "line": 304,
+      "quote": "How long can he make this building help him? I think the first confrontation favors him heavily. The next arrival is actually where I start worrying about the exit, especially if the first fight has shown the pursuers where he is.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 121,
+      "id": "v18e2e888acf7f06c",
+      "line": 306,
+      "quote": "The people outside don't all have to keep entering the exact same space at the exact same speed. In our sustained pursuit, more can watch the ways out while the immediate group keeps him occupied. That's basically a scenario assumption about continued pressure, and it makes the apparent sanctuary temporary.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 19.231
+    },
+    {
+      "index": 122,
+      "id": "v18e2e888ec59e29c",
+      "line": 308,
+      "quote": "John has actually won battles in places like this. He has also relied on somebody else keeping him supplied or creating an opening. We can't just attach the full Continental defense to any room with a doorway.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 14.231
+    },
+    {
+      "index": 123,
+      "id": "v18e2e889306a10d8",
+      "line": 310,
+      "quote": "And before we make the Dragon's Breath shotgun his answer to everything, I'll try the other proposed exit. Grassrivers looks like a chance to disappear into the terrain. We'll see why leaving the road can take away the movement he needed to use that concealment.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 124,
+      "id": "v18e2e8897b7ba8c0",
+      "line": 312,
+      "quote": "Rockstar's Leonida material confirms Grassrivers as a wetland setting. For our version of the chase, John gets a chance to leave the exposed city environment for vegetation and water.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 11.154
+    },
+    {
+      "index": 125,
+      "id": "v18e2e889c12afb28",
+      "line": 314,
+      "quote": "That can help him. A clear view from above can become a much worse view when somebody gets under real cover. I'm not making every patch of vegetation useless just because the helicopter is still searching.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 126,
+      "id": "v18e2e88a4ac91888",
+      "line": 318,
+      "quote": "And this is an injured man without a known dry exit or a boat waiting for him. He can't just decide that he has reached the end of the pursuit because the scenery looks like the part of an action movie where the police give up.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 17.692
+    },
+    {
+      "index": 127,
+      "id": "v18e2e88a915b3588",
+      "line": 320,
+      "quote": "I would really like to know which rideshare category is supposed to collect him out there. The app is going to need more than a pin.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 10.0
+    },
+    {
+      "index": 128,
+      "id": "v18e2e88b2269a2d0",
+      "line": 324,
+      "quote": "If John knew a reliable crossing or had an extraction ready, I'd judge that differently. With the unprepared John we dropped into the incident, I don't grant him the solution just because the wetland exists.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 129,
+      "id": "v18e2e88b6a34aa10",
+      "line": 326,
+      "quote": "Well, the building and swamp options also make his endurance matter in different ways. A person who couldn't survive the earlier impacts might never reach either choice. John actually can keep going through damage that would have ended somebody else's attempt.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 130,
+      "id": "v18e2e88bb3efc180",
+      "line": 328,
+      "quote": "Look at the end of Chapter Three. Winston shoots him in the suit, and John goes over the Continental roof. He strikes things during the fall and ends up below. He lives.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "John survives the interrupted Continental roof fall in Chapter 3.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 131,
+      "id": "v18e2e88bf9d99608",
+      "line": 330,
+      "quote": "That is an absurd endurance feat, and I am absolutely counting it. I don't need to pretend he has ordinary durability to believe the pursuit is difficult.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 10.385
+    },
+    {
+      "index": 132,
+      "id": "v18e2e88c425659ac",
+      "line": 332,
+      "quote": "But the film doesn't then show him calmly running another whole chase by himself. He's severely hurt, and Tick Tock Man brings him to the Bowery King. Getting collected is actually part of how he survives the aftermath.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "The severely injured John is brought to the Bowery King in Chapter 3.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 14.615
+    },
+    {
+      "index": 133,
+      "id": "v18e2e88c90cf604c",
+      "line": 334,
+      "quote": "So in the swamp, I can grant him the ability to remain alive after a really ugly fall. I still need him to stand up, move through the next stretch and get away without that rescue.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 134,
+      "id": "v18e2e88cd8b0e9a8",
+      "line": 336,
+      "quote": "Well, what might let him finish the escape instead? The identification side of the chase is worth more to him than another spectacular injury. Let's go back to the reported vehicle switch in Rockstar's demonstration.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 135,
+      "id": "v18e2e88d71482c94",
+      "line": 340,
+      "quote": "That is a useful opening for John. It suggests a kind of success that doesn't require him to personally beat the next group. Lose immediate contact, change what is being recognized and use the gap before somebody gets another good look.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 6 official trailers and footage",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Official GTA 6 footage only. OUR GUESS remains visible during the modeled crossover; promotional environments do not verify its route, unit thresholds or outcome."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 136,
+      "id": "v18e2e88e0e06c8b0",
+      "line": 344,
+      "quote": "Still, I think this is his best idea. He can combine the movement he gets from a vehicle with actual cover, then try to prevent the next identification. He has to make the pieces work together, but each part addresses something the pursuit needs.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 137,
+      "id": "v18e2e88e5a588028",
+      "line": 346,
+      "quote": "That is why I give him a temporary gap at five. He can survive the peak response and get a moment in which he is harder to follow. I don't think he can keep standing in the same place and turn the hunt into a long series of clean victories.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 19.231
+    },
+    {
+      "index": 138,
+      "id": "v18e2e88ea4b04ebc",
+      "line": 348,
+      "quote": "There's a fair objection from his own story here. The High Table found him across different places and kept sending people after him. John has already lived through an organization that wanted him dead very badly.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 139,
+      "id": "v18e2e88ef1a6dab0",
+      "line": 350,
+      "quote": "But look at the people who change those encounters. Marcus interrupts the attempt to kill him in the first film.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 7.692
+    },
+    {
+      "index": 140,
+      "id": "v18e2e88f430af350",
+      "line": 350,
+      "quote": "Charon helps at the Continental.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 1.923
+    },
+    {
+      "index": 141,
+      "id": "v18e2e88f995a5354",
+      "line": 350,
+      "quote": "Later, Caine and Mr. Nobody affect the Paris run. Those are specific interventions, and they aren't all John's personal abilities.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 7.692
+    },
+    {
+      "index": 142,
+      "id": "v18e2e88fec770de8",
+      "line": 352,
+      "quote": "Some of the people hunting him also have their own reasons to delay, negotiate or change sides. Leonida's ordinary replacement units don't need a new bounty negotiation before they can continue our scenario.",
+      "chapter": "Star 5 — Three exits that still leave a problem",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 12.692
+    },
+    {
+      "index": 143,
+      "id": "v18e2e890da2b39c4",
+      "line": 360,
+      "quote": "GTA Four had six wanted stars, and it didn't send a tank after Niko. Well, that's where I want to start the last round, because the number of stars has never guaranteed one identical response across this series.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 4 six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 4 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 14.615
+    },
+    {
+      "index": 144,
+      "id": "v18e2e89185b922ec",
+      "line": 364,
+      "quote": "And John is still the man who came through the first five rounds. He has won fights, lost a useful car and spent resources trying to leave. I really think he can survive the first contact here. Staying alive through that contact isn't the same as finally getting away.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 18.846
+    },
+    {
+      "index": 145,
+      "id": "v18e2e891d9d8b07c",
+      "line": 366,
+      "quote": "In GTA Four, the maximum response puts more NOOSE and FIB pressure into the chase. Its helicopter mix changes to two Annihilators, and the search area becomes enormous. The ground vehicles and armed units make it much harder to move out of that area without being seen again.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 4 six-star wanted levels",
+      "footage": "game",
+      "match": "exact",
+      "visual": "GTA 4 six-star pursuit, including its Annihilator air support.",
+      "continuity": [
+        "Identify GTA 4 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 18.462
+    },
+    {
+      "index": 146,
+      "id": "v18e2e8927f645974",
+      "line": 370,
+      "quote": "Well, that's the first problem for the idea that Wick loses only when a tank arrives. We can test a sixth star made of people and vehicles he can individually defeat. I'll actually give the main pursuit its result before we add any military hardware.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 4 six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 4 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 147,
+      "id": "v18e2e892d919ea9c",
+      "line": 372,
+      "quote": "It also gives John a fairer comparison. A NOOSE team doesn't have to be secretly better than Zero, Caine or the High Table's best people. John can just be much better in an immediate fight and still have a harder task than winning that fight.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 148,
+      "id": "v18e2e89330b088d8",
+      "line": 374,
+      "quote": "GTA Four's response can keep bringing the next contact into his escape attempt. If he's occupied with a ground group, the aircraft and other vehicles don't all stop being relevant. The next sighting can make the ground victory temporary.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 4 six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 4 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 15.0
+    },
+    {
+      "index": 149,
+      "id": "v18e2e893890d99d0",
+      "line": 376,
+      "quote": "I don't really need to imagine that the whole city has developed perfect teamwork. Traffic and awkward positions can still interfere with the police. John can still exploit a bad approach. I'm judging whether he can make one of those openings last while the hunt stays this heavy.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 4 six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 4 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 18.462
+    },
+    {
+      "index": 150,
+      "id": "v18e2e893e593a398",
+      "line": 378,
+      "quote": "Now compare the older military version, because there really is a historical reason people remember six stars that way. In GTA Three, the army takes over as the main ground pursuit after the FBI tier. Barracks OL trucks and Rhino tanks turn the road into a different kind of hazard.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 3 six-star wanted levels",
+      "footage": "game",
+      "match": "exact",
+      "visual": "GTA 3 six-star military pursuit with Barracks OL trucks and Rhinos.",
+      "continuity": [
+        "Identify GTA 3 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 19.231
+    },
+    {
+      "index": 151,
+      "id": "v18e2e8943eec34f0",
+      "line": 380,
+      "quote": "The soldiers carry M16s. Basically, those weapons and heavy vehicles can make an ordinary escape car a very uncomfortable place to remain. You aren't just dealing with another slightly angrier patrol car.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 3 six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 3 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 152,
+      "id": "v18e2e894a1cb9f98",
+      "line": 382,
+      "quote": "Vice City also brings military trucks and Rhinos at six. Its pursuing soldiers use MP5s, which is a different detail from San Andreas's M4 armed soldiers.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA Vice City six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA Vice City six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 10.0
+    },
+    {
+      "index": 153,
+      "id": "v18e2e894fd1c0a7c",
+      "line": 382,
+      "quote": "San Andreas also puts the military vehicles into the response.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 3.846
+    },
+    {
+      "index": 154,
+      "id": "v18e2e8955c0a6d6c",
+      "line": 384,
+      "quote": "That's three genuine military precedents. Well, I still want to keep them separate, rather than collecting every dangerous thing from three games and pretending they all arrive together.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 3 six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 3 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 10.769
+    },
+    {
+      "index": 155,
+      "id": "v18e2e895bb294444",
+      "line": 386,
+      "quote": "Here's a limit that helps John. Pursuing Rhinos in San Andreas don't normally fire their cannons. The tank can still be an extremely dangerous vehicle, like the threat to an ordinary car in our driving round, but a cannon barrage isn't the ordinary chase behavior we're comparing.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 18.077
+    },
+    {
+      "index": 156,
+      "id": "v18e2e8961d5fa25c",
+      "line": 388,
+      "quote": "And the Hydras that can intercept an airborne player aren't exclusively a sixth star addition. San Andreas can bring that airborne interception earlier. You don't get to just move every scary piece of military equipment into the sixth star because it looks good there.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 157,
+      "id": "v18e2e8967d6eab0c",
+      "line": 390,
+      "quote": "The trucks are also slower than the FBI vehicles they replace as the main pursuit. Well, there are situations where the extra star gives you a deadlier thing to touch, but something less able to keep up with a fast vehicle.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 15.769
+    },
+    {
+      "index": 158,
+      "id": "v18e2e896db35a948",
+      "line": 392,
+      "quote": "I like that concession for Wick. He's a driver who can use differences in movement. If an old military vehicle is slower, he gets the benefit of that instead of losing it to the word military.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 159,
+      "id": "v18e2e8973545aa00",
+      "line": 394,
+      "quote": "But our principal sixth star doesn't need that branch yet. Let's stay with the speculative law enforcement hunt, with John leaving his temporary gap at five.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 4 six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 4 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 10.0
+    },
+    {
+      "index": 160,
+      "id": "v18e2e8979351d218",
+      "line": 396,
+      "quote": "The next contact just makes him move again before he has really recovered. He can use the wall beside him, handle the immediate attacker and try to reach another covered space. Those are all credible actions for John Wick.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.0
+    },
+    {
+      "index": 161,
+      "id": "v18e2e897f6b5d6d8",
+      "line": 398,
+      "quote": "What keeps changing is how much room remains after he does them. Another unit reaches the area while he's dealing with the first. The movement he wanted to make now has somebody watching it.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 13.077
+    },
+    {
+      "index": 162,
+      "id": "v18e2e898515a120c",
+      "line": 400,
+      "quote": "At three stars, he had a better chance to exploit the temporary break between those views. At four, a close fight made the break more expensive. Here, I'm giving the pursuit enough continued pressure that the replacement arrives before he has finished using the previous opening.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 17.692
+    },
+    {
+      "index": 163,
+      "id": "v18e2e898afe692c8",
+      "line": 402,
+      "quote": "That's the escalation in our model. It is basically a problem of being forced to do the next hard thing before he's ready for it. He can still perform well while the chance to actually leave keeps shrinking.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 14.615
+    },
+    {
+      "index": 164,
+      "id": "v18e2e899123de6c4",
+      "line": 404,
+      "quote": "And before we ask the Paris staircase to prove he can keep doing this alone, let's take Caine and Mr. Nobody out of that scene. What does John still accomplish, and what opening disappears with them?",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 165,
+      "id": "v18e2e89978a0030c",
+      "line": 406,
+      "quote": "John absolutely survives Chidi sending him back down the stairs. That feat stays. It doesn't just get smaller because I'm asking who helps afterward.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "Chidi sends John down the Paris staircase in Chapter 4.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 9.231
+    },
+    {
+      "index": 166,
+      "id": "v18e2e899e073d5d0",
+      "line": 408,
+      "quote": "But Caine helps with the next climb. Mr. Nobody and his dog intervene against Chidi. That changes the opposition John has to finish dealing with, and it changes how he reaches the duel.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "Caine helps John's climb and Mr. Nobody's dog intervenes against Chidi in Chapter 4.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.692
+    },
+    {
+      "index": 167,
+      "id": "v18e2e89a4c681f44",
+      "line": 410,
+      "quote": "Well, if we bring those helpers into Leonida, we're comparing a different team. Our John gets his own fall survival and his own fighting ability. He doesn't automatically get somebody else dealing with the threat that has nearly stopped him.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.385
+    },
+    {
+      "index": 168,
+      "id": "v18e2e89aae0cfa94",
+      "line": 412,
+      "quote": "That pays off the helper question. Surviving the fall still favors John enormously. Finishing the whole escape alone has less support from that scene than people sometimes give it.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 11.154
+    },
+    {
+      "index": 169,
+      "id": "v18e2e89b0eade7b4",
+      "line": 414,
+      "quote": "I think the same thing happens in our final overlap. He can survive another protected hit and beat somebody close. But now he is moving with the damage from the earlier encounters, and the next crossing is exposed before he can reach it.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 170,
+      "id": "v18e2e89b70da7808",
+      "line": 416,
+      "quote": "The remaining cover really keeps him alive for a moment. It doesn't give him the time or mobility to get out before another contact closes the option. He has to keep fighting from a worse position.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 171,
+      "id": "v18e2e89c2a27fd1c",
+      "line": 420,
+      "quote": "And yes, we'll put a completely healthy John into this same response in a moment. I want to see how much that improves the result before I commit to the final answer.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 12.308
+    },
+    {
+      "index": 172,
+      "id": "v18e2e89cebb0bf50",
+      "line": 424,
+      "quote": "John has no on screen anti tank feat in the four films we're using. The Gen Twelve shotgun from the Paris apartment doesn't become an answer to armored vehicles just because it made that room fight look ridiculous.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 14.615
+    },
+    {
+      "index": 173,
+      "id": "v18e2e89d47b0add8",
+      "line": 426,
+      "quote": "So he has to treat the heavy vehicle as something to avoid or get away from. That doesn't mean the tank can automatically follow him into every interior. Buildings and awkward terrain still matter, and the historical slower vehicle concession still applies.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.154
+    },
+    {
+      "index": 174,
+      "id": "v18e2e89da73e6f9c",
+      "line": 428,
+      "quote": "Well, if he gets past it with enough room, the tank hasn't personally won the encounter. I am not making the driver predict every move John might make.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 10.769
+    },
+    {
+      "index": 175,
+      "id": "v18e2e89e04be0d94",
+      "line": 430,
+      "quote": "The problem is what the military does to the choices already under pressure. A road he might have used now has a much heavier obstruction. Leaving cover to move around it can put him in view of the rest of the response.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 16.154
+    },
+    {
+      "index": 176,
+      "id": "v18e2e89e686e6118",
+      "line": 432,
+      "quote": "And remember the Mustang from two stars. John can survive the loss of a car, but he needs another way to cover the distance afterward. A military vehicle that makes the ordinary car less useful can cost him more mobility without ever firing a cannon.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 17.308
+    },
+    {
+      "index": 177,
+      "id": "v18e2e89ec84ae1d8",
+      "line": 434,
+      "quote": "At that point, I really don't care how expensive the suit was. It's not going to persuade the tank to squeeze over a little and let him make his appointment.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA San Andreas six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA San Andreas six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 11.538
+    },
+    {
+      "index": 178,
+      "id": "v18e2e89f85bd7c6c",
+      "line": 438,
+      "quote": "What if he begins at six stars completely fresh? All right, bring back the healthy John from the start. Give him his original carried equipment and remove the earlier wounds and the time he spent fighting through the lower levels.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.385
+    },
+    {
+      "index": 179,
+      "id": "v18e2e89fe4d49924",
+      "line": 440,
+      "quote": "He really does better. I think that should be obvious, because a large part of what made the last few encounters ugly was the cost of the previous one. He has more comfortable movement and more of his starting ammunition.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 15.385
+    },
+    {
+      "index": 180,
+      "id": "v18e2e8a0462e721c",
+      "line": 442,
+      "quote": "He can win the first local confrontation more decisively. He may get to the next piece of cover earlier. If the pursuit leaves an opening, this John is better placed to use it than the man who has already been hit and knocked around.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    },
+    {
+      "index": 181,
+      "id": "v18e2e8a0abebe544",
+      "line": 444,
+      "quote": "But what gets this healthy John beyond the search? He reaches the next doorway sooner, but there is still no prepared destination, ally or supply behind it. He needs a lasting break from the wider response.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 182,
+      "id": "v18e2e8a10df8cbbc",
+      "line": 446,
+      "quote": "And in the sustained response we've built, that is where I still favor the hunt. He can make more of the early contacts go his way. The replacements and continued observation keep requiring another escape move, and eventually those moves become less comfortable for him too.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 17.692
+    },
+    {
+      "index": 183,
+      "id": "v18e2e8a1e3a2f508",
+      "line": 450,
+      "quote": "There is a meaningful limit to that judgment, though. Well, if John breaks observation and identification early enough, a one time escape is possible. Neither the films nor the older games justify declaring that six stars means no person can ever get away.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.538
+    },
+    {
+      "index": 184,
+      "id": "v18e2e8a2584e1f2c",
+      "line": 452,
+      "quote": "GTA Five lets you clear even its maximum response by remaining out of sight through the search.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 5 police chases and wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 5. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 6.538
+    },
+    {
+      "index": 185,
+      "id": "v18e2e8a2cb1c7b34",
+      "line": 452,
+      "quote": "In GTA Four, you work to escape the search area without being found again. Those are actually difficult conditions, but they aren't instructions to kill every officer who exists.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "GTA 4 six-star wanted levels",
+      "footage": "game",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Identify GTA 4 six-star. Historical ordinary single-player comparison, not a confirmed GTA 6 response; keep OUR GUESS visible when used to illustrate the crossover."
+      ],
+      "seconds_estimate": 11.154
+    },
+    {
+      "index": 186,
+      "id": "v18e2e8a3aaf6dc68",
+      "line": 456,
+      "quote": "Preparation is what makes that route much more credible. Think about the Rome catacombs in Chapter Two. John has made arrangements, staged equipment and studied the location before the fight forces him through it.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "exact",
+      "visual": "John uses prepared equipment in Chapter 2's Rome catacombs.",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.077
+    },
+    {
+      "index": 187,
+      "id": "v18e2e8a4257a4f60",
+      "line": 458,
+      "quote": "That version of resourceful John is dangerous for a pursuing force. He can be moving toward something he knows is useful, rather than finding out whether the next doorway leads anywhere he can go.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.077
+    },
+    {
+      "index": 188,
+      "id": "v18e2e8a494301c8c",
+      "line": 460,
+      "quote": "Add a real extraction or outside help, and I can see a single escape going his way. I'll make that condition explicit in the verdict, because it changes the odds for a reason his films actually show.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 14.231
+    },
+    {
+      "index": 189,
+      "id": "v18e2e8a5031e9010",
+      "line": 462,
+      "quote": "What I won't do is sneak that preparation into the random arrival we started with. A healthy man who actually knows how to use prepared resources doesn't automatically have those resources waiting in another universe.",
+      "chapter": "Star 6 — Does the tank even decide it?",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.462
+    },
+    {
+      "index": 190,
+      "id": "v18e2e8a64b262b24",
+      "line": 470,
+      "quote": "The condition that changes my answer is preparation with a real way out. Give him knowledge of the area, useful supplies or somebody who can actually extract him, and a single escape becomes much more believable.",
+      "chapter": "Verdict",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 13.846
+    },
+    {
+      "index": 191,
+      "id": "v18e2e8a6aeb887f4",
+      "line": 472,
+      "quote": "Which part of those escapes did John do alone? In Chapter Two, he used the equipment prepared in the catacombs.",
+      "chapter": "Verdict",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 7.692
+    },
+    {
+      "index": 192,
+      "id": "v18e2e8a724254784",
+      "line": 472,
+      "quote": "In Chapter Three, Charon and the armory helped him rearm.",
+      "chapter": "Verdict",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 3.846
+    },
+    {
+      "index": 193,
+      "id": "v18e2e8a7977dd994",
+      "line": 472,
+      "quote": "At the Paris staircase, Caine, Mr. Nobody and the dog changed his way to the duel.",
+      "chapter": "Verdict",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 6.154
+    },
+    {
+      "index": 194,
+      "id": "v18e2e8a9541b78bc",
+      "line": 480,
+      "quote": "Does the pursuit need an officer who could beat Wick one on one? I don't think so. John can win those close fights and still be forced into an exposed crossing while another unit arrives. The man who survived the Continental fall still needs somewhere he can reach afterward.",
+      "chapter": "Verdict",
+      "subject": "John Wick: Chapter 3 - Parabellum fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 18.846
+    },
+    {
+      "index": 195,
+      "id": "v18e2e8a9c333b32c",
+      "line": 482,
+      "quote": "I think he can walk away from a momentary six star encounter if he gets the right opening. I don't think the unprepared John we've followed is the favorite to turn that moment into a complete escape.",
+      "chapter": "Verdict",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 14.231
+    },
+    {
+      "index": 196,
+      "id": "v18e2e8ab1ad9d2f4",
+      "line": 490,
+      "quote": "Which preparation would change your answer most? Would you give John a known escape route, a stocked safehouse or one of his allies? I'd like to know which one you think gets him out of six stars, and which movie scene makes the case for you.",
+      "chapter": "Outro",
+      "subject": "John Wick: Chapter 2 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 17.692
+    },
+    {
+      "index": 197,
+      "id": "v18e2e8ab9775f8d8",
+      "line": 492,
+      "quote": "Thanks for staying through the whole climb. If you enjoy these matchups, subscribe for more film and game comparisons. And if you disagree with the six star verdict, make your case in the comments. I'm especially interested in the escape John can actually finish.",
+      "chapter": "Outro",
+      "subject": "John Wick: Chapter 4 fight scenes",
+      "footage": "film",
+      "match": "subject",
+      "visual": "",
+      "continuity": [
+        "Film footage only; preserve the film's original context and the role of helpers."
+      ],
+      "seconds_estimate": 16.923
+    }
+  ]
+}
