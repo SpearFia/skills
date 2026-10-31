@@ -22,10 +22,21 @@ For each need provide:
   broader compatible need ID or null. Exact evidence must never silently fall back.
 - `source_scope`: the actual film/game and any source restrictions. These are
   for the creator; proper names belong here or in labels, never model queries.
+- `source_group`: `wick1`, `wick2`, `wick3`, `wick4`, `gta3`, `gta4`, `gta5`,
+  `gta6`, `gtasa` or `gtavc`. Group-box URLs answer all searchable needs in that
+  group. Individual need URLs are optional additions.
+
+Creator revision: edit these same 50 needs, without adding needs or changing cue
+mappings. Every specific non-exact narration need falls back to an existing broader
+need from the same film/game. Existing broad roots have no further fallback;
+broaden an existing root's visual query where necessary. Exact needs never fall
+back and must appear in coverage when unfilled. Mark `gta6-six-slot-hud` as
+`manual: true`; keep its exact requirement but omit it from automatic questions.
 
 Include tanks and a police helicopter as narration needs. Include a grieving man
-as a `review_only` control with no cue demand: the approved narration does not
-request grief. Keep historical games and their individual military responses
+as an optional `review_only` control with no cue demand: the approved narration does
+not request grief. It uses one John Wick 1 URL in its own box and is excluded from
+the John Wick 1 group questions. Keep historical games and their military responses
 separate. Official GTA 6 footage supplies setting/visible promotional evidence;
 do not turn the hypothetical six-star scenario into a confirmed gameplay claim.
 
@@ -36,4 +47,5 @@ hard needs for the Stage 3 gate. Expand indices to actual cue IDs deterministica
 
 Stage 2 estimates seconds with the existing pool narration rate, 2.6 words/sec,
 and labels them estimates. Exact word-timed assignment comes later. The creator
-only pastes URLs under need headings; never seed URLs or start indexing here.
+only pastes URLs in source-group boxes or optional individual boxes; never seed
+URLs or start indexing here.

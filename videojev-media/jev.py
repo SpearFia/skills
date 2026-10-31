@@ -10,6 +10,11 @@ from urllib.parse import parse_qs, urlsplit
 
 URL = re.compile(r"(?:https?://|(?:www\.)?(?:youtube\.com|youtu\.be)/)[^\s<>`]+", re.I)
 NAMES = re.compile(r"\b(?:John|Wick|GTA|Maverick|Rhino|NOOSE|Charon|Caine|Kirill|Aurelio|Leonida)\b", re.I)
+SOURCE_GROUPS = {
+    "wick1": "John Wick 1", "wick2": "John Wick 2", "wick3": "John Wick 3", "wick4": "John Wick 4",
+    "gta3": "GTA 3", "gta4": "GTA 4", "gta5": "GTA 5", "gta6": "GTA 6",
+    "gtasa": "San Andreas", "gtavc": "Vice City",
+}
 
 
 def validate_url(url):
@@ -41,11 +46,36 @@ def parse_checklist(text, need_ids):
         for match in URL.finditer(line):
             url = match.group().rstrip(".,;!?)\"']}")
             if current is None:
-                raise ValueError(f"URL at line {line_number} is outside a recognized need heading")
+                raise ValueError(f"URL at line {line_number} is outside a recognized source group or need heading")
             validate_url(url)
             if url not in sources[current]:
                 sources[current].append(url)
     return sources
+
+
+def paste_targets(needs):
+    targets = {"group-"+group: [n["id"] for n in needs if n["source_group"] == group
+               and not n.get("review_only") and not n.get("manual")] for group in SOURCE_GROUPS}
+    return targets | {n["id"]: [] if n.get("manual") else [n["id"]] for n in needs}
+
+
+def expand_sources(needs, sources):
+    """Resolve paste boxes to questions, keeping group/individual URL placement intact."""
+    targets = paste_targets(needs)
+    expanded = {n["id"]: [] for n in needs}
+    for key, urls in sources.items():
+        if key not in targets:
+            raise ValueError("Stored URLs reference an unknown source group or need")
+        if urls and not targets[key]:
+            raise ValueError(f"{key} is handled by hand; do not paste search URLs under it")
+        if key == "grieving-man" and len(set(urls)) > 1:
+            raise ValueError("The optional grieving-man control takes one John Wick 1 URL")
+        for url in urls:
+            validate_url(url)
+            for need_id in targets[key]:
+                if url not in expanded[need_id]:
+                    expanded[need_id].append(url)
+    return expanded
 
 
 def validate_needs(needs, inputs):
@@ -60,6 +90,8 @@ def validate_needs(needs, inputs):
             raise ValueError("Cue IDs, variants and distractors must be lists")
         if not need.get("label") or not need.get("source_scope"):
             raise ValueError("Every need requires a label and source scope")
+        if need.get("source_group") not in SOURCE_GROUPS:
+            raise ValueError("Every need requires a known film/game source group")
         for query in [need["query"], *need.get("variants", [])]:
             if not query.strip() or "<|" in query or NAMES.search(query):
                 raise ValueError(f"Use plain, name-free visual descriptions: {need['id']}")
@@ -79,12 +111,16 @@ def validate_needs(needs, inputs):
             raise ValueError(f"Keep distinct approved film/game sources separate: {need['id']}")
         if any(cues[key]["match"] == "exact" for key in need["cues"]) and need["fallback"]:
             raise ValueError("Exact evidence must not silently fall back to a broader need")
+        if need["cues"] and not any(cues[key]["match"] == "exact" for key in need["cues"]) and not need["fallback"] and not need.get("generic"):
+            raise ValueError("Non-exact needs require a broader fallback or must be a broad root")
         assigned.extend(need["cues"])
         chain = {need["id"]}
         fallback = need["fallback"]
         while fallback:
             if fallback not in by_id or fallback in chain:
                 raise ValueError("Fallbacks must exist and must not form a cycle")
+            if by_id[fallback]["source_group"] != need["source_group"] or by_id[fallback].get("manual") or by_id[fallback].get("review_only"):
+                raise ValueError("Fallback must be a searchable need from the same film/game")
             target_subjects = {cues[key]["subject"] for key in by_id[fallback]["cues"]}
             if subjects != target_subjects:
                 raise ValueError("Fallback must retain the approved film/game source")
@@ -100,15 +136,31 @@ def render_checklist(needs, inputs, sources):
     demand = {n["id"]: sum(cues[key]["seconds_estimate"] for key in n["cues"]) for n in needs}
     ordered = sorted(needs, key=lambda n: (-demand[n["id"]], n["id"]))
     lines = ["# VideoJev media checklist", "",
-        "Paste one or more YouTube video URLs under each need heading. Plain lines, bullets and Markdown links work; the heading supplies the tag. The same video may serve several needs.", "",
+        "Paste YouTube video URLs into the source-group boxes first. Each URL gets all that film/game's search questions. Individual need boxes below are optional additions. Plain lines, bullets and Markdown links work; the heading supplies the tag.", "",
         "Seconds are estimates from narration words at 2.6 words/sec; precise VO timing comes later. All search rounds use context 32,768, plain visual descriptions and black-frame filtering. No URLs have been selected for you.", "",
-        "These files prepare the demo workspace only. The approved original remains unchanged; the full project copy and indexing wait for Stage 3.", ""]
-    for need in ordered:
+        "These files prepare the demo workspace only. The approved original remains unchanged; the full project copy and indexing wait for Stage 3.", "",
+        "Exact scenes stay strict: no broader fallback; any unfilled exact requirement must be listed in the coverage report. The six-slot HUD is handled by hand and is excluded from automatic questions. The grieving-man control is optional and has its own single-URL box.", ""]
+    targets = paste_targets(needs)
+    for group, label in SOURCE_GROUPS.items():
+        key = "group-"+group
+        lines += [f"## {key}: {label}", "",
+                  "Every URL here gets these questions: "+", ".join("`"+key+"`" for key in targets[key])+".", ""]
+        if group == "gta6":
+            lines += ["Official promotional footage only. `gta6-six-slot-hud` is handled by hand; it is not an automatic question.", ""]
+        if group == "wick1":
+            lines += ["The optional grieving-man control is separate; a group URL does not enable it.", ""]
+        lines += ["```text", *(sources[key] or ["Paste URLs here, one per line."]), "```", ""]
+    controls = [n for n in ordered if n.get("review_only")]
+    lines += ["## Optional review control", "",
+              "One John Wick 1 URL is enough for the grieving-man check. Leave its box empty to skip it; it creates no narration demand.", ""]
+    for index, need in enumerate([*controls, *[n for n in ordered if not n.get("review_only")]]):
+        if index == len(controls):
+            lines += ["## Optional individual needs", "", "Use these boxes only for URLs that should answer a particular need. Group URLs already apply and are not repeated here.", ""]
         cue_rows = [cues[key] for key in need["cues"]]
-        lines += [f"## {need['id']}: {need['label']} (~{math.ceil(demand[need['id']])} s, {len(cue_rows)} {'cue' if len(cue_rows) == 1 else 'cues'})", "",
+        lines += [f"### {need['id']}: {need['label']} (~{math.ceil(demand[need['id']])} s, {len(cue_rows)} {'cue' if len(cue_rows) == 1 else 'cues'})", "",
                   "Source scope: "+need["source_scope"], "", "Find: "+need["query"], ""]
         if need.get("review_only"):
-            lines += ["**Review control only — no narration demand.** Include it in the Stage 3 hard-need check, not on the timeline.", ""]
+            lines += ["**Optional review control only — no narration demand.** When enabled, include it in the Stage 3 hard-need check, not on the timeline.", ""]
         if need.get("hard"):
             lines += ["Stage 3 hard need: show the multiple-choice answers, probabilities and pass/fail beside the review images.", ""]
         if cue_rows:
@@ -121,11 +173,13 @@ def render_checklist(needs, inputs, sources):
             lines += ["Required scene: "+visual, ""]
         if need["fallback"]:
             lines += ["Broader fallback if supply runs out: `"+need["fallback"]+"` (reported explicitly in coverage).", ""]
-        lines += ["Confirmation target: "+need["confirm"]["right"], "",
-                  *["- "+url for url in sources[need["id"]]]]
-        if not sources[need["id"]]:
-            lines.append("<!-- Paste YouTube video URLs here. -->")
-        lines.append("")
+        elif need.get("generic") and not exact:
+            lines += ["Broadest existing fallback root for this film/game; no further fallback.", ""]
+        lines += ["Confirmation target: "+need["confirm"]["right"], ""]
+        if need.get("manual"):
+            lines += ["**Handled by hand — no search URLs required.** Keep the exact scene in coverage until manually supplied and verified.", ""]
+        else:
+            lines += ["```text", *(sources[need["id"]] or ["Paste an optional URL here." if need.get("review_only") else "Paste optional URLs here, one per line."]), "```", ""]
     return "\n".join(lines).rstrip()+"\n"
 
 
@@ -136,17 +190,19 @@ def write_checklist(project):
         raise ValueError("The approved original is read-only; use the demo staging folder")
     needs = json.loads((folder/"needs.json").read_text(encoding="utf-8"))
     validate_needs(needs, inputs)
+    targets = paste_targets(needs)
     checklist = project/"production"/"media-checklist.md"
     source_file = folder/"sources.json"
     if checklist.exists():
-        sources = parse_checklist(checklist.read_text(encoding="utf-8"), [n["id"] for n in needs])
+        sources = parse_checklist(checklist.read_text(encoding="utf-8"), targets)
     elif source_file.exists():
         stored = json.loads(source_file.read_text(encoding="utf-8"))
-        if any(key not in {n["id"] for n in needs} and value for key, value in stored.items()):
-            raise ValueError("Stored URLs reference an unknown need; resolve it before regenerating")
-        sources = {n["id"]: list(dict.fromkeys(validate_url(url) for url in stored.get(n["id"], []))) for n in needs}
+        if any(key not in targets and value for key, value in stored.items()):
+            raise ValueError("Stored URLs reference an unknown source group or need; resolve it before regenerating")
+        sources = {key: list(dict.fromkeys(validate_url(url) for url in stored.get(key, []))) for key in targets}
     else:
-        sources = {n["id"]: [] for n in needs}
+        sources = {key: [] for key in targets}
+    expand_sources(needs, sources)
     rendered = render_checklist(needs, inputs, sources)
     checklist.parent.mkdir(parents=True, exist_ok=True)
     for path, text in [(source_file, json.dumps(sources, indent=2)+"\n"), (checklist, rendered)]:
