@@ -214,7 +214,7 @@ def write_checklist(project):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["needs", "index", "status"])
+    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build"])
     parser.add_argument("--project", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "needs":
@@ -228,6 +228,18 @@ if __name__ == "__main__":
             from stage3_index import run as index
         sources(args.project)
         index(args.project)
+    elif args.command == "assign":
+        from stage4_assign import Assignment,cut_masters
+        assignment=Assignment(args.project.resolve())
+        if assignment.project==Path(assignment.inputs['source_project']).resolve():
+            raise ValueError('Original project is read-only')
+        assignment.prepare();assignment.build_slots()
+        result=assignment.allocate()
+        cut_masters(assignment.project,result,assignment.videos)
+        print(f"Assigned {sum(bool(s['top']) for s in result['slots'])}/{len(result['slots'])} slots.")
+    elif args.command == "build":
+        from stage4_build import build
+        build(args.project.resolve())
     else:
         status = args.project/"media"/"jev"/"index-status.json"
         print(status.read_text(encoding="utf-8") if status.exists() else "Indexing has not started.")
