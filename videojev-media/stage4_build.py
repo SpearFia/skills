@@ -22,7 +22,11 @@ def load(path):return json.loads(path.read_text(encoding='utf-8'))
 def build(project):
     require_legacy(project)
     folder=project/'media/jev';a=load(folder/'assignment.json');inputs=load(folder/'input-cues.json')
-    original=Path(inputs['source_project']).resolve()
+    return build_assignment(project,folder,a,inputs['source_project'])
+
+
+def build_assignment(project,folder,a,source_project):
+    original=Path(source_project).resolve()
     if project.resolve()==original:raise ValueError('Original project is read-only')
     assert_no_overlap(a['slots'])
     baseline={name:hashlib.sha256((original/name).read_bytes()).hexdigest()
@@ -69,7 +73,9 @@ def build(project):
     review=Path(pushed['review'])
     if not review.resolve().is_relative_to(project.resolve()):raise ValueError('Push escaped demo')
     target=review.with_name(review.stem+'-layers.fcproj')
-    if target.exists():raise FileExistsError(target)
+    suffix=2
+    while target.exists():
+        target=review.with_name(review.stem+f'-layers-{suffix}.fcproj');suffix+=1
     plan=load(project/'sync/plans'/(review.stem.removeprefix('review-')+'.json'))
     new_vo={i['source']['path']:i['start_frame'] for i in plan['items'] if i['kind']=='clip' and i['track']=='A1'}
     timing=load(folder/'assignment-timing.json')

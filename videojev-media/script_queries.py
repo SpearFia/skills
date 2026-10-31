@@ -24,6 +24,30 @@ class StopRequested(Exception):pass
 def option_text(value):return re.sub(r'^[A-Z]\.\s*','',value).strip().casefold()
 
 
+def saved_choices(old,document,qs,pairs,excluded):
+    by_text=collections.defaultdict(set);by_alias=collections.defaultdict(set)
+    for qid,q in qs.items():by_text[q['query'].casefold().strip()].add(qid)
+    for v in document['visual_catalog']:
+        ref=v.get('saved_score_reference')
+        if ref and ref['query_mode']=='main' and v.get('query')==ref['question']:
+            qid=next((qid for qid,q in qs.items() if q['source_group']==v['source_group'] and q['query']==v['query']),None)
+            if qid:by_alias[ref['cache_need_id']].add(qid)
+    rows=[]
+    for c in old:
+        right=c['right_index'];target=option_text(c['options'][right])
+        for qid in by_text.get(target,set())|by_alias.get(c['need_id'],set()):
+            if (c['video_id'],qid) not in pairs:continue
+            if sum(y-x for x,y in subtract(c['start'],c['end'],excluded.get(c['video_id'],[])))<c['end']-c['start']-1e-6:continue
+            rows.append(dict(id='cached-'+c['id']+'-'+qid,video_id=c['video_id'],question_id=qid,need_id=qid,start=c['start'],end=c['end'],
+                grounding=c.get('grounding',0),purpose='cached',options=c['options'],probabilities=c['probabilities'],
+                answer_index=c['answer_index'],right_index=right,confirmation=c['probabilities'][right],
+                choice_pass=c['answer_index']==right and c['probabilities'][right]>=.6 and not c.get('qc_flags')
+                    and not c.get('qc',{}).get('frozen') and c.get('source_scope_status')!='conflict',
+                source_scope_status='creator_group_not_independently_verified',scene_confirmed=False,cached_completed_choice=True,
+                cache_mapping='exact target text' if qid in by_text.get(target,set()) else 'approved main-query reference'))
+    return rows
+
+
 def choice_question(qid,text,video_id,start,end):
     labels=[text,'The described content is not visible.','The picture is too unclear to decide.']
     random.Random(int(digest([text,video_id,round(start,6),round(end,6),264731]),16)).shuffle(labels)
@@ -267,22 +291,8 @@ class ScriptQueries(Indexer):
             report['sources'].append(record);save_json(self.folder/'miss-audit.json',report)
 
     def cached_choices(self):
-        # Reuse numeric choices only when the old target text exactly equals the approved query.
-        by_text=collections.defaultdict(list)
-        for q in self.qs.values():by_text[q['query'].casefold().strip()].append(q['id'])
         old=read(self.project/'media/jev/candidates.json');pairs={(j['video_id'],j['question_id']) for j in self.plan['queries'] if j['status']=='reuse_saved_scores'}
-        rows=[]
-        for c in old:
-            right=c['right_index'];target=option_text(c['options'][right])
-            for qid in by_text.get(target,[]):
-                if (c['video_id'],qid) not in pairs:continue
-                if sum(y-x for x,y in subtract(c['start'],c['end'],self.excluded.get(c['video_id'],[])))<c['end']-c['start']-1e-6:continue
-                rows.append(dict(id='cached-'+c['id']+'-'+qid,video_id=c['video_id'],question_id=qid,need_id=qid,start=c['start'],end=c['end'],
-                    grounding=c.get('grounding',0),purpose='cached',options=c['options'],probabilities=c['probabilities'],
-                    answer_index=c['answer_index'],right_index=right,confirmation=c['probabilities'][right],
-                    choice_pass=c['answer_index']==right and c['probabilities'][right]>=.6,
-                    source_scope_status='creator_group_not_independently_verified',scene_confirmed=False,cached_completed_choice=True))
-        return rows
+        return saved_choices(old,self.document,self.qs,pairs,self.excluded)
 
     def representatives(self,all_rows,choices):
         output=[]

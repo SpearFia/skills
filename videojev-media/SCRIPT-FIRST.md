@@ -86,3 +86,35 @@ sheets in `production/jev-script-query-review/review.html`. Named scenes still
 require creator review. It does not assign clips, rebuild FilmCraft or start
 Stage 5. Create `media/jev/script-first/query-results/stop` for a clean stop after
 the current model request; completed results are retained for resume.
+
+## Script-first Stage 4
+
+After creator acceptance of the query summary, run `jev.py script-timeline
+--project <demo>`. It word-times every approved sentence against the saved
+narration, assigns short literal inserts first, then fills the remaining time
+from query-free pools in the permitted groups. Adjacent general sentences can
+share four-second shots. No old visual-cue boundaries or Subject labels are
+used. Missing literal evidence stays empty; the six-slot HUD stays manual.
+
+Saved multiple-choice answers can be reused through an approved main-query
+reference when older answer wording differs. A variant cannot borrow another
+target's answer. Numeric choice thresholds, saved quality failures and known
+source conflicts still apply. Optional specific sources receive cached/local
+text and black filtering without joining general pools or rerunning VideoJev.
+
+The allocator reserves all chosen source ranges globally, prefers spacing and
+source variety, and rejects coherent 2 fps perceptual copies across URLs.
+Perceptual detection is approximate. After allocating the entire top track, it
+chooses up to two alternates per clip, avoiding top ranges. Masters are silent
+480p files with 2.5-second handles. The existing cutter, project-scoped pusher
+and headless FilmCraft builder are reused. Earlier reviews and saved search
+results remain intact. Only the demo's footage links are replaced, with backup.
+
+Assignments, masters, native snapshots, timing and checks are under
+`media/jev/script-first/stage4`. The job writes its own short summary to
+`production/jev-script-first-summary.md` and the full gate report to
+`production/jev-script-stage4-report.md`. Status becomes
+`script_stage4_gate_ready` after native timing, silence, handles, alternate reveal
+and render checks pass. Interactive playback and scene identity remain for
+creator review. The job stops before Stage 5. A `stage4/stop` file stops at the
+next task boundary, preserving completed artifacts.

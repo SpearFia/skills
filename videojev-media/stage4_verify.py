@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import struct
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -13,10 +14,10 @@ from stage4_assign import assert_no_overlap,FPS
 from stage4_build import load,TICKS
 
 
-def verify(project):
-    folder=project/'media/jev';build=load(folder/'stage4-build.json');a=load(folder/'assignment.json')
+def verify(project,folder=None,out=None):
+    folder=folder or project/'media/jev';build=load(folder/'stage4-build.json');a=load(folder/'assignment.json')
     review=Path(build['review']);before=hashlib.sha256(review.read_bytes()).hexdigest()
-    out=project/'production/jev-stage4';out.mkdir(exist_ok=True)
+    out=out or project/'production/jev-stage4';out.mkdir(exist_ok=True)
     assert_no_overlap(a['slots'])
     masters=load(folder/'masters.json')
     def streams(m):
@@ -25,6 +26,7 @@ def verify(project):
         assert d['streams'][0]['height']==480
     with ThreadPoolExecutor(max_workers=4) as e:list(e.map(streams,masters))
     seq=load(folder/'stage4-native-snapshot.json');tracks=build['tracks']
+    assert (seq['settings']['width'],seq['settings']['height'])==(3840,2160)
     by_id={c['clip']:c for t in seq['video'] for c in t['items']}
     items={c['item'] for s in a['slots'] if s['top'] for c in [by_id[s['top']['clip_id']]]}
     items.update(by_id[c['clip_id']]['item'] for s in a['slots'] for c in s['alternates'])
@@ -57,6 +59,8 @@ def verify(project):
             print(label,r,flush=True)
     digests=[hashlib.sha256((out/(label+'.png')).read_bytes()).hexdigest() for label in render_times]
     assert len(set(digests))==3,'Deleting a clip did not reveal different footage'
+    for label in render_times:
+        assert struct.unpack('>II',(out/(label+'.png')).read_bytes()[16:24])==(3840,2160)
     # Real-time UI playback is not exposed by the headless CLI. Measure a three-layer render separately.
     with FilmCraft() as f:
         f.command('file.open',path=str(review))
@@ -66,6 +70,7 @@ def verify(project):
             endSeconds=(sample['start_frame']+sample['duration_frames'])/FPS,wait=True,hardwareEncoding='off')
         elapsed=time.perf_counter()-start
         print('EXPORT',result,flush=True)
+        assert result['offlineMedia']==[],'Offline media in render'
     assert hashlib.sha256(review.read_bytes()).hexdigest()==before,'Verification changed review'
     report=dict(top_no_repeats=True,top_no_timeline_overlaps=True,master_count=len(masters),silent_video_only=True,
         handles_seconds=2.5,physical_source_clamps=clamps,source_in_max_rounding_seconds=max(quantization),

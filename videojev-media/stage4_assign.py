@@ -359,7 +359,7 @@ def merge_masters(assignments,videos):
     return masters
 
 
-def cut_masters(project,assignments,videos):
+def cut_masters(project,assignments,videos,output_folder=None):
     masters=merge_masters(assignments,videos)
     def cut(master):
         path=project/master['file'];path.parent.mkdir(parents=True,exist_ok=True)
@@ -374,8 +374,9 @@ def cut_masters(project,assignments,videos):
         for c in ([slot['top']] if slot['top'] else [])+slot['alternates']:
             master=next(m for m in masters if m['video_id']==c['video_id'] and m['start']<=c['start']+1e-6 and m['end']>=c['end']-1e-6)
             c.update(file=master['file'],source_in=c['start']-master['start'],leading_handle=c['start']-master['start'],trailing_handle=master['end']-c['end'])
-    save_json(project/'media/jev/masters.json',masters)
-    save_json(project/'media/jev/assignment.json',assignments)
+    output_folder=output_folder or project/'media/jev'
+    save_json(output_folder/'assignment.json',assignments)
+    save_json(output_folder/'masters.json',masters)
     return masters
 
 
