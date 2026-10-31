@@ -102,3 +102,24 @@ planned-but-incomplete sources from counting toward the two-source audit gate.
 The remaining videos will resume under the creator's revised quota, confirmation
 and timing rules. Completed videos will not be recomputed. Final counts, timing,
 VRAM and gate outcome will be recorded after that run.
+
+## Unattended revised run
+
+`stage3_resume.py` freezes the 21 completed source IDs in `resume-policy.json`.
+It preserves all 638 old model results and verifies their hashes and the frozen
+SQLite score cells before declaring the gate ready. New source work uses the
+creator's quota, spacing, quality-choice, freeze-only, fine-clip reuse,
+round-2 bypass and deferred-variant rules. Mandatory recall and representative
+tests remain separate from quota-limited production work.
+
+The process runs with a hidden console through Windows process management,
+independently of this agent session. The script itself writes:
+
+- `media/jev/speed-first3.md` and `.json` after three revised initial passes.
+- `media/jev/logo-option-report.md` and `.json`, including known synthetic
+  corner-watermark controls. This does not establish real-logo accuracy.
+- `media/jev/stage3-summary.md` and `.json` when finished or failed.
+
+Read only `stage3-summary.md` first when the creator reports the gate ready.
+The agent must not poll, wait on, or inspect logs/images during the unattended run.
+Assignment remains out of scope. The revised implementation passes 26 checks.

@@ -222,7 +222,10 @@ if __name__ == "__main__":
         print(f"Ready: {count} needs, {urls} pasted URL entries. {path}")
     elif args.command == "index":
         from stage3_sources import run as sources
-        from stage3_index import run as index
+        if (args.project/'media'/'jev'/'resume-policy.json').exists():
+            from stage3_resume import run as index
+        else:
+            from stage3_index import run as index
         sources(args.project)
         index(args.project)
     else:

@@ -89,6 +89,14 @@ def sheets(rows, videos, directory, stem, heading):
                 details.append('Scope: '+scope_labels[choice['source_scope_status']])
                 if 'qc_flags' in choice:
                     details.append('QC flags: '+(', '.join(choice['qc_flags']) or 'none'))
+                if choice.get('quality'):
+                    q=choice['quality']
+                    details.append(f"Quality: {q['category']} | normal p={q['category_probabilities']['normal']:.4f}")
+                if row.get('cached_completed_choice'):
+                    details.append('Cached choice from completed video; no new inference.')
+            elif row.get('choice_unavailable_reason'):
+                details.extend(textwrap.wrap(row['choice_unavailable_reason'],72))
+                details.extend(chr(65+i)+'. '+option+' | p=not run' for i,option in enumerate(row['choice_options']))
             else:
                 details.append('Cell has no separate choice test; candidate confirmations are in candidates.json.')
             if row.get('coarse_dropped_seconds'):
@@ -106,7 +114,7 @@ def sheets(rows, videos, directory, stem, heading):
 def render(project,videos,needs,inputs,candidates,representatives,downloads,state,audit_plan):
     folder=project/'media'/'jev'
     score_windows=json.loads((folder/'score-windows.json').read_text(encoding='utf-8'))
-    if any(needs[r['need_id']].get('hard') and not r.get('choice') for r in representatives):
+    if any(needs[r['need_id']].get('hard') and not r.get('choice') and not r.get('choice_unavailable_reason') for r in representatives):
         raise ValueError('Every displayed hard-need example requires a complete choice result')
     review=project/'production'/'jev-review'
     review.mkdir(parents=True,exist_ok=True)
@@ -115,7 +123,7 @@ def render(project,videos,needs,inputs,candidates,representatives,downloads,stat
         '<h1>Stage 3 gate: inspect before assignment</h1>',
         "<p class='note'>Grounding/choice probabilities are model confidence, not verified accuracy. Random above-threshold cells and nearest below-threshold cells are shown, including failures. Cropped black frames are omitted. Exact scenes and mixed-film compilations require source/scene review. No assignment or new timeline was made.</p>"]
     coverage=['# Stage 3 coverage','',
-        'Stopped before assignment. Seconds needed are narration estimates at 2.6 words/sec. Confirmed seconds below mean model choice passed, black/frozen QC passed, and no explicit film-title conflict; they are not human-verified scene matches. Repeated ranges within a need/source count once. Different needs may overlap, so their seconds cannot be added as timeline coverage.','',
+        'Stopped before assignment. Seconds needed are narration estimates at 2.6 words/sec. Confirmed seconds below mean the applicable saved policy passed: legacy clip QC for the 21 frozen videos, or main choice plus final quality choice and ffmpeg freeze checks for new pieces. All use the video black scan and exclude explicit film-title conflicts. These are not human-verified scene matches. Repeated ranges within a need/source count once; different needs may overlap.','',
         '[Open representative and miss-check contact sheets](../../production/jev-review/review.html).','',
         '| Need | Needed s | Model-confirmed s | Sources | Coverage / fallback |',
         '| --- | ---: | ---: | ---: | --- |']
@@ -185,6 +193,10 @@ def render(project,videos,needs,inputs,candidates,representatives,downloads,stat
     for row in score_windows:
         if row['round']==2 and not row['audit']:
             retained.setdefault((row['video_id'],row['need_id']),[]).append([row['start'],row['end']])
+    for path in (folder/'coarse-v2').glob('*.json'):
+        data=json.loads(path.read_text())
+        for need_id,ranges in data['retained'].items():
+            retained[(path.stem,need_id)]=ranges
     for candidate in audit:
         # Actual round-2 inputs include coarse padding and question unions from overlapping windows.
         spans=union(retained.get((candidate['video_id'],candidate['need_id']),[]))
@@ -214,7 +226,7 @@ def render(project,videos,needs,inputs,candidates,representatives,downloads,stat
     save_json(folder/'candidates.json',candidates)
     coverage += ['', '## Independent 2 fps miss check','',
         f"Completed independent audits on {len(completed_sources)} distinct long sources, three predetermined 120-second stretches each. {len(confirmed)} candidate spans passed choice/QC/scope checks; {len(misses)} include at least 1.5 seconds outside their need's actual retained coarse windows **including padding and merged question lists**. Missed confirmed span-seconds: {audit_report['coarse_missed_seconds']:.3f} (may overlap across needs).",'',
-        'This samples recall; it is not exhaustive and uses the same model for confirmation. `miss-audit-plan.json` was written before coarse processing. `miss-audit-report.json` retains every missed range and complete choice results.','']
+        'This samples recall; it is not exhaustive and uses the same model for confirmation. `miss-audit-plan.json` was written before coarse processing. V2 uses the planned coarse-retained windows before quota stopping, including direct-to-fine windows for needs that bypass round 2; quota stopping is not a coarse detector miss. `miss-audit-report.json` retains every missed range and complete choice results.','']
     doc.append('<h2>Independent 2 fps miss check</h2><p>'+html.escape(coverage[-4])+'</p>')
     coverage += ['| Source | Independently sampled s | Confirmed spans | Missed spans | Missed span-seconds |',
         '| --- | ---: | ---: | ---: | ---: |']
@@ -242,9 +254,24 @@ def render(project,videos,needs,inputs,candidates,representatives,downloads,stat
         doc.append(source_links(selected))
         doc.extend(f"<a href='{name}'><img loading='lazy' src='{name}' alt='{key} full choice results'></a>" for name in names)
     coverage += ['', '## Black filtering, source scope and measurement limits','',
-        'Black spans use ffmpeg blackdetect on the cropped active picture: pixel threshold 0.02, picture ratio 0.995, minimum span 0.01 s. Cells containing a black sampled input frame are excluded from evidence; candidates are split at source black spans, then black/frozen QC is applied. Input context retains its original timeline; no frame deletion collapses timestamps. Thumbnail filtering independently omits nearly pure black images (99.5% of 64×36 grayscale pixels at or below 7). Genuine dark scenes are retained unless they meet these strict rules.','',
+        'Black spans use ffmpeg blackdetect on the cropped active picture: pixel threshold 0.02, picture ratio 0.995, minimum span 0.01 s. Cells containing a black sampled input frame are excluded from evidence; candidates split at source black spans. Frozen legacy videos keep their saved clip QC. New pieces use the final quality question and ffmpeg frozen-only check, without another per-piece black scan or full clip QC. Input context retains its original timeline; no frame deletion collapses timestamps. Thumbnail filtering independently omits nearly pure black images (99.5% of 64×36 grayscale pixels at or below 7). Genuine dark scenes are retained unless they meet these strict rules.','',
         f'Black/unavailable thumbnails omitted: {omitted}. Full score vectors, excluded-cell flags, timing and peak VRAM are in `score-windows.json` and `timing-report.json`; no features were persisted.','',
         'Explicit film-title conflicts are excluded from usable coverage. Compilations, unofficial uploads and uncertain scopes still need review; matching plain visual descriptions cannot establish film identity or exact story context. No assignment, VO timing alignment, master download or timeline build was performed.']
+    performance_path=folder/'performance-v2.json'
+    if performance_path.exists():
+        performance=json.loads(performance_path.read_text())
+        missing=sum(bool(r.get('choice_unavailable_reason')) for r in representatives)
+        coverage += ['', '## Revised quotas and frozen legacy results','',
+            'Twenty-one completed videos retain their original results and clip-QC policy. New pieces use main-query-first search, a 3× narration-seconds target and an initial one-third target cap per source. After all assigned URLs are attempted, short needs may use additional pieces from sources that matched. Variants run only for remaining shortfalls. Accepted new pieces have a four-second minimum gap within the same source/need.','',
+            f'{missing} representative cells have no cached choice covering their range on a frozen completed video. Those results are explicitly unavailable; no new model question was run on a completed video. Other frozen representatives show their saved choice context.', '',
+            '[First-three speed report](speed-first3.md) · [Logo-option control report](logo-option-report.md).', '',
+            '| Need | Target s | Credited s | Source cap lifted |','| --- | ---: | ---: | --- |']
+        for key,target in performance['targets'].items():
+            coverage.append(f"| `{key}` | {target['target_seconds']:.1f} | {target['credited_seconds']:.1f} | {target['cap_lifted']} |")
+        logo_path=folder/'logo-option-report.json'
+        if logo_path.exists():
+            logo=json.loads(logo_path.read_text())
+            coverage += ['',f"Synthetic corner-watermark controls: logo recognized {logo['detected_logo']}/{logo['tested']}; quality gate rejected {logo['rejected']}/{logo['tested']}. "+logo['limitation']]
     # Use the same configured fast cache as the orchestrator, including custom SPEARFIA_CACHE.
     from stage3_sources import pool
     index_cache=pool.cache_dir(project)/'jev-index'

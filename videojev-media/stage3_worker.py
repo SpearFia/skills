@@ -19,31 +19,47 @@ def save(path, value):
     temporary.replace(path)
 
 
-def infer(torch, native, model, processor, task):
+def infer(torch, native, model, processor, task, cache=None):
     context = 32768
     if task["context"] != context:
         raise ValueError("Every Stage 3 request must use context 32,768")
-    torch.cuda.empty_cache()
     torch.cuda.reset_peak_memory_stats()
     started = time.perf_counter()
     budget, attempts = context, []
     prompts = importlib.import_module(native.prepare_query_groups.__module__)
-    while True:
-        pixels, record = native.prepare_video(processor, task["path"], fps=task["fps"], max_frames=2048, context=budget)
+    cache={} if cache is None else cache
+    cache_key=(task['path'],task['fps'],context)
+    reused=False
+    if cache.get('key')==cache_key:
+        record=cache['record']
         longest = max((prompts.native_inputs(processor, record, [q])[0].shape[1]+63)//64*64 for q in task["questions"])
-        attempts.append(dict(preprocess_context=budget, video_tokens=record["tokens"], longest_prompt=longest))
         if longest <= context:
-            break
-        allowed = record["tokens"]-(longest-context)-64
-        budget = min(budget-64, allowed*5//4)
+            features=cache['features']
+            attempts=[dict(preprocess_context=cache['budget'],video_tokens=record['tokens'],longest_prompt=longest)]
+            reused=True
+    if not reused:
+        cache.clear()
+        torch.cuda.empty_cache()
+        while True:
+            pixels, record = native.prepare_video(processor, task["path"], fps=task["fps"], max_frames=2048, context=budget)
+            longest = max((prompts.native_inputs(processor, record, [q])[0].shape[1]+63)//64*64 for q in task["questions"])
+            attempts.append(dict(preprocess_context=budget, video_tokens=record["tokens"], longest_prompt=longest))
+            if longest <= context:
+                break
+            allowed = record["tokens"]-(longest-context)-64
+            budget = min(budget-64, allowed*5//4)
+            del pixels
+            if budget < 64:
+                raise ValueError("Complete question does not fit the fixed context")
+        prepare_seconds = time.perf_counter()-started
+        features, encode_seconds = timed(torch, lambda: model.encode_video(pixels, torch.tensor([record["grid_thw"]]), groups_per_chunk=16))
         del pixels
-        if budget < 64:
-            raise ValueError("Complete question does not fit the fixed context")
+        cache.update(key=cache_key,record=record,features=features,budget=budget)
+    else:
+        prepare_seconds=time.perf_counter()-started
+        encode_seconds=0.
     if abs(record["fps"]-task["fps"]) > 1e-8:
         raise ValueError("The frame cap silently changed the requested fps")
-    prepare_seconds = time.perf_counter()-started
-    features, encode_seconds = timed(torch, lambda: model.encode_video(pixels, torch.tensor([record["grid_thw"]]), groups_per_chunk=16))
-    del pixels
     rows = []
     encode_peak = torch.cuda.max_memory_allocated()/2**20
     for question in task["questions"]:
@@ -56,7 +72,7 @@ def infer(torch, native, model, processor, task):
     del features
     return dict(status="complete", record=record, queries=rows, context=context,
         prepare_seconds=prepare_seconds, encode_seconds=encode_seconds, encode_peak_allocated_mib=encode_peak,
-        budget_attempts=attempts, feature_bytes_in_ram=feature_bytes, feature_files_written=0)
+        budget_attempts=attempts, feature_bytes_in_ram=feature_bytes, feature_files_written=0,reused_features_in_ram=reused)
 
 
 def run(job):
@@ -87,8 +103,11 @@ def run(job):
     save(directory/"ready.json", dict(status="ready", load_seconds=time.perf_counter()-started,
         pins=config["model"], attention=model.config._attn_implementation,
         gpu=torch.cuda.get_device_name(), total_vram_mib=torch.cuda.mem_get_info()[1]/2**20))
+    completed={p.name.replace('.result.json','.request.json') for p in directory.glob('*.result.json')}
+    feature_cache={}
+    last_finished=time.perf_counter()
     while not (directory/"stop").exists():
-        requests = sorted(directory.glob("*.request.json"))
+        requests=sorted(p for p in directory.glob('*.request.json') if p.name not in completed)
         for request in requests:
             result_path = request.with_name(request.name.replace(".request.json", ".result.json"))
             if result_path.exists():
@@ -96,18 +115,22 @@ def run(job):
             task = json.loads(request.read_text())
             save(directory/"active.json", dict(task=task["id"], started=time.time()))
             started = time.perf_counter()
+            idle_seconds=started-last_finished
             try:
                 with torch.inference_mode():
-                    result = infer(torch, native, model, processor, task)
+                    result = infer(torch, native, model, processor, task,feature_cache)
             except Exception as exc:
                 result = dict(status="failed", error=str(exc), traceback=traceback.format_exc())
+                feature_cache.clear()
                 torch.cuda.empty_cache()
-            result.update(id=task["id"], wall_seconds=time.perf_counter()-started)
+            result.update(id=task["id"], wall_seconds=time.perf_counter()-started,idle_before_seconds=idle_seconds)
             save(result_path, result)
+            completed.add(request.name)
             print(task["id"], result["status"], f"{result['wall_seconds']:.2f}s", flush=True)
             if result.get("error") and "out of memory" in result["error"].lower():
                 raise RuntimeError("4B exceeded available VRAM at the accepted settings; stopping")
-        time.sleep(0.25)
+            last_finished=time.perf_counter()
+        time.sleep(0.05)
 
 
 if __name__ == "__main__":

@@ -167,38 +167,52 @@ class Indexer:
         if self.worker.poll() is not None:
             raise RuntimeError("Ubuntu worker exited; inspect worker.log")
 
-    def predict(self, video, a, b, fps, questions):
+    def predict(self, video, a, b, fps, questions, sample_from=None):
         # shortcut: changed question groups recompute that window; split cache keys if repeated re-querying becomes common.
         identity = dict(version=1, video=video["id"], size=Path(video["path"]).stat().st_size,
             start=round(a, 6), end=round(b, 6), fps=fps, crop=video.get("crop"), context=32768,
             pins=self.config["model"], questions=questions)
+        if sample_from:
+            identity['sample_origin']=dict(start=sample_from['start'],clip=Path(sample_from['path']).stem)
         key = digest(identity)
         result_path = self.tasks/(key+".result.json")
-        sampling_seconds = 0.
+        clip_key = digest({k:v for k,v in identity.items() if k != "questions"})
+        clip = self.cache/(clip_key+".mp4")
+        if sample_from and abs(a-sample_from['start'])<1e-6 and abs(b-sample_from['end'])<1e-6:
+            clip=Path(sample_from['path'])
+        self.last_sample=dict(path=str(clip),start=a,end=b,video_id=video['id'],fps=fps)
+        sampling_seconds,waiting_seconds = 0.,0.
+        cache_hit=result_path.exists()
         if not result_path.exists():
-            clip_key = digest({k:v for k,v in identity.items() if k != "questions"})
-            clip = self.cache/(clip_key+".mp4")
             if not clip.exists():
                 started = time.perf_counter()
-                crop = video.get("crop")
+                crop = None if sample_from else video.get("crop")
+                source_path=sample_from['path'] if sample_from else video['path']
+                seek=a-sample_from['start'] if sample_from else a
                 filters = (f"crop={crop['w']}:{crop['h']}:{crop['x']}:{crop['y']}," if crop else "")
                 filters += f"fps={fps}:start_time=0:round=up,trim=duration={b-a:.6f}"
-                command(["ffmpeg", "-v", "error", "-y", "-ss", f"{a:.6f}", "-t", f"{b-a:.6f}",
-                    "-i", video["path"], "-an", "-vf", filters, "-c:v", "libx264", "-preset", "ultrafast",
+                command(["ffmpeg", "-v", "error", "-y", "-ss", f"{seek:.6f}", "-t", f"{b-a:.6f}",
+                    "-i", source_path, "-an", "-vf", filters, "-c:v", "libx264", "-preset", "ultrafast",
                     "-crf", "18", "-g", "1", "-threads", "2", "-t", f"{b-a:.6f}", str(clip)], 600)
                 sampling_seconds = time.perf_counter()-started
+                save_json(clip.with_suffix('.sample.json'),dict(seconds=sampling_seconds,input=source_path,
+                    reused_round3=bool(sample_from),source_start=a,source_end=b))
             save_json(self.tasks/(key+".request.json"), dict(id=key, path=wsl_path(clip), fps=fps, questions=questions, context=32768))
             started = time.time()
             while not result_path.exists():
                 self.check_worker()
                 if time.time()-started > 1800:
                     raise TimeoutError("Model request exceeded 30 minutes")
-                time.sleep(.25)
+                time.sleep(.05)
+            waiting_seconds=time.time()-started
         result = json.loads(result_path.read_text(encoding="utf-8"))
         if result["status"] != "complete":
             raise RuntimeError(result.get("error", "Model request failed"))
         self.timings.append(dict(video_id=video["id"], task=key, start=a, end=b, fps=fps,
             sampling_seconds=sampling_seconds, prepare_seconds=result["prepare_seconds"], encode_seconds=result["encode_seconds"],
+            cache_hit=cache_hit,wait_for_result_seconds=waiting_seconds,
+            wait_overhead_seconds=max(0,waiting_seconds-result.get('wall_seconds',0)),
+            worker_idle_before_seconds=result.get('idle_before_seconds',0),sample_from_round3=bool(sample_from),
             queries=[dict(id=q["question"]["id"], seconds=q["seconds"], peak_allocated_mib=q["peak_allocated_mib"],
                 peak_reserved_mib=q["peak_reserved_mib"]) for q in result["queries"]]))
         return key, result
@@ -273,7 +287,11 @@ class Indexer:
         choices = [need["confirm"]["right"], *need["confirm"]["wrong"], "None of these."]
         random.Random(self.settings["seed"]+int(digest([video["id"],need_id,round(a,6),round(b,6)]),16)).shuffle(choices)
         options = [f"{chr(65+i)}. {text}" for i,text in enumerate(choices)]
-        _, prediction = self.predict(video, a, b, 2., [dict(id=need_id, task="choice", query=need["confirm"]["question"], options=options)])
+        origin=getattr(self,'confirmation_origin',None)
+        if not origin or not (origin['start']<=a+1e-6 and origin['end']>=b-1e-6 and Path(origin['path']).exists()):
+            origin=next((w for w in getattr(self,'sampled_windows',{}).get(video['id'],[])
+            if w['start']<=a+1e-6 and w['end']>=b-1e-6 and Path(w['path']).exists()),None)
+        _, prediction = self.predict(video, a, b, 2., [dict(id=need_id, task="choice", query=need["confirm"]["question"], options=options)],sample_from=origin)
         output = prediction["queries"][0]["output"]
         right = choices.index(need["confirm"]["right"])
         probability = output["probabilities"][right]
@@ -282,7 +300,7 @@ class Indexer:
             start=a, end=b, grounding=grounding, purpose=purpose, options=options,
             probabilities=output["probabilities"], answer_index=output["answer_index"], answer=output["answer"],
             right_index=right, right=options[right], confirmation=probability, choice_pass=passed,
-            score=grounding*probability, source_scope_status=scope_status(video,need))
+            score=grounding*probability, source_scope_status=scope_status(video,need),confirmation_parent=origin)
 
     def check_candidates(self, video, rows, black, purpose):
         for row in rows:
