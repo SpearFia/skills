@@ -27,9 +27,11 @@ class ScriptAssignmentTests(unittest.TestCase):
 
     def test_adjacent_general_sentences_merge_but_groups_and_vo_do_not(self):
         def span(a,b,group='wick1',vo='v'):return dict(start_frame=a,end_frame=b,groups=[group],vo_path=vo,beat_ids=[str(a)])
-        slots=general_slots([span(0,30),span(30,60),span(60,90,'wick2'),span(90,120,'wick2','other')])
+        spans=[span(0,30),span(30,60),span(60,90,'wick2'),span(90,120,'wick2','other')]
+        slots=general_slots(spans)
         self.assertEqual([s['duration_frames'] for s in slots],[60,30,30])
         self.assertEqual(slots[0]['beat_ids'],['0','30'])
+        self.assertEqual(spans[0]['beat_ids'],['0'])
 
     def test_repeated_sentence_offsets_use_ordinal_not_first_text_match(self):
         with tempfile.TemporaryDirectory() as tmp:

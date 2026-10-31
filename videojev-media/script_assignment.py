@@ -77,7 +77,7 @@ def general_slots(spans):
     for s in sorted(spans,key=lambda s:s['start_frame']):
         if merged and s['start_frame']==merged[-1]['end_frame'] and s['groups']==merged[-1]['groups'] and s['vo_path']==merged[-1]['vo_path']:
             merged[-1]['end_frame']=s['end_frame'];merged[-1]['beat_ids']+=s['beat_ids']
-        else:merged.append(dict(s))
+        else:merged.append(dict(s,beat_ids=list(s['beat_ids'])))
     slots=[]
     for s in merged:
         count=max(1,math.ceil((s['end_frame']-s['start_frame'])/120))
