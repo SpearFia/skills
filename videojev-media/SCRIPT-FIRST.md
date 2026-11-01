@@ -194,3 +194,38 @@ creator reference and Stage 5 outputs. It is saved to
 the cached fill, new-query fill and cached swap succeed. A missing match produces
 `stage5_gate_incomplete`. The workflow stops before Stage 6. A
 `media/jev/script-first/stage5/stop` file stops at the next task boundary.
+
+## Stage 6: finalize the creator's saved edit
+
+`jev.py finalize --project <demo> --review <creator-edited.fcproj>` captures a
+byte-identical saved-edit snapshot. It upgrades only masters behind visible
+selected footage, retaining existing intro/end assets. Hidden alternates and
+unused bin footage do not become download targets. Selected master source
+ranges, handles and crops remain fixed. The source list comes from the saved
+edit, not a new assignment or the Stage 5 test copies.
+
+The job reuses `pool.stream_clips` to fetch HLS segments at up to 1080p, merging
+overlapping fetch requests to avoid redundant segments. Full-source downloads
+are a fallback for missing/insufficient HLS or failed segment alignment. Blocked
+and age-gated requests are reported without bypass. Completed sources, partial
+downloads and validated masters remain reusable after a stop. Each master must
+pass source-time/crop fingerprint checks. Resolution comes from the actual
+source; lower-resolution sources are reported instead of being upscaled.
+
+New video-only masters live in `B-roll/jev-hq`; the 480p originals are retained.
+Native relinking uses `relinkOthers: false` and preserves source-in, cuts,
+retiming, animated zooms, captions, cards, audio and transitions. Source anchors
+scale with the replacement dimensions. Hardware calibration verified that
+plain relinking shifts the picture; scaling the anchor restores the frame.
+The saved native sequence must match exactly apart from these anchor units.
+Representative normal, slowed and animated-zoom frames are rendered before and
+after. Perceptual frame checks are approximate and do not replace visual review.
+
+The output is a separate `-final.fcproj`. Metadata and verification live under
+`media/jev/script-first/stage6/<input-sha>`; progress is in
+`production/jev-stage6-summary.md`. Failures, sources below 1080p, unmapped
+footage and changed saved input keep the gate incomplete. Selected clips that
+intersect outro exclusions are flagged without silently changing the creator's
+choices. The same exclusion ranges apply to future alternate selection.
+The job stops before Stage 7. Create `media/jev/script-first/stage6/stop` for a
+clean stop at the next task boundary.

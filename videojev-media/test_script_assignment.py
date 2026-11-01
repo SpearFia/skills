@@ -107,8 +107,10 @@ class ScriptAssignmentTests(unittest.TestCase):
             a.by_query['q']=[dict(id='candidate',video_id=vid,start=20,end=24,confirmation=.99)]
             slot=dict(kind='specific',question_id='q',groups=['wick1'],start_frame=0,duration_frames=90,top=None,alternates=[])
             self.assertEqual(a.proposal(slot),[])
+            self.assertEqual(a.proposal(slot,True),[])
             general=a.proposal(dict(slot,kind='general'))
             self.assertTrue(general);self.assertTrue(all(c['end']<=17.5 for c in general))
+            self.assertTrue(all(c['end']<=17.5 for c in a.proposal(dict(slot,kind='general'),True)))
             self.assertEqual(a.raw_score('q',vid,20,24),.95)
             self.assertEqual((root/'score-reuse.json').read_bytes(),before)
 

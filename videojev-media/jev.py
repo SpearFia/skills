@@ -223,7 +223,7 @@ def write_checklist(project):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools", "specific-queries", "script-timeline", "fill", "swap", "stage5-test"])
+    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools", "specific-queries", "script-timeline", "fill", "swap", "stage5-test", "finalize"])
     parser.add_argument("--project", type=Path, required=True)
     parser.add_argument("--review",type=Path)
     parser.add_argument("--at")
@@ -251,6 +251,10 @@ if __name__ == "__main__":
         if not args.review:parser.error('stage5-test requires the saved edited --review')
         from stage5_check import run
         run(args.project.resolve(),args.review.resolve())
+    elif args.command=='finalize':
+        if not args.review:parser.error('finalize requires the creator-edited --review')
+        from stage6_finalize import run
+        run(args.project.resolve(),args.review.resolve())
     elif args.command == "needs":
         path, count, urls = write_checklist(args.project)
         label='questions' if (args.project/'media/jev/script-first/approval.json').exists() else 'needs'
@@ -276,6 +280,6 @@ if __name__ == "__main__":
         from stage4_build import build
         build(args.project.resolve())
     else:
-        choices=['media/jev/script-first/stage5/run.json','media/jev/script-first/stage4-run.json','media/jev/script-first/query-run.json','media/jev/script-first/summary.json'] if (args.project/'media/jev/script-first/approval.json').exists() else ['media/jev/index-status.json']
+        choices=['media/jev/script-first/stage6/run.json','media/jev/script-first/stage5/run.json','media/jev/script-first/stage4-run.json','media/jev/script-first/query-run.json','media/jev/script-first/summary.json'] if (args.project/'media/jev/script-first/approval.json').exists() else ['media/jev/index-status.json']
         status=next((args.project/p for p in choices if (args.project/p).exists()),args.project/choices[0])
         print(status.read_text(encoding="utf-8") if status.exists() else "Indexing has not started.")
