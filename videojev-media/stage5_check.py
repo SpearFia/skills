@@ -64,6 +64,23 @@ def gaps(project,review):
     return sorted(found,key=lambda s:(s['kind']!='specific',s['start_frame']))
 
 
+def comparison_html(rows,results,feedback):
+    def stamp(value):
+        minutes,ms=divmod(round(float(value)*1000),60000)
+        return f'{minutes:02d}:{ms/1000:06.3f}'
+    sections=[]
+    for index,row in enumerate(rows,1):
+        title=('Fill gap' if row['mode']=='fill' else 'Swap shot')+' at '+'–'.join(stamp(v) for v in row['at'].split('-'))
+        note=feedback.get(row['test'],{})
+        if note.get('output') and note['output']!=row.get('output'):note={}
+        sections.append(f'<h2>Test {index}: '+html.escape(title)+'</h2><p>Applied to a copy of '+html.escape(row['input_label'])+'.</p>'+(
+            '<p class="feedback">Creator review: '+html.escape(note['note'])+'</p>' if note else '')+'<div class="row">'+''.join(
+            '<figure><figcaption>'+html.escape(label)+'</figcaption><video controls preload="metadata" src="'+html.escape(file)+'"></video></figure>'
+            for label,file in zip(['1. Original automatic review','2. Your saved edit','3. Stage 5 test result'],row['videos']))+'</div>')
+    missing=''.join('<p><strong>No comparison row: '+html.escape(r['test'])+'.</strong> '+html.escape(r.get('reason','No output clip was saved.'))+'</p>' for r in results if r['status']!='saved')
+    return '<!doctype html><meta charset="utf-8"><title>Stage 5 comparison</title><style>body{font:16px system-ui;background:#151515;color:#eee;padding:24px}.row{display:flex;gap:12px}figure{margin:0;width:33%}video{width:100%}figcaption{font-weight:bold;margin-bottom:8px}.feedback{color:#ffcb80}</style><h1>Stage 5 test copies</h1><p><strong>Each row is a separate test.</strong> Compare the three columns within that row: original automatic review → your saved edit → Stage 5 result. All three panels in one row show the same timeline interval.</p><p>A saved clip means the edit command worked. Footage quality still needs your visual approval. The reference projects remain unchanged.</p>'+missing+''.join(sections)
+
+
 def comparison(project,refs,results,status):
     out=project/'production/jev-stage5';out.mkdir(exist_ok=True)
     rows=[]
@@ -79,13 +96,9 @@ def comparison(project,refs,results,status):
                     export=f.command('file.exportMedia',path=str(target),format='h264',scale=480/2160,audio=False,range='custom',startSeconds=start,endSeconds=end,wait=True,hardwareEncoding='off')
                     assert export['offlineMedia']==[]
             files.append(target.name)
-        rows.append(dict(mode=r['mode'],at=r['at'],input=r['input'],videos=files,new_query=r['new_query']))
-    sections=[]
-    for row in rows:
-        sections.append('<h2>'+html.escape(row['mode']+' at '+row['at'])+'</h2><div class="row">'+''.join(
-            '<figure><figcaption>'+label+'</figcaption><video controls preload="metadata" src="'+html.escape(file)+'"></video></figure>'
-            for label,file in zip(['Original automatic review','Your saved edit','Stage 5 test'],row['videos']))+'</div>')
-    (out/'comparison.html').write_text('<!doctype html><meta charset="utf-8"><title>Stage 5 comparison</title><style>body{font:16px system-ui;background:#151515;color:#eee;padding:24px}.row{display:flex;gap:12px}figure{margin:0;width:33%}video{width:100%}</style><h1>Stage 5 test copies</h1><p>All panels show the same timeline interval. Your saved edit and original project were preserved.</p>'+''.join(sections),encoding='utf8')
+        rows.append(dict(mode=r['mode'],test=r['test'],at=r['at'],input=r['input'],output=r['output'],input_label='your saved edit (column 2)' if r['input']==refs['creator_reference'] else 'the original automatic review (column 1)',videos=files,new_query=r['new_query']))
+    review=project/'media/jev/script-first/stage5/visual-review.json';feedback=read(review) if review.exists() else {}
+    (out/'comparison.html').write_text(comparison_html(rows,results,feedback),encoding='utf8')
     return out/'comparison.html',rows
 
 

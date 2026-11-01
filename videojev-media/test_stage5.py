@@ -9,11 +9,22 @@ from unittest.mock import patch
 from script_first import key,read
 from stage3_sources import save_json
 from stage4_build import TICKS,ticks
-from stage5_check import references
+from stage5_check import comparison_html,references
 from stage5_edit import NewQuery,choose_exact,edit,resolve_need,seconds,slot_at,source_spans,visible
 
 
 class Stage5Tests(unittest.TestCase):
+    def test_comparison_identifies_separate_tests_and_does_not_equate_saved_with_visual_pass(self):
+        rows=[dict(mode='fill',test='cached fill',at='2698.266667-2702.133333',input_label='your saved edit (column 2)',videos=['0-a.mp4','0-b.mp4','0-c.mp4']),
+            dict(mode='swap',test='cached swap',at='0.01666666666666',input_label='the original automatic review (column 1)',videos=['2-a.mp4','2-b.mp4','2-c.mp4'])]
+        page=comparison_html(rows,[dict(test='new-query fill',status='unfilled',reason='No unused match')],{'cached fill':dict(note='Rejected <bad shot>')})
+        for text in ['Each row is a separate test','Fill gap at 44:58.267–45:02.133','Swap shot at 00:00.017','your saved edit (column 2)',
+            'the original automatic review (column 1)','No comparison row: new-query fill','Rejected &lt;bad shot&gt;']:
+            self.assertIn(text,page)
+        self.assertEqual(page.count('<video '),6)
+        replaced=comparison_html(rows,[],{'cached fill':dict(note='Old rejected output',output='another.fcproj')})
+        self.assertNotIn('Old rejected output',replaced)
+
     def test_timestamps_and_rejected_input(self):
         self.assertEqual(seconds('1:02:03.5'),3723.5)
         self.assertEqual(seconds('12:03'),723)
