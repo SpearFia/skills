@@ -65,9 +65,16 @@ def source_spans(project,data,tracks):
         if not file:continue
         master=masters.get(str(Path(file).resolve()).casefold())
         if master is None:continue
-        if c['reverse'] or c['speed']!=1:raise ValueError('Speed changes need explicit source-time mapping before edits')
-        start=master['start']+(c['source_in']+a-c['start'])/TICKS
-        spans.append(dict(video_id=master['video_id'],start=start,end=start+(b-a)/TICKS,timeline=a/TICKS,end_time=b/TICKS,clip=c['id']))
+        speed=c['speed']
+        if not math.isfinite(speed) or speed<=0:raise ValueError('Playback speed must be finite and positive')
+        if c['reverse'] or c.get('frame_hold') is not None:raise ValueError('Reverse playback and frame holds need explicit source-time mapping')
+        for effect in c.get('effects',[]):
+            if effect['effect']=='time_remap' and effect.get('enabled',True):
+                param=effect.get('params',{}).get('speed',{})
+                if param.get('keyframes') or param.get('value',{}).get('Float',100)!=100:
+                    raise ValueError('Time-remap effects need explicit source-time mapping')
+        start=master['start']+(c['source_in']+(a-c['start'])*speed)/TICKS
+        spans.append(dict(video_id=master['video_id'],start=start,end=start+(b-a)*speed/TICKS,timeline=a/TICKS,end_time=b/TICKS,clip=c['id']))
     return spans
 
 

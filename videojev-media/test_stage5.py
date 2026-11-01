@@ -43,6 +43,21 @@ class Stage5Tests(unittest.TestCase):
             top=dict(low,id=2,start=TICKS,duration=2*TICKS,source_in=8*TICKS)
             rows=source_spans(p,data,[dict(enabled=True,items=[low]),dict(enabled=True,items=[top])])
             self.assertEqual([(r['start'],r['end']) for r in rows],[(102,103),(108,110),(105,106)])
+            low['speed']=.5;top['speed']=2
+            rows=source_spans(p,data,[dict(enabled=True,items=[low]),dict(enabled=True,items=[top])])
+            self.assertEqual([(r['start'],r['end']) for r in rows],[(102,102.5),(108,112),(103.5,104)])
+            self.assertEqual([(r['timeline'],r['end_time']) for r in rows],[(0,1),(1,3),(3,4)])
+            self.assertEqual(low['speed'],.5);self.assertEqual(top['speed'],2)
+
+    def test_invalid_speeds_and_unmapped_retiming_fail_before_edit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp);file=p/'master.mp4';save_json(p/'media/jev/script-first/stage4/masters.json',[dict(file='master.mp4',video_id='v',start=0,end=20)])
+            data=dict(project=dict(items={'9':dict(kind=dict(Media=dict(media=dict(File=dict(path=str(file))))))}))
+            clip=dict(id=1,item=9,start=0,duration=TICKS,source_in=0,enabled=True,reverse=False,speed=1)
+            invalid=[dict(speed=x) for x in [0,-1,float('nan'),float('inf')]]+[dict(reverse=True),dict(frame_hold=dict(source=0)),
+                dict(effects=[dict(effect='time_remap',params=dict(speed=dict(value=dict(Float=50))))])]
+            for extra in invalid:
+                with self.subTest(extra=extra),self.assertRaises(ValueError):source_spans(p,data,[dict(enabled=True,items=[dict(clip,**extra)])])
 
     def test_approved_need_resolution_does_not_use_old_subject_boundaries(self):
         a=SimpleNamespace(pools={'gta5':{}},qs={'q':dict(source_group='gta5')},document=dict(visual_catalog=[]))

@@ -103,6 +103,8 @@ def run(project,edited):
         except OSError as exc:raise RuntimeError('Stage 5 tests are already running') from exc
         state=read(root/'run.json') if (root/'run.json').exists() else dict(results=[])
         if state.get('status')=='stage5_gate_ready':raise ValueError('Stage 5 test gate is already ready')
+        if state.get('error'):save_json(root/'attempts'/(str(time.time_ns())+'.json'),state)
+        state.pop('error',None)
         state.update(status='running',started=started,pid=os.getpid(),stage6_started=False)
         def status(phase):
             if (root/'stop').exists():raise RuntimeError('Creator requested stop; completed results retained')

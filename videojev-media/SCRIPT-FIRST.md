@@ -146,9 +146,10 @@ The source ledger is read from visible native clips, including the creator's
 trims and selected alternates. A new shot must cover the entire requested slot,
 avoid existing visible footage and pass the same perceptual repeat filter.
 Already existing repeats in a creator edit are reported, not silently repaired.
-Speed/reverse edits require explicit source-time mapping before these commands
-can operate. An unfilled result preserves the gap instead of shortening the
-request or substituting unrelated footage.
+Constant forward speeds and trims map to the actual source ranges without
+changing the creator's retiming. Reverse playback, frame holds and time-remap
+effects remain unsupported. An unfilled result preserves the gap instead of
+shortening the request or substituting unrelated footage.
 
 `stage5-test --project <demo> --review <edited-review.fcproj>` first saves a
 byte-identical creator reference. It reconstructs the complete pre-edit layered
