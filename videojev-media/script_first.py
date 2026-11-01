@@ -19,6 +19,41 @@ from stage3_sources import pool,save_json
 def read(path):return json.loads(Path(path).read_text(encoding='utf-8'))
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def key(group,query):return hashlib.sha256((group+'\0'+' '.join(query.split()).casefold()).encode()).hexdigest()[:20]
+
+
+def creator_exclusions(project):
+    path=project/'media/jev/script-first/creator-rejections.json'
+    if not path.exists():return {}
+    document=read(path)
+    if document.get('version')!=1:raise ValueError('Unknown creator-rejection format')
+    spans=collections.defaultdict(list)
+    for entry in document['entries']:
+        a,b=entry['start'],entry['end']
+        if not all(math.isfinite(n) for n in [a,b]) or not 0<=a<b:raise ValueError('Invalid creator rejection range')
+        spans[entry['video_id']].append([a,b])
+    return {vid:union(rows) for vid,rows in spans.items()}
+
+
+def record_outros(project,link_ids):
+    approve(project);folder=project/'media/jev/script-first';path=folder/'creator-rejections.json'
+    document=read(path) if path.exists() else dict(version=1,entries=[])
+    creator_exclusions(project)
+    by_link={link:slot for slot,link in read(folder/'stage4/stage4-links.json').items()}
+    slots={s['id']:s for s in read(folder/'stage4/assignment.json')['slots']}
+    videos={v['id']:v for v in read(project/'media/jev/download-report.json')['videos']}
+    for name in link_ids:
+        name=name.lstrip('#');slot=slots[by_link[name]];c=slot['top'];end=videos[c['video_id']]['probe']['duration']
+        if not 0<=c['start']<c['end']<=end+1e-6:raise ValueError('Reported clip is outside its source')
+        entry=dict(link_id=name,slot=slot['id'],video_id=c['video_id'],source_group=c['source_group'],start=c['start'],end=end,
+            confirmed_shot=[c['start'],c['end']],timeline_seconds=slot['start_frame']/30,reason='Creator-confirmed channel outro',
+            policy='Exclude from the reported outro shot through source end; the earliest outro boundary is not verified',reported_at=datetime.now(timezone.utc).isoformat())
+        old=next((e for e in document['entries'] if e['link_id']==name),None)
+        if old and (old['video_id'],old['confirmed_shot'])!=(entry['video_id'],entry['confirmed_shot']):raise ValueError('Reported link changed source since rejection')
+        if not old:document['entries'].append(entry)
+    save_json(path,document)
+    return document
+
+
 def video_id(url):
     validate_url(url);p=urlsplit(url if '://' in url else 'https://'+url)
     return parse_qs(p.query)['v'][0] if p.path=='/watch' else p.path.rstrip('/').split('/')[-1]
@@ -160,6 +195,7 @@ def cached_scores(cache,windows,qs,allowed):
 
 def general_pools(project,sources,videos,blocked):
     cache=pool.cache_dir(project)/'jev-index';folder=project/'media/jev/script-first'
+    rejected=creator_exclusions(project)
     pools=[]
     for group,urls in sources['groups'].items():
         entries=[]
@@ -174,10 +210,10 @@ def general_pools(project,sources,videos,blocked):
             if text and (text['source_size']!=Path(video['path']).stat().st_size or text['crop']!=video.get('crop')):
                 raise ValueError('Text scan is stale: '+vid)
             ready=black is not None and text is not None and text.get('status')=='complete'
-            spans=subtract(0,video['probe']['duration'],black+text['ranges']) if ready else None
+            spans=subtract(0,video['probe']['duration'],black+text['ranges']+rejected.get(vid,[])) if ready else None
             entries.append(dict(video_id=vid,path=video['path'],duration=video['probe']['duration'],crop=video.get('crop'),
                 status='ready' if ready else 'quality_scan_pending',black_ranges=black,text_ranges=text['ranges'] if text else None,
-                usable_ranges=spans))
+                usable_ranges=spans,creator_rejected_ranges=rejected.get(vid,[])))
         pools.append(dict(source_group=group,query=None,status='ready' if entries and all(v['status']=='ready' for v in entries) else 'pending',
             selection='All usable ranges; spacing and no-repeat apply when selecting, not a positive-query filter',videos=entries))
     return pools

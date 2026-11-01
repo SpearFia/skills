@@ -19,6 +19,15 @@ missed. Completed per-video scans are cached. No VideoJev or language model is
 used for general-pool filtering. The Windows OCR decoder reads memory so it
 cannot leave the next frame's PNG file locked.
 
+Creator-reported channel outros are recorded separately in
+`media/jev/script-first/creator-rejections.json`, traced from link IDs to original
+source times. Selection excludes the source tail from the reported outro shot
+onwards, including space for handles. General pools, cached specific matches,
+alternates and future Stage 5 edits honor these exclusions. Saved score vectors,
+earlier assignments, reference reviews and the creator's edit are preserved.
+This blocks known failures; it does not establish that every outro boundary has
+been found. A running Python job keeps the exclusions loaded when it started.
+
 The 97 distinct group/query pairs come from specific approved beats. Native
 per-question probabilities are reused from the saved worker results, with the
 original bounds and provenance. Legacy summaries that take a maximum across

@@ -7,7 +7,7 @@ import math
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from script_first import approve,key,questions,read
+from script_first import approve,creator_exclusions,key,questions,read
 from script_queries import saved_choices
 from stage3_index import subtract,union
 from stage3_sources import pool,save_json
@@ -96,8 +96,9 @@ class Assignment:
         self.videos={v['id']:v for v in read(project/'media/jev/download-report.json')['videos'] if v['status']=='ready'}
         self.pools={p['source_group']:p for p in read(self.root/'general-pools.json')}
         if any(p['status']!='ready' for p in self.pools.values()):raise ValueError('General pools are not ready')
-        self.quality={v['video_id']:v['usable_ranges'] for p in self.pools.values() for v in p['videos']}
-        self.excluded={v['video_id']:union(v['black_ranges']+v['text_ranges']) for p in self.pools.values() for v in p['videos']}
+        self.creator_rejected=creator_exclusions(project)
+        self.quality={v['video_id']:[span for a,b in v['usable_ranges'] for span in subtract(a,b,self.creator_rejected.get(v['video_id'],[]))] for p in self.pools.values() for v in p['videos']}
+        self.excluded={v['video_id']:union(v['black_ranges']+v['text_ranges']+self.creator_rejected.get(v['video_id'],[])) for p in self.pools.values() for v in p['videos']}
         self.plan=read(self.root/'job-plan.json');self.allowed={(j['video_id'],j['question_id']) for j in self.plan['queries'] if j['status'] in {'reuse_saved_scores','new_query'}}
         pairs={(j['video_id'],j['question_id']) for j in self.plan['queries'] if j['status']=='reuse_saved_scores'}
         cached=saved_choices(read(project/'media/jev/candidates.json'),self.document,self.qs,pairs,self.excluded)
@@ -132,7 +133,7 @@ class Assignment:
                 text=read(target) if target.exists() else scan_video(v,black,ocr,target)
                 if text['status']!='complete' or text['source_size']!=Path(v['path']).stat().st_size or text['crop']!=v.get('crop'):
                     raise ValueError('Stale text-screen scan: '+vid)
-                self.excluded[vid]=union(black+text['ranges'])
+                self.excluded[vid]=union(black+text['ranges']+self.creator_rejected.get(vid,[]))
                 self.quality[vid]=subtract(0,v['probe']['duration'],self.excluded[vid])
 
     def sample_hashes(self,vid,a,b):

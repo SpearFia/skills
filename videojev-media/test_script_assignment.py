@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from script_assignment import Assignment,beat_times,general_slots,make_slots
-from script_first import key,read
+from script_first import creator_exclusions,general_pools,key,read,record_outros
 from script_queries import saved_choices
 from script_stage4 import replace_footage_links
 from stage3_sources import save_json
@@ -76,6 +76,41 @@ class ScriptAssignmentTests(unittest.TestCase):
         self.assertAlmostEqual(a.raw_score('q','a',0,4),.2)
         a.quality['a']=[[0,10],[12,100]]
         self.assertEqual(list(a.free_ranges('a',0,100)),[[0,7.5],[14.5,100]])
+
+    def test_creator_outros_block_general_and_confirmed_choices_without_rewriting_scores(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp);root=p/'media/jev/script-first';vid='AbCdEf12345';proxy=p/'proxy.mp4';proxy.write_bytes(b'proxy')
+            save_json(root/'stage4/stage4-links.json',{'slot':'k1'})
+            save_json(root/'stage4/assignment.json',dict(slots=[dict(id='slot',start_frame=300,top=dict(video_id=vid,start=20,end=23,source_group='wick1'))]))
+            video=dict(id=vid,status='ready',path=str(proxy),crop=None,probe=dict(duration=100,fps=30))
+            save_json(p/'media/jev/download-report.json',dict(videos=[video]))
+            row=dict(question_id='q',video_id=vid,start=0,fps=2,bounds=[[20,24]],black=[False],probabilities=[.95])
+            save_json(root/'score-reuse.json',dict(rows=[row]));before=(root/'score-reuse.json').read_bytes()
+            with patch('script_first.approve'):
+                record_outros(p,['#k1']);record_outros(p,['k1'])
+            self.assertEqual(len(read(root/'creator-rejections.json')['entries']),1)
+            self.assertEqual(creator_exclusions(p),{vid:[[20,100]]})
+            self.assertEqual(read(root/'creator-rejections.json')['entries'][0]['confirmed_shot'],[20,23])
+            save_json(p/'cache/jev-index'/(vid+'.black.json'),dict(ranges=[]))
+            save_json(root/'text-scans'/(vid+'.json'),dict(status='complete',source_size=5,crop=None,ranges=[]))
+            with patch('script_first.pool.cache_dir',return_value=p/'cache'):
+                pools=general_pools(p,dict(groups={'wick1':['https://youtu.be/'+vid]}),{vid:video},set())
+            self.assertEqual(pools[0]['videos'][0]['usable_ranges'],[[0,20]])
+            # Keep the old pool artifact to prove the separate exclusion also protects existing caches.
+            pools[0]['videos'][0]['usable_ranges']=[[0,100]];save_json(root/'general-pools.json',pools)
+            for name,value in [('query-run',dict(status='specific_query_gate_ready')),('job-plan',dict(queries=[])),
+                ('query-results/candidates',[]),('query-results/score-windows',[])]:save_json(root/(name+'.json'),value)
+            save_json(p/'media/jev/candidates.json',[])
+            with patch('script_assignment.approve',return_value=dict(visual_catalog=[])),patch('script_assignment.questions',return_value={'q':dict(source_group='wick1',query='A man moves.')}),patch('script_assignment.pool.cache_dir',return_value=p/'cache'):
+                a=Assignment(p)
+            self.assertEqual(list(a.free_ranges(vid,0,100)),[[0,17.5]])
+            a.by_query['q']=[dict(id='candidate',video_id=vid,start=20,end=24,confirmation=.99)]
+            slot=dict(kind='specific',question_id='q',groups=['wick1'],start_frame=0,duration_frames=90,top=None,alternates=[])
+            self.assertEqual(a.proposal(slot),[])
+            general=a.proposal(dict(slot,kind='general'))
+            self.assertTrue(general);self.assertTrue(all(c['end']<=17.5 for c in general))
+            self.assertEqual(a.raw_score('q',vid,20,24),.95)
+            self.assertEqual((root/'score-reuse.json').read_bytes(),before)
 
     def test_coherent_visual_copy_rejected(self):
         a=self.runner();a.frames['b']=[dict(time=i,hash=str(100+int(i*2)),color=[50]*3) for i in [0,.5,1]]
