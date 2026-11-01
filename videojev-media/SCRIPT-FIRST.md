@@ -118,3 +118,52 @@ Assignments, masters, native snapshots, timing and checks are under
 and render checks pass. Interactive playback and scene identity remain for
 creator review. The job stops before Stage 5. A `stage4/stop` file stops at the
 next task boundary, preserving completed artifacts.
+
+## Stage 5 edit commands and comparison
+
+`fill` takes an empty timeline range; `swap` takes a timestamp within a visible
+footage clip. Both require `--review`, save a separate `review-stage5-*.fcproj`,
+and preserve the input file. They leave narration, music, cards, captions and
+other clips unchanged. Examples:
+
+```powershell
+py -3.11 videojev-media/jev.py fill --project <demo> --review <review.fcproj> --at 12:03-12:06 --need <question-id>
+py -3.11 videojev-media/jev.py swap --project <demo> --review <review.fcproj> --at 12:03 --need wick1
+py -3.11 videojev-media/jev.py fill --project <demo> --review <review.fcproj> --at 12:03-12:06 --group wick1 --query "A car moves through traffic."
+```
+
+`--need` accepts an approved question/visual ID, an unambiguous approved cache
+reference, or a film/game group for a query-free general shot. It reuses stored
+choices and scores. `--query` reuses an already known question when possible;
+otherwise it sends only the new text and its mechanical multiple-choice check
+to the pinned Ubuntu worker at context 32,768. It scans at 2 fps, starts with
+promising saved windows, and stops when it has one confirmed unused shot of the
+requested duration. Completed Stage 3 scores are never rewritten. New query
+answers live in a separate per-query cache and can be reused by another edit.
+General footage still uses only its own group URLs and local text/black scans.
+
+The source ledger is read from visible native clips, including the creator's
+trims and selected alternates. A new shot must cover the entire requested slot,
+avoid existing visible footage and pass the same perceptual repeat filter.
+Already existing repeats in a creator edit are reported, not silently repaired.
+Speed/reverse edits require explicit source-time mapping before these commands
+can operate. An unfilled result preserves the gap instead of shortening the
+request or substituting unrelated footage.
+
+`stage5-test --project <demo> --review <edited-review.fcproj>` first saves a
+byte-identical creator reference. It reconstructs the complete pre-edit layered
+review from the unchanged base, saved assignment and masters, then checks it
+against the saved native track snapshot. This uses no inference or new
+assignment. Tests use disposable copies and representative real gaps, preferring
+the original review and then the creator reference when saved evidence is
+available there. The new-query test mechanically prefixes an approved literal
+description with `Visible scene:` to exercise an uncached query without changing
+the approved interpretation. It also tests one cached replacement.
+
+The comparison page renders the same intervals from the automatic original,
+creator reference and Stage 5 outputs. It is saved to
+`production/jev-stage5/comparison.html`; the short summary is
+`production/jev-stage5-summary.md`. Status becomes `stage5_gate_ready` only if
+the cached fill, new-query fill and cached swap succeed. A missing match produces
+`stage5_gate_incomplete`. The workflow stops before Stage 6. A
+`media/jev/script-first/stage5/stop` file stops at the next task boundary.

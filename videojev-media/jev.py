@@ -223,8 +223,13 @@ def write_checklist(project):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools", "specific-queries", "script-timeline"])
+    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools", "specific-queries", "script-timeline", "fill", "swap", "stage5-test"])
     parser.add_argument("--project", type=Path, required=True)
+    parser.add_argument("--review",type=Path)
+    parser.add_argument("--at")
+    parser.add_argument("--need")
+    parser.add_argument("--query")
+    parser.add_argument("--group",choices=list(SOURCE_GROUPS))
     args = parser.parse_args()
     if args.command == 'prepare-beats':
         from script_first import prepare
@@ -238,6 +243,14 @@ if __name__ == "__main__":
     elif args.command == 'script-timeline':
         from script_stage4 import run
         run(args.project.resolve())
+    elif args.command in {'fill','swap'}:
+        if not args.review or not args.at:parser.error('fill/swap require --review and --at')
+        from stage5_edit import edit
+        print(json.dumps(edit(args.project.resolve(),args.review.resolve(),args.command,args.at,need=args.need,query=args.query,group=args.group),indent=2))
+    elif args.command=='stage5-test':
+        if not args.review:parser.error('stage5-test requires the saved edited --review')
+        from stage5_check import run
+        run(args.project.resolve(),args.review.resolve())
     elif args.command == "needs":
         path, count, urls = write_checklist(args.project)
         label='questions' if (args.project/'media/jev/script-first/approval.json').exists() else 'needs'
@@ -263,6 +276,6 @@ if __name__ == "__main__":
         from stage4_build import build
         build(args.project.resolve())
     else:
-        choices=['media/jev/script-first/stage4-run.json','media/jev/script-first/query-run.json','media/jev/script-first/summary.json'] if (args.project/'media/jev/script-first/approval.json').exists() else ['media/jev/index-status.json']
+        choices=['media/jev/script-first/stage5/run.json','media/jev/script-first/stage4-run.json','media/jev/script-first/query-run.json','media/jev/script-first/summary.json'] if (args.project/'media/jev/script-first/approval.json').exists() else ['media/jev/index-status.json']
         status=next((args.project/p for p in choices if (args.project/p).exists()),args.project/choices[0])
         print(status.read_text(encoding="utf-8") if status.exists() else "Indexing has not started.")
