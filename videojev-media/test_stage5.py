@@ -24,6 +24,8 @@ class Stage5Tests(unittest.TestCase):
         self.assertEqual(page.count('<video '),6)
         replaced=comparison_html(rows,[],{'cached fill':dict(note='Old rejected output',output='another.fcproj')})
         self.assertNotIn('Old rejected output',replaced)
+        retry=comparison_html([dict(rows[0],test='cached fill retry')],[],{})
+        self.assertIn('Retry: Fill gap at 44:58.267–45:02.133',retry)
 
     def test_timestamps_and_rejected_input(self):
         self.assertEqual(seconds('1:02:03.5'),3723.5)

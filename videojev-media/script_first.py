@@ -22,15 +22,16 @@ def key(group,query):return hashlib.sha256((group+'\0'+' '.join(query.split()).c
 
 
 def creator_exclusions(project):
-    path=project/'media/jev/script-first/creator-rejections.json'
-    if not path.exists():return {}
-    document=read(path)
-    if document.get('version')!=1:raise ValueError('Unknown creator-rejection format')
     spans=collections.defaultdict(list)
-    for entry in document['entries']:
-        a,b=entry['start'],entry['end']
-        if not all(math.isfinite(n) for n in [a,b]) or not 0<=a<b:raise ValueError('Invalid creator rejection range')
-        spans[entry['video_id']].append([a,b])
+    for name in ['creator-rejections.json','outro-scans.json']:
+        path=project/'media/jev/script-first'/name
+        if not path.exists():continue
+        document=read(path)
+        if document.get('version')!=1:raise ValueError('Unknown source-exclusion format')
+        for entry in document['entries']:
+            a,b=entry['start'],entry['end']
+            if not all(math.isfinite(n) for n in [a,b]) or not 0<=a<b:raise ValueError('Invalid source exclusion range')
+            spans[entry['video_id']].append([a,b])
     return {vid:union(rows) for vid,rows in spans.items()}
 
 

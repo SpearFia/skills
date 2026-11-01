@@ -71,6 +71,7 @@ def comparison_html(rows,results,feedback):
     sections=[]
     for index,row in enumerate(rows,1):
         title=('Fill gap' if row['mode']=='fill' else 'Swap shot')+' at '+'–'.join(stamp(v) for v in row['at'].split('-'))
+        if row['test'].endswith('retry'):title='Retry: '+title
         note=feedback.get(row['test'],{})
         if note.get('output') and note['output']!=row.get('output'):note={}
         sections.append(f'<h2>Test {index}: '+html.escape(title)+'</h2><p>Applied to a copy of '+html.escape(row['input_label'])+'.</p>'+(
@@ -162,7 +163,7 @@ def run(project,edited):
                     result=edit(project,file,'swap',str((s['start_frame']+.5)/FPS),need=s['question_id'] or s['groups'][0],prepared=prepared,status=status)
                     if result['status']=='saved':break
                 result['test']='cached swap';state['results'].append(result);save_json(root/'run.json',state)
-            status('Build comparison page');page,rows=comparison(project,refs,state['results'],status);state['comparison']=str(page)
+            status('Build comparison page');page,rows=comparison(project,refs,state['results']+state.get('quality_retries',[]),status);state['comparison']=str(page)
             assert sha(refs['creator_reference'])==refs['creator_sha256'],'Saved edit reference changed'
             assert sha(refs['pre_edit'])==refs['pre_edit_sha256'],'Reconstructed original changed'
             assert all(sha(p)==h for p,h in before.items()),'A protected project or search input changed'

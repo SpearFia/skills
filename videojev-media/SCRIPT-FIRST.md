@@ -28,6 +28,23 @@ earlier assignments, reference reviews and the creator's edit are preserved.
 This blocks known failures; it does not establish that every outro boundary has
 been found. A running Python job keeps the exclusions loaded when it started.
 
+The creator also rejected the Stage 5 fill as a Movieclips endcard: black/logo
+on the left, blue waves on the right. `script_outros.py --project <demo>` uses
+that confirmed example to check the last 45 seconds of supplied sources from
+the same channel at 2 fps. A match needs the split color layout, similar coarse
+RGB pixels and perceptual hash, sustained for at least three samples. It pads
+the detected start by half a second and excludes the remaining tail, with the
+normal handle protection. Interior control samples must have zero template
+matches before automatic exclusions are published to `outro-scans.json`.
+
+This checks one known layout, not every channel endcard. Interior probes are
+not an exhaustive false-positive measurement. Scan metrics are cached per
+source; no model embeddings, new VideoJev calls or changes to saved scores are
+involved. The script retries the rejected fill on a separate review, checks its
+body and handles, and adds a third comparison row while preserving the failed
+attempt and both reference projects. The replacement still needs creator visual
+approval. It stops before Stage 6; the helicopter test remains unfilled.
+
 The 97 distinct group/query pairs come from specific approved beats. Native
 per-question probabilities are reused from the saved worker results, with the
 original bounds and provenance. Legacy summaries that take a maximum across
