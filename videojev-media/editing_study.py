@@ -148,7 +148,13 @@ def run_study(path,out,labels_path=None):
                 if p['stage'] not in decisions[p['id']] or decisions[p['id']][p['stage']]['status']=='not-asked':
                     decisions[p['id']][p['stage']]=dict(status='failed',context_sha256=p['context_sha256'],error=str(exc))
         report=dict(study_sha256=identity,mode='recommendations-only',motion='pop',deployment_enabled=False,model_requests=calls,decisions=decisions)
-        if labels_path:report['evaluation']=evaluate(study,report,read(labels_path))
+        label_copy=out/'creator-labels.json'
+        label_source=labels_path or (label_copy if label_copy.exists() else None)
+        if label_source:
+            report['evaluation']=evaluate(study,report,read(label_source))
+            if label_copy.exists() and file_hash(label_source)!=file_hash(label_copy):raise ValueError('Earlier creator labels must be preserved; use a fresh study for another review')
+            if not label_copy.exists():shutil.copy2(label_source,label_copy)
+            report['creator_labels_sha256']=file_hash(label_copy)
         save_json(out/'study-report.json',report)
         save_json(out/'decision-contexts.json',work)
         write_report(out,study,report,media)
@@ -161,7 +167,10 @@ def write_report(folder,study,report,media):
     rows=[];label_rows=[]
     for i,b in enumerate(study['beats']):
         r=report['decisions'][b['id']]
-        describe=lambda stage: r.get(stage,{}).get('assessment',{}).get('choice',r.get(stage,{}).get('reason','Model judgment unavailable'))
+        def describe(stage):
+            record=r[stage]
+            if record['status']=='complete':return record['assessment']['choice']
+            return record.get('reason',record.get('error','Model judgment unavailable'))
         rows.append('<tr><td>'+html.escape(b['id'])+'</td><td>'+html.escape(b['narration'])+'</td><td>'+html.escape(describe('opportunity'))+'</td><td>'+html.escape(describe('treatment'))+'</td></tr>')
         op='<option value="">Choose…</option>'+''.join('<option value="'+k+'">'+html.escape(v)+'</option>' for k,v in OPPORTUNITY.items())
         options=[('keep','Keep current presentation'),*[(c['id'],FAMILIES[c['kind']][0]+' · pop: '+' / '.join(c['labels'])) for c in b['candidates']],('none-of-these','None of these / needs review')]

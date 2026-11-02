@@ -4,9 +4,10 @@ import re
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from calibration_examples import FAMILIES,MOTIONS,catalog,example_props
-from editing_recipe import write_report
+from calibration_examples import FAMILIES,MOTIONS,catalog,example_props,generate
+from editing_recipe import digest,file_hash,save_json,write_report
 
 
 class CalibrationExampleTests(unittest.TestCase):
@@ -47,6 +48,24 @@ class CalibrationExampleTests(unittest.TestCase):
             entry=catalog(folder)['source-card-impact']
             self.assertNotIn('file',entry)
             self.assertNotIn('poster',entry)
+
+    def test_short_study_uses_only_three_pop_references_and_reuses_verified_renders(self):
+        with tempfile.TemporaryDirectory() as d:
+            folder=Path(d);(folder/'study.json').write_text('{}')
+            renderer=folder/'renderer';(renderer/'src').mkdir(parents=True)
+            (renderer/'package-lock.json').write_text('{}')
+            work=folder/'style-examples';(work/'assets').mkdir(parents=True)
+            background=work/'assets/background.mp4';background.write_bytes(b'background fixture')
+            code={'package-lock.json':file_hash(renderer/'package-lock.json')}
+            for kind in FAMILIES:
+                identity=digest(dict(props=example_props(kind,'pop'),code=code,background=file_hash(background),render=dict(scale=.5,crf=23)))
+                name=kind+'-pop-'+identity[:12];video=work/(name+'.mp4');poster=work/(name+'.jpg')
+                video.write_bytes(b'verified video fixture');poster.write_bytes(b'verified poster fixture')
+                save_json(work/(name+'.json'),dict(file=video.name,poster=poster.name,sha256=file_hash(video),poster_sha256=file_hash(poster)))
+            with patch('editing_recipe.RENDERER',renderer),patch('calibration_examples.subprocess.run') as process:
+                records=generate(folder)
+                self.assertEqual(set(records),{k+'-pop' for k in FAMILIES});process.assert_not_called()
+                self.assertEqual(len(catalog(folder)),5)
 
 
 if __name__=='__main__':unittest.main()

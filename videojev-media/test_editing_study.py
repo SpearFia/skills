@@ -127,6 +127,11 @@ class EditingStudyTests(unittest.TestCase):
                 self.assertEqual(second['model_requests'],dict(opportunity=0,treatment=0))
                 worker.assert_not_called();request.assert_not_called()
                 self.assertEqual(second['evaluation']['stages'],dict(opportunity=dict(count=3,matches=3,agreement=1),treatment=dict(count=2,matches=2,agreement=1)))
+                self.assertEqual((out/'creator-labels.json').read_bytes(),labels_path.read_bytes())
+                third=run_study(path,out)
+                self.assertEqual(third['evaluation'],second['evaluation']);worker.assert_not_called();request.assert_not_called()
+                changed=copy.deepcopy(labels);changed['labels'][0]['opportunity']='uncertain';save_json(labels_path,changed)
+                with self.assertRaisesRegex(ValueError,'Earlier creator labels'):run_study(path,out,labels_path)
                 stale=copy.deepcopy(labels);stale['labels'][0]['opportunity_context_sha256']='stale'
                 with self.assertRaisesRegex(ValueError,'Stale'):evaluate(study,report,stale)
                 page=(out/'calibration.html').read_text(encoding='utf8')
@@ -143,6 +148,7 @@ class EditingStudyTests(unittest.TestCase):
                 self.assertEqual(report['model_requests'],dict(opportunity=0,treatment=0))
                 self.assertEqual(report['decisions']['contrast']['opportunity']['status'],'failed')
                 self.assertNotIn('assessment',report['decisions']['contrast']['opportunity'])
+                self.assertIn('worker failed',(out/'review.html').read_text(encoding='utf8'))
             bad=MagicMock();bad.__enter__.return_value.read.return_value=b'{"model":"Cloudflare/clef-flash","answers":null}'
             with patch('editing_study.inspect_media',return_value=self.probe()),patch('editing_study.ClefSession',return_value=nullcontext()),patch('editing_study.urllib.request.urlopen',return_value=bad):
                 report=run_study(path,out)

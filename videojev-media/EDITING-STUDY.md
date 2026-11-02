@@ -82,4 +82,6 @@ An unchanged rerun makes zero new model calls and starts no GPU worker. Failed
 requests remain explicit and retryable. Failed/unasked questions are excluded
 from stage agreement, and stale fingerprints are rejected. Results are descriptive
 component measurements; no automatic deployment gate is enabled. A changed frozen
-study uses a fresh output folder, preserving earlier labels and results.
+study uses a fresh output folder, preserving earlier labels and results. Validated
+creator exports are copied exactly to `creator-labels.json`; later cached runs
+reuse them, and conflicting exports cannot overwrite an earlier review.

@@ -19,7 +19,7 @@ MOTIONS = {
 
 
 def catalog(folder):
-    motions={k:v for k,v in MOTIONS.items() if k=='pop'} if (folder/'study.json').exists() and not (folder/'editing-recipe.json').exists() else MOTIONS
+    motions={'pop':MOTIONS['pop']} if (folder/'study.json').exists() and not (folder/'editing-recipe.json').exists() else MOTIONS
     entries={kind+'-'+motion:dict(name=name+' · '+label,description=description+' '+explanation)
              for kind,(name,description) in FAMILIES.items() for motion,(label,explanation) in motions.items()}
     entries.update(keep=dict(name='Keep current edit',description='Retain the existing picture, cards, captions and sound.'),
