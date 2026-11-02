@@ -83,8 +83,47 @@ def overlap(a, b):
     return a['start'] < b['end'] and b['start'] < a['end']
 
 
+def parse_text(text, qualifiers=()):
+    """Classify supplied TEXT lines without reading or changing a project."""
+    body=[];sources=[];qualified=[]
+    for line in re.findall(r'^TEXT: (.+)$',text,re.M):
+        if re.match(r'^(?:REPORTED:|SOURCE:|CHAPTER \d+:)',line):sources.append(line)
+        elif line in qualifiers:qualified.append(line)
+        else:body.append(line)
+    return dict(body_lines=body,units=[unit for line in body for unit in line.split(' / ')],
+                source_label=' / '.join(sources) or None,qualifier=' / '.join(qualified) or None,
+                flags=['unclassified-text-line'] if len(body)>1 else [])
+
+
+def channel_qualifiers(channel):
+    editing=re.search(r'^## Editing\r?\n(.*?)(?=^## |\Z)',channel,re.M|re.S)
+    line=re.search(r'^Qualifiers: (.+)$',editing[1],re.M) if editing else None
+    return [value.strip() for value in line[1].split(' / ') if value.strip()] if line else []
+
+
+def text_candidates(parsed,text,reveals):
+    if len(parsed['source_label'] or '')>95 or len(parsed['qualifier'] or '')>80:return []
+    units=parsed['units'];body=' / '.join(parsed['body_lines']);result=[]
+    for kind in ['progressive','comparison','source-card']:
+        if kind=='progressive' and len(units)<2:continue
+        if kind=='comparison' and (len(units)!=2 or not re.search(r'^GRAPHIC:.*\b(?:comparison|versus|paired)\b',text,re.M|re.I)):continue
+        if kind=='source-card' and not (parsed['source_label'] or parsed['qualifier']):continue
+        labels=[body] if kind=='source-card' else units
+        if not labels or len(labels)>4 or any(not x or len(x)>65 for x in labels):continue
+        for motion in MOTIONS:
+            candidate=dict(id=kind+'-'+motion,kind=kind,labels=labels,motion=motion)
+            source=parsed['source_label'];qualifier=parsed['qualifier']
+            # A context card promotes the supplied qualifier into its context heading.
+            if kind=='source-card' and not source:source,qualifier=qualifier,None
+            if source:candidate['source_label']=source
+            if qualifier:candidate['qualifier']=qualifier
+            if reveals is not None:candidate['reveal_frames']=reveals[:1] if kind=='source-card' else reveals
+            result.append(candidate)
+    return result
+
+
 def reveal_anchors(text,labels,words,heard,origin,fps,word_fps,interval):
-    actions=dict(re.findall(r'Reveal "([^"]+)" at "([^"]+)"',text))
+    actions=dict(re.findall(r'Reveal\s+"([^"]+)"\s+at\s+"([^"]+)"',text,re.I))
     normal=lambda t:re.sub(r'[^a-z0-9]','',t.casefold())
     tokens=[normal(w['text']) for w in words];frames=[]
     for label in labels:
@@ -124,8 +163,21 @@ def assess(packet, response, question_id='treatment'):
     if answer.get('choice') != ranked[0]:
         raise ValueError('Choice contradicts distribution')
     threshold = ranked[0] != 'none-of-these' and ps[ranked[0]] >= .95 and ps[ranked[0]]-ps[ranked[1]] >= .20
-    return dict(choice=ranked[0], probabilities=ps, threshold_pass=threshold,
+    result=dict(choice=ranked[0], probabilities=ps, threshold_pass=threshold,
                 evidence_adequate=packet['evidence_adequate'], eligible=threshold and packet['evidence_adequate'] and not packet['flags'])
+    if question_id=='treatment':
+        per_kind={}
+        kinds={c['id']:c.get('kind',c['id'].rsplit('-',1)[0]) for c in packet.get('candidates',[])}
+        for option,probability in ps.items():
+            if option in {'keep','none-of-these'}:continue
+            kind=kinds.get(option,option.rsplit('-',1)[0])
+            per_kind[kind]=per_kind.get(kind,0)+probability
+        treatments=[k for k in ranked if k not in {'keep','none-of-these'}]
+        groups={'keep':ps.get('keep',0),'treatment':sum(ps[k] for k in treatments),'none-of-these':ps.get('none-of-these',0)}
+        result.update(keep_probability=groups['keep'],none_probability=groups['none-of-these'],treatment_probability=groups['treatment'],
+                      per_kind=per_kind,best_treatment=treatments[0] if treatments else None,grouped_choice=max(groups,key=groups.get))
+    return result
+
 
 
 def calibration_gate(records, labels, criteria_hash):
@@ -252,8 +304,9 @@ def prepare(project, review, out, section='Star 4'):
         relevant=[s for s in sources if overlap(s['timeline_interval'],interval)]
         plans=[v for v in visuals if v['anchor']['line'] <= beat['line']-1 < v['anchor']['line']+v['anchor']['lines']]
         text='\n'.join(v['direction'] for v in plans)
-        labels=list(dict.fromkeys(re.findall(r'^TEXT: (.+)$',text,re.M)))
+        parsed=parse_text(text,channel_qualifiers(channel));labels=parsed['units']
         flags=list(dict.fromkeys(f for s in relevant for f in s['flags']))
+        flags+=parsed['flags']
         if not relevant: flags.append('no-selected-picture')
         reveals=None
         if re.search(r'^ACTION:',text,re.M):
@@ -274,13 +327,14 @@ def prepare(project, review, out, section='Star 4'):
         manual=[c for c in occupied if c not in generated]
         if manual: flags.append('manual-effect-or-overlay-conflict')
         candidates=[]
-        if labels and len(labels)<=4 and all(len(x)<=65 for x in labels) and (interval['end']-interval['start'])/float(fps)>=max(2, sum(map(len,labels))/15):
-            for kind in ['progressive','comparison','source-card']:
-                if kind=='comparison' and len(labels)!=2: continue
-                if kind=='source-card' and len(labels)<2: continue
-                for motion in MOTIONS:
-                    candidates.append(dict(id=kind+'-'+motion,kind=kind,labels=labels,layout='caption-band-reserved',motion=motion,caption_style='existing-native',
-                        sounds=[],source_ids=[s['id'] for s in relevant],reveal_frames=reveals or [interval['start']]*len(labels),replace_generated_cards=[str(c['id']) for c in generated]))
+        for candidate in text_candidates(parsed,text,reveals):
+            if (interval['end']-interval['start'])/float(fps)<max(2,sum(map(len,candidate['labels']))/15):continue
+            if candidate['kind']=='source-card' and aligned is not None and labels:
+                first=reveal_anchors(text,labels[:1],aligned['words'],heard['words'],start,float(fps),aligned['fps'],interval)
+                if first is not None:candidate['reveal_frames']=first
+            candidate.update(layout='caption-band-reserved',caption_style='existing-native',sounds=[],
+                source_ids=[s['id'] for s in relevant],replace_generated_cards=[str(c['id']) for c in generated])
+            candidates.append(candidate)
         if not candidates: flags.append('no-complete-supplied-treatment')
         native_captions=[dict(track=t['id'],style=t['style'],caption=c) for t in seq['caption_tracks'] for c in t['captions']
             if c['start']<interval['end']*frame_ticks and c['start']+c['duration']>interval['start']*frame_ticks]
@@ -626,7 +680,7 @@ def write_report(folder,recipe,result):
     rows=[]
     for p,e in zip(recipe['windows'],recipe['edits']):
         r=result['decisions'][p['id']];a=r['assessment']; t=(e['interval']['start']-recipe['section']['start'])*recipe['timebase']['den']/recipe['timebase']['num']
-        rows.append('<tr><td>'+html.escape(p['id'])+f'<br><a href="star4-preview-540p.mp4#t={t:.3f}">{t:.2f}s</a></td><td>'+html.escape(p['narration'])+'</td><td>'+html.escape(', '.join(p['flags']))+'</td><td>'+html.escape(a['choice'])+'</td></tr>')
+        rows.append('<tr><td>'+html.escape(p['id'])+f'<br><a href="star4-preview-540p.mp4#t={t:.3f}">{t:.2f}s</a></td><td>'+html.escape(p['narration'])+'</td><td>'+html.escape(', '.join(p['flags']))+'</td><td>'+html.escape(a['choice']+'; grouped: '+a.get('grouped_choice','unavailable'))+'</td></tr>')
     (folder/'review.html').write_text('<!doctype html><meta charset="utf-8"><title>Star 4 proxy editing review</title><style>body{font:16px system-ui;max-width:1400px;margin:30px auto;background:#171b24;color:#f4f0e8}td{padding:12px;border-bottom:1px solid #666}a{color:#e3bb78}video{width:960px;max-width:100%}</style><h1>Star 4: recommendations pending creator calibration</h1><p>The saved edit is preserved. No model-selected edits were applied. Existing cards, effects, captions and sound remain native.</p><video controls src="star4-preview-540p.mp4"></video><p>Label distinct calibration and held-out examples in calibration-labels.template.json, then save as calibration-labels.json. Leave unsupported or uncertain choices explicit.</p><table><tr><th>Beat</th><th>Approved narration</th><th>Review flags</th><th>Recommendation</th></tr>'+''.join(rows)+'</table>',encoding='utf8')
     label_rows=[]
     for i,p in enumerate(recipe['windows']):

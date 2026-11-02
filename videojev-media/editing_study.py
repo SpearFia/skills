@@ -83,7 +83,7 @@ def predict(packet):
     request=dict(model=MODEL,state=packet['state'],questions={stage:dict(type='choice',instructions=packet['criteria'],criteria=packet['options'])})
     with urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8008/v1/systemone',data=json.dumps(request).encode(),headers={'Content-Type':'application/json'}),timeout=180) as r:
         response=json.load(r)
-    assessment=assess(dict(options=list(packet['options']),flags=['recommendations-only'],evidence_adequate=False),response,stage)
+    assessment=assess(dict(options=list(packet['options']),flags=['recommendations-only'],evidence_adequate=False,candidates=packet['state'].get('candidates',[])),response,stage)
     return dict(context_sha256=packet['context_sha256'],stage=stage,status='complete',response=response,assessment=assessment)
 
 
@@ -103,7 +103,14 @@ def evaluate(study,report,labels):
             if row.get(stage+'_context_sha256')!=prediction['context_sha256']:raise ValueError('Stale stage-specific creator label')
             if prediction['status']!='complete':continue
             scores[stage]['count']+=1;scores[stage]['matches']+=expected==prediction['assessment']['choice']
-    for score in scores.values():score['agreement']=score['matches']/score['count'] if score['count'] else None
+            if stage=='treatment':
+                assessment=prediction['assessment']
+                group=lambda choice:'graphic' if choice not in {'keep','none-of-these'} else 'no graphic' if choice=='keep' else choice
+                scores[stage]['grouped_matches']=scores[stage].get('grouped_matches',0)+(group(expected)==group(assessment['grouped_choice']))
+    for stage,score in scores.items():
+        score['agreement']=score['matches']/score['count'] if score['count'] else None
+        score['exact_agreement']=score['agreement']
+        if stage=='treatment':score['grouped_agreement']=score.get('grouped_matches',0)/score['count'] if score['count'] else None
     return dict(split=study['split'],stages=scores,deployment_enabled=False,scope='Descriptive component results only; no deployment gate is enabled')
 
 
@@ -131,7 +138,7 @@ def run_study(path,out,labels_path=None):
             if not saved.exists():missing.append(p);continue
             record=read(saved)
             if record.get('context_sha256')!=p['context_sha256'] or record.get('stage')!=p['stage'] or record.get('status')!='complete':raise ValueError('Invalid short-study decision cache')
-            record['assessment']=assess(dict(options=list(p['options']),flags=['recommendations-only'],evidence_adequate=False),record.get('response'),p['stage'])
+            record['assessment']=assess(dict(options=list(p['options']),flags=['recommendations-only'],evidence_adequate=False,candidates=p['state'].get('candidates',[])),record.get('response'),p['stage'])
             decisions[p['id']][p['stage']]=record
         calls={stage:0 for stage in ['opportunity','treatment']}
         try:
@@ -169,7 +176,9 @@ def write_report(folder,study,report,media):
         r=report['decisions'][b['id']]
         def describe(stage):
             record=r[stage]
-            if record['status']=='complete':return record['assessment']['choice']
+            if record['status']=='complete':
+                a=record['assessment']
+                return a['choice']+('; grouped: '+a['grouped_choice'] if stage=='treatment' else '')
             return record.get('reason',record.get('error','Model judgment unavailable'))
         rows.append('<tr><td>'+html.escape(b['id'])+'</td><td>'+html.escape(b['narration'])+'</td><td>'+html.escape(describe('opportunity'))+'</td><td>'+html.escape(describe('treatment'))+'</td></tr>')
         op='<option value="">Choose…</option>'+''.join('<option value="'+k+'">'+html.escape(v)+'</option>' for k,v in OPPORTUNITY.items())
