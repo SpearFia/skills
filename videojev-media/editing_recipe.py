@@ -18,6 +18,7 @@ from script_first import approve, creator_exclusions, read,key as question_key
 from stage3_sources import save_json
 from stage5_edit import footage_tracks, load_review, master_map, visible
 from filmcraft_rpc import FilmCraft
+from editing_policy import MOTIONS,DEPLOYMENT_ENABLED,require_deployment,require_short_native
 
 TICKS = 254016000000
 MODEL = 'Cloudflare/clef-flash'
@@ -63,13 +64,18 @@ def native_matches(expected,actual,anchors):
     clips={c['id']:c for t in actual['video_tracks'] for c in t['items']}
     for track in normalized['video_tracks']:
         for clip in track['items']:
-            if clip['id'] not in anchors: continue
             other=clips.get(clip['id'])
             if other is None:return False
-            a=next(e for e in clip['effects'] if e['effect']=='motion')['params']['anchor']['value']['Vec2']
-            b=next(e for e in other['effects'] if e['effect']=='motion')['params']['anchor']['value']['Vec2']
-            if any(not math.isfinite(a[k]) or not math.isfinite(b[k]) or abs(a[k]-b[k])>1e-9 for k in ['x','y']):return False
-            a.update(b)
+            if len(clip['effects'])!=len(other['effects']):return False
+            for effect,observed in zip(clip['effects'],other['effects']):
+                if effect['effect']!=observed['effect']:return False
+                param='anchor' if effect['effect']=='motion' and clip['id'] in anchors else 'position' if effect['effect']=='graphic_text' else None
+                if param is None:continue
+                a=effect['params'][param]['value']['Vec2']
+                b=observed['params'][param]['value']['Vec2']
+                # FilmCraft's JSON round trip can shift the last decimal of pixel coordinates.
+                if any(not math.isfinite(a[k]) or not math.isfinite(b[k]) or abs(a[k]-b[k])>1e-9 for k in ['x','y']):return False
+                a.update(b)
     return normalized==actual
 
 
@@ -104,12 +110,13 @@ def supported(clip):
     return True
 
 
-def assess(packet, response):
-    if response.get('model') != MODEL:
+def assess(packet, response, question_id='treatment'):
+    if not isinstance(response,dict) or response.get('model') != MODEL:
         raise ValueError('Wrong decision model')
-    answer = response.get('answers', {}).get('treatment', {})
-    ps = answer.get('probabilities', {})
-    if answer.get('type') != 'choice' or set(ps) != set(packet['options']):
+    answers = response.get('answers')
+    answer = answers.get(question_id) if isinstance(answers,dict) else None
+    ps = answer.get('probabilities') if isinstance(answer,dict) else None
+    if not isinstance(ps,dict) or answer.get('type') != 'choice' or set(ps) != set(packet['options']) or len(ps)<2:
         raise ValueError('Incomplete decision options')
     if any(type(v) not in (int, float) or not math.isfinite(v) or not 0 <= v <= 1 for v in ps.values()) or abs(sum(ps.values())-1) > .001:
         raise ValueError('Invalid probability distribution')
@@ -163,6 +170,9 @@ def prepare(project, review, out, section='Star 4'):
     project, review, out = project.resolve(), review.resolve(), out.resolve()
     if out.exists() or out.is_relative_to(project) or any((p/'.git').exists() for p in [out, *out.parents]):
         raise ValueError('Use a fresh output outside the project and Git')
+    require_short_native(native_read(review)[1],project)
+    if not (project/'media/jev/script-first/approval.json').is_file():
+        raise ValueError('Editing studies require existing creator-approved beats; preparation cannot create approval')
     document = approve(project)
     data, seq = load_review(project, review)
     fps = Fraction(seq['settings']['frame_rate']['num'], seq['settings']['frame_rate']['den'])
@@ -268,7 +278,7 @@ def prepare(project, review, out, section='Star 4'):
             for kind in ['progressive','comparison','source-card']:
                 if kind=='comparison' and len(labels)!=2: continue
                 if kind=='source-card' and len(labels)<2: continue
-                for motion in ['slide-fade','pop','fade','impact']:
+                for motion in MOTIONS:
                     candidates.append(dict(id=kind+'-'+motion,kind=kind,labels=labels,layout='caption-band-reserved',motion=motion,caption_style='existing-native',
                         sounds=[],source_ids=[s['id'] for s in relevant],reveal_frames=reveals or [interval['start']]*len(labels),replace_generated_cards=[str(c['id']) for c in generated]))
         if not candidates: flags.append('no-complete-supplied-treatment')
@@ -342,6 +352,7 @@ def decisions(folder,packets):
 
 
 def preview(folder, render=True):
+    require_short_native(native_read(folder/'input.fcproj')[1],read(folder/'editing-recipe.json')['project'])
     with exclusive(folder):
         return _preview(folder,render)
 
@@ -349,7 +360,8 @@ def preview(folder, render=True):
 def _preview(folder, render=True):
     from contextlib import nullcontext
     from editing_workers import gather,ClefSession
-    folder=folder.resolve();recipe=read(folder/'editing-recipe.json');validate_inputs(recipe,folder)
+    folder=folder.resolve();recipe=read(folder/'editing-recipe.json')
+    validate_inputs(recipe,folder)
     evidence=gather(folder,recipe)
     packets=copy.deepcopy(recipe['windows'])
     for p in packets:
@@ -366,22 +378,22 @@ def _preview(folder, render=True):
         records={p['id']:dict(context_sha256=p['context_sha256'],revision=REVISION,assessment=dict(choice='keep',eligible=False),error=str(exc)) for p in packets};calls=0
     labels=read(folder/'calibration-labels.json') if (folder/'calibration-labels.json').exists() else {}
     gate=calibration_gate(records,labels,recipe['criteria_sha256'])
-    # The v1 draft stays byte-identical until the reviewed calibration gate passes.
+    # Creator has disabled deployment independently of the statistical pilot gate.
     draft=folder/'review.fcproj'
     previous=read(folder/'preview-report.json') if (folder/'preview-report.json').exists() else {}
     if draft.exists() and file_hash(draft)!=previous.get('draft_sha256',recipe['reviewed_input_sha256']):
         raise ValueError('Existing review was modified; preserve it and prepare a new snapshot')
     application_key=digest(dict(gate=gate,decisions=records,recipe=file_hash(folder/'editing-recipe.json')))
     dependencies=[]
-    if gate['passed'] and previous.get('application_key')==application_key:
+    if DEPLOYMENT_ENABLED and gate['passed'] and previous.get('application_key')==application_key:
         dependencies=previous['dependencies']
         for dep in dependencies:
             if file_hash(dep['path'])!=dep['render_sha256']: raise ValueError('Applied insert changed')
-    elif gate['passed']:
+    elif DEPLOYMENT_ENABLED and gate['passed']:
         dependencies=apply_decisions(folder,recipe,records,draft)
     elif not draft.exists(): shutil.copy2(folder/'input.fcproj',draft)
     result=dict(model_calls=calls,gate=gate,decisions=records,draft=str(draft),draft_sha256=file_hash(draft),application_key=application_key,applied=len(dependencies),dependencies=dependencies,
-        pending='Creator calibration and picture/sound review; recommendations only')
+        pending='Creator has disabled deployment; short studies and recommendations only')
     save_json(folder/'preview-report.json',result)
     write_report(folder,recipe,result)
     if render:
@@ -405,6 +417,9 @@ def _preview(folder, render=True):
         if video['height']!=540 or int(video['nb_frames'])!=recipe['section']['end']-recipe['section']['start'] or not any(s['codec_type']=='audio' for s in info['streams']):
             raise ValueError('Cached preview failed complete-section media checks')
         save_json(folder/'preview-media-check.json',dict(width=video['width'],height=video['height'],frames=int(video['nb_frames']),audio=True))
+        from calibration_examples import generate
+        generate(folder)
+        write_report(folder,recipe,result)
     validate_inputs(recipe,folder)
     return result
 
@@ -454,6 +469,7 @@ def render_insert(folder,recipe,edit,candidate,native,quality):
 
 
 def apply_decisions(folder,recipe,records,target,quality='proxy',native=None):
+    require_deployment()
     native=native or folder/'input.fcproj';selected=[]
     for edit,p in zip(recipe['edits'],recipe['windows']):
         assessment=records[p['id']]['assessment']
@@ -485,6 +501,7 @@ def apply_decisions(folder,recipe,records,target,quality='proxy',native=None):
 
 
 def finalize(recipe_path):
+    require_deployment()
     with exclusive(recipe_path.resolve().parent):
         return _finalize(recipe_path)
 
@@ -598,6 +615,8 @@ def hq_samples(folder):
 
 
 def write_report(folder,recipe,result):
+    from calibration_examples import catalog,preview_ui
+    examples=catalog(folder)
     rows=[]
     for p,e in zip(recipe['windows'],recipe['edits']):
         r=result['decisions'][p['id']];a=r['assessment']; t=(e['interval']['start']-recipe['section']['start'])*recipe['timebase']['den']/recipe['timebase']['num']
@@ -605,9 +624,9 @@ def write_report(folder,recipe,result):
     (folder/'review.html').write_text('<!doctype html><meta charset="utf-8"><title>Star 4 proxy editing review</title><style>body{font:16px system-ui;max-width:1400px;margin:30px auto;background:#171b24;color:#f4f0e8}td{padding:12px;border-bottom:1px solid #666}a{color:#e3bb78}video{width:960px;max-width:100%}</style><h1>Star 4: recommendations pending creator calibration</h1><p>The saved edit is preserved. No model-selected edits were applied. Existing cards, effects, captions and sound remain native.</p><video controls src="star4-preview-540p.mp4"></video><p>Label distinct calibration and held-out examples in calibration-labels.template.json, then save as calibration-labels.json. Leave unsupported or uncertain choices explicit.</p><table><tr><th>Beat</th><th>Approved narration</th><th>Review flags</th><th>Recommendation</th></tr>'+''.join(rows)+'</table>',encoding='utf8')
     label_rows=[]
     for i,p in enumerate(recipe['windows']):
-        options='<option value="">Choose…</option>'+''.join('<option>'+html.escape(o)+'</option>' for o in p['options'])
+        options='<option value="">Choose…</option>'+''.join('<option value="'+html.escape(o,quote=True)+'">'+html.escape(examples.get(o,{}).get('name',o))+'</option>' for o in p['options'])
         details='<details><summary>Supplied treatments and evidence</summary><pre>'+html.escape(json.dumps(dict(candidates=p['candidates'],intent=p['intent'],evidence=p['evidence']),indent=2))+'</pre></details>'
-        label_rows.append('<tr><td>'+html.escape(p['id'])+'<br>'+('calibration' if i<10 else 'held-out')+'</td><td>'+html.escape(p['narration'])+'<br>'+html.escape(', '.join(p['flags']))+details+'</td><td><select id="choice-'+str(i)+'">'+options+'</select><label><input type="checkbox" id="supported-'+str(i)+'">Evidence supports this choice</label></td></tr>')
+        label_rows.append('<tr><td>'+html.escape(p['id'])+'<br>'+('calibration' if i<10 else 'held-out')+'</td><td>'+html.escape(p['narration'])+'<br>'+html.escape(', '.join(p['flags']))+details+'</td><td><select aria-label="Treatment for '+html.escape(p['id'],quote=True)+'" id="choice-'+str(i)+'" onchange="document.getElementById(\'example-'+str(i)+'\').disabled=!this.value">'+options+'</select><p><button type="button" id="example-'+str(i)+'" disabled onclick="showStyle(document.getElementById(\'choice-'+str(i)+'\').value)">Watch 5-second example</button></p><label><input type="checkbox" id="supported-'+str(i)+'">Evidence supports this choice</label></td></tr>')
     payload=json.dumps(dict(criteria_sha256=recipe['criteria_sha256'],labels=[dict(id=p['id'],context_sha256=result['decisions'][p['id']]['context_sha256'],split='calibration' if i<10 else 'held-out') for i,p in enumerate(recipe['windows'])])).replace('<','\\u003c')
     script="""<script>function download(){const data=JSON.parse(document.getElementById('data').textContent);for(let i=0;i<data.labels.length;i++){data.labels[i].choice=document.getElementById('choice-'+i).value;data.labels[i].supported=document.getElementById('supported-'+i).checked;}data.labels=data.labels.filter(r=>r.choice);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='calibration-labels.json';a.click();URL.revokeObjectURL(a.href);}</script>"""
-    (folder/'calibration.html').write_text('<!doctype html><meta charset="utf-8"><title>Creator calibration</title><style>body{font:16px system-ui;max-width:1200px;margin:30px auto}td{padding:12px;border-bottom:1px solid #aaa}label{display:block}select{padding:8px}</style><h1>Creator choices</h1><p>These labels require your judgment. Model recommendations are hidden on this form. Missing intent and unsupported evidence remain ineligible even after labeling. At least 20 eligible held-out decisions must agree at 95% with zero unsupported-evidence errors.</p><p><a href="star4-preview-540p.mp4">Open full preview</a></p><button onclick="download()">Download labels</button><table>'+''.join(label_rows)+'</table><script type="application/json" id="data">'+payload+'</script>'+script,encoding='utf8')
+    (folder/'calibration.html').write_text('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Creator calibration</title><style>body{font:16px system-ui;max-width:1200px;margin:30px auto;padding:0 16px}td{padding:12px;border-bottom:1px solid #aaa}label{display:block}select{padding:8px}pre{max-width:650px;overflow:auto}</style><h1>Creator choices</h1><p><a href="style-examples/index.html" target="_blank" rel="noopener">Learn the choices: five-second visual examples</a></p><p>Choose an option, then use its Watch 5-second example button to see the style. Compare the actual beat in the full preview before labeling.</p><p>These labels require your judgment. Model recommendations are hidden on this form. Missing intent and unsupported evidence remain ineligible even after labeling. At least 20 eligible held-out decisions must agree at 95% with zero unsupported-evidence errors.</p><p><a href="star4-preview-540p.mp4">Open full preview</a></p><button onclick="download()">Download labels</button><table>'+''.join(label_rows)+'</table><script type="application/json" id="data">'+payload+'</script>'+script+preview_ui(folder),encoding='utf8')

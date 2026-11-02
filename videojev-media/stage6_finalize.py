@@ -12,6 +12,7 @@ from concurrent.futures import ThreadPoolExecutor,as_completed
 from pathlib import Path
 
 from filmcraft_rpc import FilmCraft
+from editing_recipe import native_matches
 from script_first import approve,creator_exclusions,read,sha
 from stage3_index import digest
 from stage3_sources import command,pool,save_json
@@ -261,21 +262,22 @@ class Finalize:
         upgraded={item:self.results[a['master']['file']] for a in self.plan['assets'] if self.results.get(a['master']['file'],{}).get('status')=='upgraded' for item in a['items']}
         expected,anchors=scaled_sequence(self.sequence,self.data['project']['items'],upgraded)
         existing=self.folder/'build.json'
-        if existing.exists() and Path(read(existing)['review']).is_file():return read(existing)['review'],expected,upgraded
-        target=self.review.with_name(self.review.stem+'-final.fcproj');index=2
-        while target.exists():target=self.review.with_name(self.review.stem+f'-{index}-final.fcproj');index+=1
-        with FilmCraft() as f:
-            f.command('file.open',path=str(self.input))
-            for item,result in upgraded.items():f.command('media.relink',item=item,path=str(self.project/result['file']),force=True,relinkOthers=False,alignTimecode=False)
-            for clip,anchor in anchors.items():f.command('effects.setParam',clip=clip,effect='motion',param='anchor',value=anchor)
-            f.command('file.saveAs',path=str(target));save_json(self.folder/'native-snapshot.json',f.tool('sequence_inspect',{}))
+        if existing.exists() and Path(read(existing)['review']).is_file():target=Path(read(existing)['review'])
+        else:
+            target=self.review.with_name(self.review.stem+'-final.fcproj');index=2
+            while target.exists():target=self.review.with_name(self.review.stem+f'-{index}-final.fcproj');index+=1
+            with FilmCraft() as f:
+                f.command('file.open',path=str(self.input))
+                for item,result in upgraded.items():f.command('media.relink',item=item,path=str(self.project/result['file']),force=True,relinkOthers=False,alignTimecode=False)
+                for clip,anchor in anchors.items():f.command('effects.setParam',clip=clip,effect='motion',param='anchor',value=anchor)
+                f.command('file.saveAs',path=str(target));save_json(self.folder/'native-snapshot.json',f.tool('sequence_inspect',{}))
         actual,sequence=load_review(self.project,target)
-        if sequence!=expected:raise AssertionError('Native sequence changed beyond resolution-adjusted source anchors')
+        if not native_matches(expected,sequence,anchors):raise AssertionError('Native sequence changed beyond resolution-adjusted source anchors')
         for item,result in upgraded.items():
             media=actual['project']['items'][str(item)]['kind']['Media'];assert Path(media['media']['File']['path']).resolve()==(self.project/result['file']).resolve()
             assert (media['info']['video']['width'],media['info']['video']['height'])==(result['info']['width'],result['info']['height'])
         save_json(existing,dict(review=str(target),anchors_adjusted=len(anchors),items_relinked=len(upgraded)))
-        return str(target),expected,upgraded
+        return str(target),sequence,upgraded
 
     def run(self):
         try:
@@ -294,6 +296,7 @@ class Finalize:
             for s in source_spans(self.project,self.data,footage_tracks(self.project,self.sequence)):
                 if any(a<s['end'] and b>s['start'] for a,b in excluded.get(s['video_id'],[])):flags.append(s)
             verification=dict(native_sequence_matches_exactly_except_scaled_source_anchors=True,audio_captions_cards_transitions_zooms_speeds_preserved=True,
+                pixel_coordinate_roundtrip_tolerance=1e-9,
                 fetched_only_selected_masters=True,selected_master_count=len(self.plan['assets']),upgraded_items=len(upgraded),input_snapshot_unchanged=True,
                 edited_file_changed_since_snapshot=not self.review.exists() or sha(self.review)!=self.input_sha,selected_quality_flags=flags,unmapped=self.plan['unmapped'],under_1080p=under,
                 original_project_unchanged=True,rendered_framing_samples=rendering,

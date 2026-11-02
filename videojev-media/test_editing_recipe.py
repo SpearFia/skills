@@ -83,6 +83,26 @@ class RecipeTests(unittest.TestCase):
         actual['video_tracks'][0]['items'][0]['duration']=301
         self.assertFalse(native_matches(expected,actual,{1:[960,540]}))
 
+    def test_graphic_caption_roundtrip_preserves_text_timing_and_geometry(self):
+        clip=dict(id=7,start=100,duration=300,source_in=20,speed=.5,effects=[dict(effect='graphic_text',params=dict(
+            position=dict(value=dict(Vec2=dict(x=1920.,y=1994.4000028967857))),text=dict(value=dict(Text='Could John Wick survive a'))))])
+        expected=dict(video_tracks=[dict(items=[clip])]);actual=copy.deepcopy(expected)
+        graphic=actual['video_tracks'][0]['items'][0]
+        graphic['effects'][0]['params']['position']['value']['Vec2']['y']=1994.4000028967855
+        self.assertTrue(native_matches(expected,actual,{}))
+        self.assertEqual(expected['video_tracks'][0]['items'][0]['effects'][0]['params']['position']['value']['Vec2']['y'],1994.4000028967857)
+        for key,value in [('start',101),('duration',301),('source_in',21),('speed',.5000000000001)]:
+            with self.subTest(key=key):
+                changed=copy.deepcopy(actual);changed['video_tracks'][0]['items'][0][key]=value
+                self.assertFalse(native_matches(expected,changed,{}))
+        for value in [1994.4001,float('nan'),float('inf')]:
+            with self.subTest(position=value):
+                changed=copy.deepcopy(actual)
+                changed['video_tracks'][0]['items'][0]['effects'][0]['params']['position']['value']['Vec2']['y']=value
+                self.assertFalse(native_matches(expected,changed,{}))
+        graphic['effects'][0]['params']['text']['value']['Text']='Changed words'
+        self.assertFalse(native_matches(expected,actual,{}))
+
     def test_reveals_require_unique_supplied_anchors_and_measured_words(self):
         text='ACTION: Reveal "A" at "hello"; Reveal "B" at "world"'
         words=[dict(text='hello',startFrame=0),dict(text='world',startFrame=30)]
