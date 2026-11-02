@@ -110,6 +110,19 @@ class RecipeTests(unittest.TestCase):
         self.assertEqual(reveal_anchors(*args),[100,130])
         self.assertIsNone(reveal_anchors(text,['unknown'],*args[2:]))
 
+    def test_caption_graphic_roundoff_never_relaxes_text_or_timing(self):
+        clip=dict(id=7,start=100,duration=300,source_in=20,speed=.5,effects=[dict(effect='graphic_text',params=dict(
+            position=dict(value=dict(Vec2=dict(x=1920.,y=1994.4000028967857))),text=dict(value=dict(Text='Native caption'))))])
+        expected=dict(video_tracks=[dict(items=[clip])]);actual=copy.deepcopy(expected)
+        actual['video_tracks'][0]['items'][0]['effects'][0]['params']['position']['value']['Vec2']['y']=1994.4000028967855
+        self.assertTrue(native_matches(expected,actual,{}))
+        self.assertEqual(expected['video_tracks'][0]['items'][0]['effects'][0]['params']['position']['value']['Vec2']['y'],1994.4000028967857)
+        for field,value in [('start',101),('duration',301),('source_in',21),('speed',.5000000000001)]:
+            bad=copy.deepcopy(actual);bad['video_tracks'][0]['items'][0][field]=value
+            self.assertFalse(native_matches(expected,bad,{}))
+        bad=copy.deepcopy(actual);bad['video_tracks'][0]['items'][0]['effects'][0]['params']['text']['value']['Text']='Changed caption'
+        self.assertFalse(native_matches(expected,bad,{}))
+
     def test_hq_insert_refuses_proxy_dependency_before_rendering(self):
         with tempfile.TemporaryDirectory() as d:
             recipe=dict(sources=[dict(id='a')],media_bindings=[dict(source_id='a',quality='proxy')])
