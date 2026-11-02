@@ -19,8 +19,9 @@ MOTIONS = {
 
 
 def catalog(folder):
+    motions={k:v for k,v in MOTIONS.items() if k=='pop'} if (folder/'study.json').exists() and not (folder/'editing-recipe.json').exists() else MOTIONS
     entries={kind+'-'+motion:dict(name=name+' · '+label,description=description+' '+explanation)
-             for kind,(name,description) in FAMILIES.items() for motion,(label,explanation) in MOTIONS.items()}
+             for kind,(name,description) in FAMILIES.items() for motion,(label,explanation) in motions.items()}
     entries.update(keep=dict(name='Keep current edit',description='Retain the existing picture, cards, captions and sound.'),
         **{'none-of-these':dict(name='None of these — send for review',description='The supplied options do not work or there is not enough information. Ask for review; the current edit stays in place.')})
     manifest=folder/'style-examples/manifest.json'
@@ -47,7 +48,8 @@ def example_props(kind,motion):
 def generate(folder):
     from editing_recipe import RENDERER,digest,file_hash,inspect_media,save_json
     folder=folder.resolve()
-    if not (folder/'editing-recipe.json').is_file() or any((p/'.git').exists() for p in [folder,*folder.parents]):
+    short_study=(folder/'study.json').is_file() and not (folder/'editing-recipe.json').is_file()
+    if not ((folder/'editing-recipe.json').is_file() or short_study) or any((p/'.git').exists() for p in [folder,*folder.parents]):
         raise ValueError('Use a prepared review folder outside Git')
     work=folder/'style-examples';work.mkdir(exist_ok=True);assets=work/'assets';assets.mkdir(exist_ok=True)
     previous=json.loads((work/'manifest.json').read_text(encoding='utf8')) if (work/'manifest.json').exists() else {}
@@ -59,7 +61,7 @@ def generate(folder):
     code['package-lock.json']=file_hash(RENDERER/'package-lock.json')
     records={}
     for kind in FAMILIES:
-        for motion in MOTIONS:
+        for motion in (('pop',) if short_study else MOTIONS):
             key=kind+'-'+motion;props=example_props(kind,motion)
             identity=digest(dict(props=props,code=code,background=file_hash(background),render=dict(scale=.5,crf=23)))
             name=key+'-'+identity[:12];output=work/(name+'.mp4');poster=work/(name+'.jpg');receipt=work/(name+'.json')

@@ -18,6 +18,7 @@ from script_first import approve, creator_exclusions, read,key as question_key
 from stage3_sources import save_json
 from stage5_edit import footage_tracks, load_review, master_map, visible
 from filmcraft_rpc import FilmCraft
+from editing_policy import MOTIONS,DEPLOYMENT_ENABLED,require_deployment,require_short_native
 
 TICKS = 254016000000
 MODEL = 'Cloudflare/clef-flash'
@@ -104,12 +105,13 @@ def supported(clip):
     return True
 
 
-def assess(packet, response):
-    if response.get('model') != MODEL:
+def assess(packet, response, question_id='treatment'):
+    if not isinstance(response,dict) or response.get('model') != MODEL:
         raise ValueError('Wrong decision model')
-    answer = response.get('answers', {}).get('treatment', {})
-    ps = answer.get('probabilities', {})
-    if answer.get('type') != 'choice' or set(ps) != set(packet['options']):
+    answers = response.get('answers')
+    answer = answers.get(question_id) if isinstance(answers,dict) else None
+    ps = answer.get('probabilities') if isinstance(answer,dict) else None
+    if not isinstance(ps,dict) or answer.get('type') != 'choice' or set(ps) != set(packet['options']) or len(ps)<2:
         raise ValueError('Incomplete decision options')
     if any(type(v) not in (int, float) or not math.isfinite(v) or not 0 <= v <= 1 for v in ps.values()) or abs(sum(ps.values())-1) > .001:
         raise ValueError('Invalid probability distribution')
@@ -163,6 +165,9 @@ def prepare(project, review, out, section='Star 4'):
     project, review, out = project.resolve(), review.resolve(), out.resolve()
     if out.exists() or out.is_relative_to(project) or any((p/'.git').exists() for p in [out, *out.parents]):
         raise ValueError('Use a fresh output outside the project and Git')
+    require_short_native(native_read(review)[1],project)
+    if not (project/'media/jev/script-first/approval.json').is_file():
+        raise ValueError('Editing studies require existing creator-approved beats; preparation cannot create approval')
     document = approve(project)
     data, seq = load_review(project, review)
     fps = Fraction(seq['settings']['frame_rate']['num'], seq['settings']['frame_rate']['den'])
@@ -268,7 +273,7 @@ def prepare(project, review, out, section='Star 4'):
             for kind in ['progressive','comparison','source-card']:
                 if kind=='comparison' and len(labels)!=2: continue
                 if kind=='source-card' and len(labels)<2: continue
-                for motion in ['slide-fade','pop','fade','impact']:
+                for motion in MOTIONS:
                     candidates.append(dict(id=kind+'-'+motion,kind=kind,labels=labels,layout='caption-band-reserved',motion=motion,caption_style='existing-native',
                         sounds=[],source_ids=[s['id'] for s in relevant],reveal_frames=reveals or [interval['start']]*len(labels),replace_generated_cards=[str(c['id']) for c in generated]))
         if not candidates: flags.append('no-complete-supplied-treatment')
@@ -342,6 +347,7 @@ def decisions(folder,packets):
 
 
 def preview(folder, render=True):
+    require_short_native(native_read(folder/'input.fcproj')[1],read(folder/'editing-recipe.json')['project'])
     with exclusive(folder):
         return _preview(folder,render)
 
@@ -349,7 +355,8 @@ def preview(folder, render=True):
 def _preview(folder, render=True):
     from contextlib import nullcontext
     from editing_workers import gather,ClefSession
-    folder=folder.resolve();recipe=read(folder/'editing-recipe.json');validate_inputs(recipe,folder)
+    folder=folder.resolve();recipe=read(folder/'editing-recipe.json')
+    validate_inputs(recipe,folder)
     evidence=gather(folder,recipe)
     packets=copy.deepcopy(recipe['windows'])
     for p in packets:
@@ -366,22 +373,22 @@ def _preview(folder, render=True):
         records={p['id']:dict(context_sha256=p['context_sha256'],revision=REVISION,assessment=dict(choice='keep',eligible=False),error=str(exc)) for p in packets};calls=0
     labels=read(folder/'calibration-labels.json') if (folder/'calibration-labels.json').exists() else {}
     gate=calibration_gate(records,labels,recipe['criteria_sha256'])
-    # The v1 draft stays byte-identical until the reviewed calibration gate passes.
+    # Creator has disabled deployment independently of the statistical pilot gate.
     draft=folder/'review.fcproj'
     previous=read(folder/'preview-report.json') if (folder/'preview-report.json').exists() else {}
     if draft.exists() and file_hash(draft)!=previous.get('draft_sha256',recipe['reviewed_input_sha256']):
         raise ValueError('Existing review was modified; preserve it and prepare a new snapshot')
     application_key=digest(dict(gate=gate,decisions=records,recipe=file_hash(folder/'editing-recipe.json')))
     dependencies=[]
-    if gate['passed'] and previous.get('application_key')==application_key:
+    if DEPLOYMENT_ENABLED and gate['passed'] and previous.get('application_key')==application_key:
         dependencies=previous['dependencies']
         for dep in dependencies:
             if file_hash(dep['path'])!=dep['render_sha256']: raise ValueError('Applied insert changed')
-    elif gate['passed']:
+    elif DEPLOYMENT_ENABLED and gate['passed']:
         dependencies=apply_decisions(folder,recipe,records,draft)
     elif not draft.exists(): shutil.copy2(folder/'input.fcproj',draft)
     result=dict(model_calls=calls,gate=gate,decisions=records,draft=str(draft),draft_sha256=file_hash(draft),application_key=application_key,applied=len(dependencies),dependencies=dependencies,
-        pending='Creator calibration and picture/sound review; recommendations only')
+        pending='Creator has disabled deployment; short studies and recommendations only')
     save_json(folder/'preview-report.json',result)
     write_report(folder,recipe,result)
     if render:
@@ -457,6 +464,7 @@ def render_insert(folder,recipe,edit,candidate,native,quality):
 
 
 def apply_decisions(folder,recipe,records,target,quality='proxy',native=None):
+    require_deployment()
     native=native or folder/'input.fcproj';selected=[]
     for edit,p in zip(recipe['edits'],recipe['windows']):
         assessment=records[p['id']]['assessment']
@@ -488,6 +496,7 @@ def apply_decisions(folder,recipe,records,target,quality='proxy',native=None):
 
 
 def finalize(recipe_path):
+    require_deployment()
     with exclusive(recipe_path.resolve().parent):
         return _finalize(recipe_path)
 
