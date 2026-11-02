@@ -68,9 +68,9 @@ Thirteen candidate windows received live recommendations; none was eligible to
 apply. Creator intent, mapped-card review and calibration remain outstanding.
 The unchanged second preview made zero model calls and reused the render.
 
-On the RTX 5070 Ti, cold start was approximately 15.2 seconds. The section's
-2,828–5,305-token requests took 0.97–2.13 seconds, median 1.21 seconds; maximum
-allocated VRAM was approximately 9,218 MiB. These are pilot measurements, not a
+On the RTX 5070 Ti, cold start was approximately 15.5 seconds. The complete
+7,077–9,621-token contexts took 2.37–4.03 seconds, median 2.80 seconds; maximum
+allocated VRAM was approximately 10,141 MiB. These are pilot measurements, not a
 subsecond performance claim. No creator-agreement accuracy has been measured.
 
 Normal, retimed and animated-zoom source replacements passed representative
