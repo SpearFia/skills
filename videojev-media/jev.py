@@ -223,15 +223,31 @@ def write_checklist(project):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools", "specific-queries", "script-timeline", "fill", "swap", "stage5-test", "finalize"])
+    parser.add_argument("command", choices=["needs", "index", "status", "assign", "build", "prepare-beats", "general-pools", "specific-queries", "script-timeline", "fill", "swap", "stage5-test", "edit-prepare", "edit-preview", "finalize"])
     parser.add_argument("--project", type=Path, required=True)
     parser.add_argument("--review",type=Path)
     parser.add_argument("--at")
     parser.add_argument("--need")
     parser.add_argument("--query")
     parser.add_argument("--group",choices=list(SOURCE_GROUPS))
+    parser.add_argument('--editing-recipe',type=Path)
+    parser.add_argument('--out',type=Path)
+    parser.add_argument('--section',default='Star 4')
     args = parser.parse_args()
-    if args.command == 'prepare-beats':
+    if args.command == 'edit-prepare':
+        if not args.review or not args.out: parser.error('edit-prepare requires --review and a fresh --out')
+        from editing_recipe import prepare
+        result=prepare(args.project,args.review,args.out,args.section)
+        print(json.dumps(dict(windows=len(result['windows']),recipe=str(args.out/'editing-recipe.json'))))
+    elif args.command == 'edit-preview':
+        if not args.editing_recipe: parser.error('edit-preview requires --editing-recipe')
+        from editing_recipe import preview
+        result=preview(args.editing_recipe.parent)
+        print(json.dumps(dict(model_calls=result['model_calls'],applied=result['applied'],gate=result['gate'])))
+    elif args.command == 'finalize' and args.editing_recipe:
+        from editing_recipe import finalize
+        print(finalize(args.editing_recipe))
+    elif args.command == 'prepare-beats':
         from script_first import prepare
         prepare(args.project.resolve())
     elif args.command == 'general-pools':
