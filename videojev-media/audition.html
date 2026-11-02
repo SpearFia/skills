@@ -1,0 +1,42 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: MIT OR Apache-2.0 -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Star 4 — contextual pop auditions</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{font:17px system-ui;background:#10151d;color:#f4f0e8;max-width:1100px;margin:32px auto;padding:0 18px;line-height:1.5}h1{font-size:32px}h2{font-size:24px}article{border:1px solid #4a5361;border-radius:12px;padding:20px;margin:24px 0}video{width:100%;max-height:65vh;background:#000}button,select{font:inherit;padding:9px 12px;max-width:100%}button{cursor:pointer;border:1px solid #8b95a3;border-radius:7px}button[aria-pressed=true]{border-color:#e3bb78;background:#343022}button:disabled{opacity:.5;cursor:default}.variants{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}label{display:block;margin:16px 0 4px}small,.muted{color:#b8bec9}.notice{border-left:4px solid #e3bb78;padding:8px 16px;background:#202632}summary{cursor:pointer}a{color:#e3bb78}footer{padding:24px 0 50px}pre{white-space:pre-wrap;overflow-wrap:anywhere}#progress{margin-left:10px}
+</style></head><body>
+<h1>Star 4: see the graphics in context</h1>
+<p>Four moments from your saved edit. Compare the current version with pop alternatives, using the original narration, music and sound effects.</p>
+<p class="notice">Choose a layout, keep the current edit, or flag a moment for revision. These choices prepare a separate proxy preview. They do not approve production deployment or an HQ upgrade.</p>
+<p>Each clip includes surrounding footage. Switching versions keeps your playback position. All other players pause when you play a clip.</p>
+<main id="moments"></main>
+<footer><button id="download" disabled>Download my four choices</button><span id="progress" role="status"></span><p class="muted">Keep this page open until you download. The export preserves the exact audition versions you reviewed.</p><details><summary>Source and evidence notes</summary><p>All words come from the saved Visual Script. “OUR GUESS” remains an interpretation qualifier. Timing uses cached narration observations and still needs your review. Existing evidence flags are retained; choosing a layout does not verify a scene claim.</p><div id="controls"></div></details></footer>
+<script id="data" type="application/json">AUDITION_DATA</script>
+<script>
+const data=JSON.parse(document.getElementById('data').textContent),selections=new Map();
+const text=(tag,value)=>{const e=document.createElement(tag);e.textContent=value;return e;};
+function update(){document.getElementById('progress').textContent=selections.size+' / '+data.moments.length+' chosen';document.getElementById('download').disabled=selections.size!==data.moments.length;}
+for(const m of data.moments){
+ const box=document.createElement('article');box.append(text('h2',m.title));
+ box.append(text('p','Original choices grouped from '+m.beat_ids.join(', ')+'.'));
+ const video=document.createElement('video');video.controls=true;video.preload='metadata';video.playsInline=true;video.src=m.clips.keep;video.setAttribute('aria-label',m.title+' audition');box.append(video);
+ video.addEventListener('play',()=>document.querySelectorAll('video').forEach(v=>{if(v!==video)v.pause();}));
+ const versions=document.createElement('div');versions.className='variants';
+ for(const v of [{id:'keep',name:'Current edit'},...m.variants]){
+  const b=text('button',v.name);b.type='button';b.setAttribute('aria-pressed',String(v.id==='keep'));
+  b.onclick=()=>{const time=video.currentTime,playing=!video.paused;video.pause();versions.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');video.src=m.clips[v.id];video.onloadedmetadata=()=>{video.currentTime=Math.min(time,Math.max(0,video.duration-.01));if(playing)video.play().catch(()=>{});};video.load();};versions.append(b);
+ }
+ box.append(versions);
+ const label=text('label','Your choice for the full-section preview');label.htmlFor='choice-'+m.id;box.append(label);
+ const select=document.createElement('select');select.id=label.htmlFor;
+ for(const [value,name] of [['','Choose after watching'],['keep','Keep current edit'],...m.variants.map(v=>[v.id,v.name]),['flag','Flag for revision — keep current edit for now']]){const option=text('option',name);option.value=value;select.append(option);}
+ select.onchange=()=>{if(select.value)selections.set(m.id,select.value);else selections.delete(m.id);update();};box.append(select);
+ const details=document.createElement('details');details.append(text('summary','Wording, timing and evidence notes'));
+ details.append(text('p','Each treatment replaces only the mapped old card in a separate working copy. Existing captions and audio stay in place.'));
+ for(const v of m.variants){details.append(text('h3',v.name));const c=v.candidate;details.append(text('p','Body: '+c.labels.join(' / ')+(c.source_label?' · Source/context: '+c.source_label:'')+(c.qualifier?' · Qualifier: '+c.qualifier:'')));details.append(text('p','Reveals: '+v.anchors.map(a=>'“'+a.quote+'”').join(', ')));}
+ details.append(text('p','Earlier evidence-support checkbox: '+(m.creator_evidence_checked?'checked for all grouped beats.':'unchecked for at least one grouped beat; this claim still needs evidence review.')));
+ details.append(text('p','Original review flags: '+m.flags.join('; ')));box.append(details);document.getElementById('moments').append(box);
+}
+document.getElementById('controls').append(text('p',data.control_changes.length?'Live Stage 6 control records differ from the archived trial. This audition leaves their current state untouched.':'No Stage 6 control differences recorded.'));
+document.getElementById('download').onclick=()=>{const d={context_sha256:data.context_sha256,selections:data.moments.map(m=>({id:m.id,choice:selections.get(m.id)}))};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download='audition-selections.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};update();
+</script></body></html>

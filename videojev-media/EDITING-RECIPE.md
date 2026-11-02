@@ -1,6 +1,10 @@
 <!-- SPDX-License-Identifier: MIT OR Apache-2.0 -->
 # Proxy editing trial
 
+The creator subsequently authorized [isolated Star 4 contextual auditions](EDITING-AUDITION.md)
+from the frozen v3 snapshot. That separate, creator-selected preview path leaves
+the deployment and HQ restrictions below intact.
+
 Current creator policy: **deployment and HQ finalization are disabled**, even if
 the historical calibration gate would pass. Only pop motion is proposed in new
 work. Continue with [short recommendation-only studies](EDITING-STUDY.md), limited

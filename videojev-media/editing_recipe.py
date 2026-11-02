@@ -64,13 +64,17 @@ def native_matches(expected,actual,anchors):
     clips={c['id']:c for t in actual['video_tracks'] for c in t['items']}
     for track in normalized['video_tracks']:
         for clip in track['items']:
-            if clip['id'] not in anchors: continue
             other=clips.get(clip['id'])
             if other is None:return False
-            a=next(e for e in clip['effects'] if e['effect']=='motion')['params']['anchor']['value']['Vec2']
-            b=next(e for e in other['effects'] if e['effect']=='motion')['params']['anchor']['value']['Vec2']
-            if any(not math.isfinite(a[k]) or not math.isfinite(b[k]) or abs(a[k]-b[k])>1e-9 for k in ['x','y']):return False
-            a.update(b)
+            if len(clip['effects'])!=len(other['effects']):return False
+            for effect,observed in zip(clip['effects'],other['effects']):
+                if effect['effect']!=observed['effect']:return False
+                param='anchor' if effect['effect']=='motion' and clip['id'] in anchors else 'position' if effect['effect']=='graphic_text' else None
+                if param is None:continue
+                a=effect['params'][param]['value']['Vec2'];b=observed['params'][param]['value']['Vec2']
+                # FilmCraft can shift the last decimal of a pixel coordinate on JSON round trip.
+                if any(not math.isfinite(a[k]) or not math.isfinite(b[k]) or abs(a[k]-b[k])>1e-9 for k in ['x','y']):return False
+                a.update(b)
     return normalized==actual
 
 
@@ -430,6 +434,8 @@ def render_insert(folder,recipe,edit,candidate,native,quality):
     if not sources or len(bindings)!=len(sources) or quality=='hq' and any(b['quality']!='hq' for b in bindings):
         raise ValueError('Every baked insert dependency needs a verified resolution binding')
     code={str(p.relative_to(RENDERER)):file_hash(p) for p in (RENDERER/'src').glob('*.ts*')}
+    code['package-lock.json']=file_hash(RENDERER/'package-lock.json')
+    code['editing_recipe.py']=file_hash(Path(__file__))
     identity=digest(dict(native=file_hash(native),edit=edit,candidate=candidate,bindings=bindings,quality=quality,code=code))
     work=folder/'renders'/identity;receipt=work/'verified.json';output=work/'insert.mp4'
     if receipt.exists():
@@ -441,8 +447,10 @@ def render_insert(folder,recipe,edit,candidate,native,quality):
     background=work/'background.fcproj'
     with FilmCraft() as f:
         f.command('file.open',path=str(native))
-        if candidate['replace_generated_cards']: f.command('clip.enable',clips=[int(c) for c in candidate['replace_generated_cards']])
         _,seq=native_read(native)
+        replace=set(map(int,candidate['replace_generated_cards']))
+        enabled=[c['id'] for t in seq['video_tracks'] for c in t['items'] if c['id'] in replace and c['enabled']]
+        if enabled:f.command('clip.enable',clips=enabled)
         for i,t in enumerate(seq['caption_tracks'],1):
             if t.get('enabled',True): f.command('captions.setTrack',track='C'+str(i),enabled=False)
         f.command('file.saveAs',path=str(background))
@@ -452,6 +460,8 @@ def render_insert(folder,recipe,edit,candidate,native,quality):
                     '--scale',str(height/recipe['canvas']['height']),'--no-audio'],check=True,capture_output=True,timeout=1800)
     props=dict(**recipe['canvas'],fps=fps,duration=b-a,background='background.mp4',kind=candidate['kind'],labels=candidate['labels'],motion=candidate['motion'],
         reveals=[f-a for f in candidate['reveal_frames']])
+    if candidate.get('source_label'):props['sourceLabel']=candidate['source_label']
+    if candidate.get('qualifier'):props['qualifier']=candidate['qualifier']
     save_json(work/'props.json',props)
     subprocess.run(['node',str(RENDERER/'node_modules/@remotion/cli/remotion-cli.js'),'render',str(RENDERER/'src/recipe-index.tsx'),'RecipeInsert',str(output),
         '--props',str(work/'props.json'),'--public-dir',str(assets),'--codec','h264','--scale',str(height/recipe['canvas']['height']),'--concurrency','2','--log','error'],check=True,cwd=RENDERER,timeout=1800)
