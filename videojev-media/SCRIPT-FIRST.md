@@ -197,6 +197,9 @@ the cached fill, new-query fill and cached swap succeed. A missing match produce
 
 ## Stage 6: finalize the creator's saved edit
 
+For the separate proxy-editing recipe trial, see [EDITING-RECIPE.md](EDITING-RECIPE.md).
+Its preview does not resume this stopped Stage 6 job.
+
 `jev.py finalize --project <demo> --review <creator-edited.fcproj>` captures a
 byte-identical saved-edit snapshot. It upgrades only masters behind visible
 selected footage, retaining existing intro/end assets. Hidden alternates and
