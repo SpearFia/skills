@@ -38,7 +38,14 @@ keeping the current presentation and abstaining. The 0.95 probability / 0.20 lea
 threshold never repairs missing evidence or invalid inputs.
 
 `review.html` contains the full proxy preview and review flags. `calibration.html`
-collects creator choices separately from model predictions. The first ten examples
+collects creator choices separately from model predictions. Each option has a
+readable name, a description and a five-second video using the actual treatment
+and motion renderer. Use its preview button or compare all twelve combinations
+in `style-examples/index.html`. The clips are silent style references with sample
+words; labels still concern the actual beat and its evidence. Reference clips
+are cached, generated outside Git, and require no model calls.
+
+The first ten examples
 are calibration examples, the rest held out. Save its downloaded labels as
 `calibration-labels.json` beside the recipe. Criteria are fingerprinted before live
 decisions. At least twenty eligible held-out decisions must achieve 95% agreement
