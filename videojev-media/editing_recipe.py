@@ -71,8 +71,9 @@ def native_matches(expected,actual,anchors):
                 if effect['effect']!=observed['effect']:return False
                 param='anchor' if effect['effect']=='motion' and clip['id'] in anchors else 'position' if effect['effect']=='graphic_text' else None
                 if param is None:continue
-                a=effect['params'][param]['value']['Vec2'];b=observed['params'][param]['value']['Vec2']
-                # FilmCraft can shift the last decimal of a pixel coordinate on JSON round trip.
+                a=effect['params'][param]['value']['Vec2']
+                b=observed['params'][param]['value']['Vec2']
+                # FilmCraft's JSON round trip can shift the last decimal of pixel coordinates.
                 if any(not math.isfinite(a[k]) or not math.isfinite(b[k]) or abs(a[k]-b[k])>1e-9 for k in ['x','y']):return False
                 a.update(b)
     return normalized==actual
