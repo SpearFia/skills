@@ -64,13 +64,18 @@ def native_matches(expected,actual,anchors):
     clips={c['id']:c for t in actual['video_tracks'] for c in t['items']}
     for track in normalized['video_tracks']:
         for clip in track['items']:
-            if clip['id'] not in anchors: continue
             other=clips.get(clip['id'])
             if other is None:return False
-            a=next(e for e in clip['effects'] if e['effect']=='motion')['params']['anchor']['value']['Vec2']
-            b=next(e for e in other['effects'] if e['effect']=='motion')['params']['anchor']['value']['Vec2']
-            if any(not math.isfinite(a[k]) or not math.isfinite(b[k]) or abs(a[k]-b[k])>1e-9 for k in ['x','y']):return False
-            a.update(b)
+            if len(clip['effects'])!=len(other['effects']):return False
+            for effect,observed in zip(clip['effects'],other['effects']):
+                if effect['effect']!=observed['effect']:return False
+                param='anchor' if effect['effect']=='motion' and clip['id'] in anchors else 'position' if effect['effect']=='graphic_text' else None
+                if param is None:continue
+                a=effect['params'][param]['value']['Vec2']
+                b=observed['params'][param]['value']['Vec2']
+                # FilmCraft's JSON round trip can shift the last decimal of pixel coordinates.
+                if any(not math.isfinite(a[k]) or not math.isfinite(b[k]) or abs(a[k]-b[k])>1e-9 for k in ['x','y']):return False
+                a.update(b)
     return normalized==actual
 
 

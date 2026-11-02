@@ -56,6 +56,21 @@ class Stage6Tests(unittest.TestCase):
         self.assertEqual(spans,[dict(start=0,end=30),dict(start=130,end=220),dict(start=225,end=340)])
         self.assertTrue(all(s['end']-s['start']<=180 for s in spans))
 
+    def test_cached_build_verifies_native_changes_and_returns_saved_coordinates(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder=Path(tmp);target=folder/'final.fcproj';target.write_text('saved')
+            (folder/'build.json').write_text(json.dumps(dict(review=str(target))))
+            f=Finalize.__new__(Finalize);f.folder=folder;f.project=folder;f.plan=dict(assets=[]);f.results={};f.data=dict(project=dict(items={}))
+            f.sequence=dict(video_tracks=[dict(items=[dict(id=7,item=99,effects=[dict(effect='graphic_text',params=dict(
+                position=dict(value=dict(Vec2=dict(x=1920.,y=1994.4000028967857)))))])])])
+            saved=copy.deepcopy(f.sequence)
+            saved['video_tracks'][0]['items'][0]['effects'][0]['params']['position']['value']['Vec2']['y']=1994.4000028967855
+            with patch('stage6_finalize.load_review',return_value=(dict(project=dict(items={})),saved)),patch('stage6_finalize.FilmCraft') as api:
+                path,expected,upgraded=f.build()
+                self.assertEqual((path,expected,upgraded),(str(target),saved,{}));api.assert_not_called()
+                saved['video_tracks'][0]['items'][0]['duration']=301
+                with self.assertRaisesRegex(AssertionError,'Native sequence changed'):f.build()
+
     def test_access_restriction_does_not_trigger_download_fallback(self):
         with tempfile.TemporaryDirectory() as tmp:
             f=Finalize.__new__(Finalize);f.cache=Path(tmp);f.status=lambda phase:None
