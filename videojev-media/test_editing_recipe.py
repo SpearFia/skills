@@ -6,10 +6,66 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from editing_recipe import MODEL,REVISION,assess,attach_evidence,calibration_gate,decisions,digest,exclusive,file_hash,native_matches,reveal_anchors,render_insert,supported,validate_inputs
+from editing_recipe import MODEL,REVISION,parse_text,channel_qualifiers,text_candidates,assess,attach_evidence,calibration_gate,decisions,digest,exclusive,file_hash,native_matches,reveal_anchors,render_insert,supported,validate_inputs
 
 
 class RecipeTests(unittest.TestCase):
+    def test_moment_labels_match_hand_mapped_auditions(self):
+        from editing_audition import MOMENTS
+        qualifiers=channel_qualifiers('## Editing\nQualifiers: OUR GUESS / ESTIMATE\n## Sound\nQualifiers: NOT HERE')
+        self.assertEqual(qualifiers,['OUR GUESS','ESTIMATE'])
+        for key,_,_,_,lines,variants in MOMENTS:
+            text='\n'.join('TEXT: '+line for line in lines)
+            if key=='fight-wanted':text+='\nGRAPHIC: Paired comparison'
+            parsed=parse_text(text,qualifiers)
+            candidates={c['id']:c for c in text_candidates(parsed,text,None)}
+            for cid,_,kind,labels,_,source,qualifier in variants:
+                with self.subTest(moment=key,kind=kind):
+                    c=candidates[cid]
+                    self.assertEqual(c['labels'],labels)
+                    self.assertEqual(c.get('source_label'),source)
+                    self.assertEqual(c.get('qualifier'),qualifier)
+                    self.assertNotIn('OUR GUESS',c['labels'])
+                    self.assertNotIn('reveal_frames',c)
+            if key=='three-exits':self.assertFalse(any(c['kind']=='comparison' for c in candidates.values()))
+
+    def test_text_classification_is_explicit_and_channel_supplied(self):
+        self.assertEqual(channel_qualifiers('## Editing\nNo list'),[])
+        parsed=parse_text('TEXT: STAR 4\nTEXT: OUR GUESS')
+        self.assertIn('unclassified-text-line',parsed['flags'])
+        self.assertFalse(any(c['kind']=='comparison' for c in text_candidates(parsed,'',None)))
+        parsed=parse_text('TEXT: STAR 4: COSTLY SURVIVAL\nTEXT: SOURCE: ledger\nTEXT: OUR GUESS',['OUR GUESS'])
+        self.assertEqual(parsed['body_lines'],['STAR 4: COSTLY SURVIVAL'])
+        self.assertEqual(parsed['source_label'],'SOURCE: ledger')
+        c=text_candidates(parsed,'', [30])[0]
+        self.assertEqual(c['source_label'],'SOURCE: ledger');self.assertEqual(c['qualifier'],'OUR GUESS')
+        parsed=parse_text('TEXT: GTA 5 BASELINE / STARS 1-5')
+        self.assertEqual(parsed['body_lines'],['GTA 5 BASELINE / STARS 1-5'])
+        self.assertFalse(any(c['kind']=='comparison' for c in text_candidates(parsed,'', [30,60])))
+
+    def test_handoff_lowercase_and_multiline_reveal_anchors(self):
+        text='ACTION: Reveal "Fight won" at "He wins the fight"; reveal "Still wanted" at\n"he is still wanted"\nTEXT: Fight won / Still wanted\nGRAPHIC: Paired comparison'
+        labels=parse_text(text)['units'];tokens='He wins the fight he is still wanted'.split()
+        words=[dict(text=t,startFrame=i*10) for i,t in enumerate(tokens)]
+        heard=[[t,i/3,i/3+.1] for i,t in enumerate(tokens)]
+        frames=reveal_anchors(text,labels,words,heard,0,30,30,dict(start=0,end=150))
+        self.assertEqual(frames,[0,40])
+        parsed=parse_text(text+'\nTEXT: SOURCE: context')
+        c=next(c for c in text_candidates(parsed,text,frames) if c['kind']=='source-card')
+        self.assertEqual(c['reveal_frames'],[0])
+
+    def test_grouped_probabilities_do_not_change_raw_eligibility(self):
+        ps={'keep':.4,'source-card-pop':.25,'source-card-fade':.2,'comparison-pop':.1,'none-of-these':.05}
+        packet=dict(options=list(ps),flags=[],evidence_adequate=True)
+        response=dict(model=MODEL,answers=dict(treatment=dict(type='choice',choice='keep',probabilities=ps)))
+        a=assess(packet,response)
+        self.assertEqual(a['choice'],'keep');self.assertFalse(a['threshold_pass']);self.assertFalse(a['eligible'])
+        self.assertAlmostEqual(a['keep_probability'],.4);self.assertAlmostEqual(a['none_probability'],.05)
+        self.assertAlmostEqual(a['treatment_probability'],.55);self.assertEqual(a['grouped_choice'],'treatment')
+        self.assertEqual(a['best_treatment'],'source-card-pop');self.assertEqual(a['per_kind'],{'source-card':.45,'comparison':.1})
+        response['answers']['opportunity']=response['answers']['treatment']
+        self.assertNotIn('grouped_choice',assess(packet,response,'opportunity'))
+
     def test_two_operations_cannot_own_one_review(self):
         with tempfile.TemporaryDirectory() as d:
             with exclusive(Path(d)):
@@ -61,6 +117,9 @@ class RecipeTests(unittest.TestCase):
             response=unittest.mock.MagicMock();response.__enter__.return_value.read.return_value=json.dumps(self.response()).encode()
             with patch('editing_recipe.urllib.request.urlopen',return_value=response) as request:
                 first,calls=decisions(root,[p]);self.assertEqual(calls,1)
+                saved=root/'decisions'/(p['context_sha256']+'.json')
+                cached=json.loads(saved.read_text());cached['assessment'].pop('grouped_choice');saved.write_text(json.dumps(cached))
+                second,calls=decisions(root,[p]);self.assertEqual(second['a']['assessment']['grouped_choice'],'treatment')
                 _,calls=decisions(root,[p]);self.assertEqual(calls,0);self.assertEqual(request.call_count,1)
             p['context_sha256']='changed'
             with patch('editing_recipe.urllib.request.urlopen',side_effect=OSError('worker failed')):

@@ -10,12 +10,22 @@ from unittest.mock import MagicMock,patch
 
 from editing_feedback import analyze,family,import_feedback
 from editing_policy import require_deployment,require_short_native,require_short_study
-from editing_recipe import MODEL,TICKS,apply_decisions,file_hash,finalize,prepare,preview,read,save_json
+from editing_recipe import MODEL,TICKS,apply_decisions,digest,file_hash,finalize,prepare,preview,read,save_json
 from editing_study import SCHEMA_REPO,evaluate,packets,run_study,validate_document,validate_study
 from calibration_examples import catalog
 
 
 class EditingStudyTests(unittest.TestCase):
+    def test_exact_and_grouped_agreement_are_separate(self):
+        study=dict(split='calibration',beats=[dict(id='a',candidates=[dict(id='comparison-pop')])])
+        prediction=dict(status='complete',context_sha256='frozen',assessment=dict(choice='keep',grouped_choice='treatment'))
+        report=dict(decisions=dict(a=dict(treatment=prediction)))
+        labels=dict(study_sha256=digest(study),labels=[dict(id='a',treatment='comparison-pop',treatment_context_sha256='frozen')])
+        result=evaluate(study,report,labels)['stages']['treatment']
+        self.assertEqual(result['exact_agreement'],0);self.assertEqual(result['grouped_agreement'],1)
+        labels['labels'][0]['treatment']='none-of-these'
+        self.assertEqual(evaluate(study,report,labels)['stages']['treatment']['grouped_agreement'],0)
+
     def fixture(self,root):
         study=read(SCHEMA_REPO/'examples/editing-study/short-study.json')
         media=root/'short.mp4';media.write_bytes(b'fixture; ffprobe is mocked')
@@ -126,7 +136,7 @@ class EditingStudyTests(unittest.TestCase):
                 second=run_study(path,out,labels_path)
                 self.assertEqual(second['model_requests'],dict(opportunity=0,treatment=0))
                 worker.assert_not_called();request.assert_not_called()
-                self.assertEqual(second['evaluation']['stages'],dict(opportunity=dict(count=3,matches=3,agreement=1),treatment=dict(count=2,matches=2,agreement=1)))
+                self.assertEqual(second['evaluation']['stages'],dict(opportunity=dict(count=3,matches=3,agreement=1,exact_agreement=1),treatment=dict(count=2,matches=2,agreement=1,exact_agreement=1,grouped_matches=2,grouped_agreement=1)))
                 self.assertEqual((out/'creator-labels.json').read_bytes(),labels_path.read_bytes())
                 third=run_study(path,out)
                 self.assertEqual(third['evaluation'],second['evaluation']);worker.assert_not_called();request.assert_not_called()
@@ -137,6 +147,8 @@ class EditingStudyTests(unittest.TestCase):
                 page=(out/'calibration.html').read_text(encoding='utf8')
                 payload=json.loads(re.search(r'<script id="labels" type="application/json">(.*?)</script>',page,re.S)[1])
                 self.assertNotIn('assessment',json.dumps(payload));self.assertNotIn('opportunity',payload['labels'][0])
+                self.assertNotIn('grouped:',page);self.assertNotIn('grouped_choice',page)
+                self.assertIn('grouped:',(out/'review.html').read_text(encoding='utf8'))
                 self.assertIn('Watch 5-second',page);self.assertEqual(len(catalog(out)),5)
                 self.assertEqual(path.read_bytes(),original);self.assertEqual(media.read_bytes(),b'fixture; ffprobe is mocked')
 

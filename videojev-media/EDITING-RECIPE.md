@@ -78,6 +78,30 @@ insert dependency check. Captions remain native and inserts contain no captions 
 audio. Missing, lower-resolution or unsupported dependencies leave finalization
 incomplete. The existing Stage 6 job and stop marker are not resumed or removed.
 
+## TEXT and ACTION grammar
+
+Each `TEXT: <literal>` line is classified separately. Only the exact prefixes
+`REPORTED:`, `SOURCE:` and `CHAPTER <n>:` identify source/context lines;
+`STAR 4: COSTLY SURVIVAL` remains body text. Under `## Editing` in the video's
+`channel.md`, supply `Qualifiers: OUR GUESS / ESTIMATE` (example vocabulary).
+Qualifiers match whole lines exactly; no list means no recognized qualifiers.
+Several remaining body lines add `unclassified-text-line` for creator review.
+
+Body lines retain their original strings and split only on ` / `. Progressive
+candidates need at least two units. Comparison candidates need exactly two units
+and a `GRAPHIC:` line containing comparison, versus or paired. A slash alone
+cannot establish comparison intent. Source cards retain the unsplit body plus
+an explicit source or context heading. A qualifier used as a context-card heading
+is carried as `source_label`; otherwise it stays `qualifier`. Neither enters the
+body labels. The hand-mapped audition MOMENTS are the golden examples.
+
+Use `ACTION: Reveal "<exact unit>" at "<exact spoken words>"; reveal ...`.
+Reveal keywords are case insensitive and whitespace may wrap across lines.
+Resolve unique aligned quotes against measured words; source cards use the
+first unit's anchor. Missing anchors retain `missing-explicit-reveal-anchors`
+and omit `reveal_frames`, which the current schema permits. No interval-start
+times are invented. Existing readability and evidence checks still apply.
+
 ## Star 4 measurement, 2026-11-01
 
 The saved section contains 111 approved beats, 156 selected footage placements and
@@ -90,6 +114,15 @@ graphic. The remaining 98 rows were planner fallbacks, excluded from model
 agreement. Candidate availability was deterministic and cannot measure the model's
 ability to detect visual opportunities. This reviewed set is development feedback.
 The unchanged second preview made zero model calls and reused the render.
+
+An after-the-fact grouped re-read of the saved probabilities on these 13
+neighboring beats gives exact agreement 4/13. Each question had 14 options;
+the sum of treatment variants exceeds keep in 9/13, and grouped agreement
+(graphic versus no graphic, with none-of-these separate) is 9/13. Always
+answering "graphic" also scores 9/13. This does not show model skill. Grouping
+is measurement only: raw choice, thresholds, eligibility, frozen criteria,
+context hashes and disabled deployment are unchanged. No model was rerun.
+
 
 On the RTX 5070 Ti, cold start was approximately 15.5 seconds. The complete
 7,077–9,621-token contexts took 2.37–4.03 seconds, median 2.80 seconds; maximum
