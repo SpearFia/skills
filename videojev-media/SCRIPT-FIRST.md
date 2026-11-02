@@ -1,5 +1,9 @@
 # Approved script-first beats
 
+This reference records the accepted workflow and its intermediate demo counts.
+Current status comes from the project's short summaries and receipts; the
+latest handoff and unresolved gates are in [STAGE-7.md](STAGE-7.md).
+
 The creator approved the new interpretation: 670 narration sentences, 300
 specific and 370 general. The interpretation is frozen in the demo's
 `media/jev/script-first/beats.json`, with an approval receipt and script hash.
@@ -220,7 +224,11 @@ Native relinking uses `relinkOthers: false` and preserves source-in, cuts,
 retiming, animated zooms, captions, cards, audio and transitions. Source anchors
 scale with the replacement dimensions. Hardware calibration verified that
 plain relinking shifts the picture; scaling the anchor restores the frame.
-The saved native sequence must match exactly apart from these anchor units.
+The saved native sequence is checked against the resolution-adjusted anchors.
+FilmCraft may round the last decimal of motion anchors and Graphic text
+positions when reopening JSON. The shared native comparison allows at most
+`1e-9` pixels for those coordinates; timing, source-in, speed, text and other
+sequence fields remain exact. Cached builds receive the same validation.
 Representative normal, slowed and animated-zoom frames are rendered before and
 after. Perceptual frame checks are approximate and do not replace visual review.
 
@@ -232,3 +240,20 @@ intersect outro exclusions are flagged without silently changing the creator's
 choices. The same exclusion ranges apply to future alternate selection.
 The job stops before Stage 7. Create `media/jev/script-first/stage6/stop` for a
 clean stop at the next task boundary.
+
+For the creator-requested caption conversion in this demo, FilmCraft's
+`graphics.upgradeCaption` received all 2,045 explicit caption IDs on a separate
+working copy before finalization. Text, start/duration, removal of the original
+captions and unchanged existing sequence items were verified. The converted
+input is `sync/review-plan-1793469563-layers-graphics.fcproj`. This is an API
+operation, not a new `finalize` flag. Both the earlier edit and conversion
+receipt are retained.
+
+Stopping is cooperative: already queued cuts can finish before the process
+exits. Completed per-master receipts can exceed the count in the last summary
+and remain reusable. Confirm exit when pausing, preserve both receipts and
+downloads, and remove only the stop marker when resuming.
+
+Use proxy reviews for `fill` and `swap`. The current source ledger reads proxy
+and Stage 5 master manifests; relinked HQ input provenance is not supported by
+those editing commands. Finalization itself preserves the selected native edit.
