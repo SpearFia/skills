@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT OR Apache-2.0
-"""Short, pop-only editing studies: independent opportunity and treatment judgments."""
+"""Editing studies on complete videos: independent opportunity and treatment judgments."""
 import argparse
 from contextlib import nullcontext
 import html

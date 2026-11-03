@@ -6,10 +6,10 @@ from the frozen v3 snapshot. That separate, creator-selected preview path leaves
 the deployment and HQ restrictions below intact.
 
 Current creator policy: **deployment and HQ finalization are disabled**, even if
-the historical calibration gate would pass. Only pop motion is proposed in new
-work. Continue with [short recommendation-only studies](EDITING-STUDY.md), limited
-to complete videos of two minutes or less. John Wick, GTA History and large videos
-are excluded. The Star 4 artifacts below are archived and must not be rerun or
+the historical calibration gate would pass. Overlay entrances use pop; the
+motion-scene families are allowed (2026-11-03). Continue with
+[recommendation-only studies](EDITING-STUDY.md) on complete videos of any length.
+John Wick and GTA History are excluded. The Star 4 artifacts below are archived and must not be rerun or
 rewritten. Importing their completed creator labels is read-only analysis.
 
 The editing recipe contract lives in `spearfia-spec`, branch `exp/editing-recipe`.
@@ -17,8 +17,8 @@ This workflow reads the creator's saved native edit, not its old assignment.
 It preserves the original projects, frozen beats, approvals, earlier reviews
 and the stopped Stage 6 job. Generated media and review artifacts stay outside Git.
 
-`jev.py edit-prepare` and `edit-preview` reject excluded projects and native
-timelines over two minutes before inference. Preparation requires an existing
+`jev.py edit-prepare` and `edit-preview` reject excluded projects and empty native
+timelines before inference. Preparation requires an existing
 approval receipt; it cannot create one. Use the short-study workflow for the next
 diagnostic trial.
 

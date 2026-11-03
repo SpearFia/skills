@@ -4,15 +4,16 @@ import math
 import re
 from pathlib import Path
 
+# Overlay entrances stay the approved pop. Creator, 2026-11-03: motion-scene families
+# (docs/motion-scene-cues.md) are allowed, and the two-minute video limit is lifted.
 MOTIONS = ('pop',)
-MAX_STUDY_SECONDS = 120
 DEPLOYMENT_ENABLED = False
 PROTECTED_PROJECTS = ('cwi003','cwi004completegtastory','gtahistory')
 
 
 def require_short_study(duration_seconds,*paths):
-    if type(duration_seconds) not in (int,float) or not math.isfinite(duration_seconds) or not 0<duration_seconds<=MAX_STUDY_SECONDS:
-        raise ValueError('Editing experiments are limited to complete videos of two minutes or less')
+    if type(duration_seconds) not in (int,float) or not math.isfinite(duration_seconds) or not duration_seconds>0:
+        raise ValueError('Editing experiments need a complete video with a positive duration')
     for path in paths:
         for part in re.split(r'[/\\]',str(path)):
             name=re.sub(r'[^a-z0-9]','',part.casefold())

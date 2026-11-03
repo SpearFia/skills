@@ -43,24 +43,24 @@ class EditingStudyTests(unittest.TestCase):
         handle=MagicMock();handle.__enter__.return_value.read.return_value=json.dumps(response).encode()
         return handle
 
-    def test_scope_blocks_full_long_video_protected_projects_and_deployment(self):
-        require_short_study(120,'D:/studies/short.mp4')
-        for seconds in [121,0,-1,float('nan'),True]:
+    def test_scope_blocks_invalid_length_protected_projects_and_deployment(self):
+        require_short_study(1200,'D:/studies/full.mp4')
+        for seconds in [0,-1,float('nan'),float('inf'),True]:
             with self.assertRaises(ValueError):require_short_study(seconds)
         for path in ['D:/projects/cwi-003-jev-demo/a.mp4','D:/projects/cwi-004-complete-gta-story/a.mp4','D:/GTA History/a.mp4']:
             with self.assertRaisesRegex(ValueError,'excluded'):require_short_study(5,path)
-        sequence=dict(video_tracks=[dict(items=[dict(start=0,duration=600*TICKS)])],audio_tracks=[])
-        with self.assertRaises(ValueError):require_short_native(sequence,Path('short-project'))
+        require_short_native(dict(video_tracks=[dict(items=[dict(start=0,duration=1200*TICKS)])],audio_tracks=[]),Path('full-project'))
+        with self.assertRaises(ValueError):require_short_native(dict(video_tracks=[],audio_tracks=[]),Path('short-project'))
         with self.assertRaises(RuntimeError):require_deployment()
         with patch('editing_recipe.FilmCraft') as editor:
             with self.assertRaises(RuntimeError):apply_decisions(None,None,None,None)
             with self.assertRaises(RuntimeError):finalize(Path('missing-recipe.json'))
             editor.assert_not_called()
 
-    def test_contract_rejects_non_pop_missing_provenance_and_long_video(self):
+    def test_contract_rejects_non_pop_missing_provenance_and_empty_video(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);study,path=self.fixture(root);validate_document(path)
-            mutations=[lambda s:s.update(duration_ms=120001),lambda s:s['beats'][0]['candidates'][0].update(motion='fade'),
+            mutations=[lambda s:s.update(duration_ms=0),lambda s:s['beats'][0]['candidates'][0].update(motion='fade'),
                 lambda s:s['beats'][2]['candidates'][1].pop('source_label')]
             for change in mutations:
                 bad=copy.deepcopy(study);change(bad);save_json(path,bad)
@@ -69,16 +69,16 @@ class EditingStudyTests(unittest.TestCase):
     def test_native_rejection_creates_no_approval_lock_or_worker(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);project=root/'short-project';review=root/'saved.fcproj'
-            long=dict(video_tracks=[dict(items=[dict(start=0,duration=600*TICKS)])],audio_tracks=[])
+            empty=dict(video_tracks=[],audio_tracks=[])
             short=dict(video_tracks=[dict(items=[dict(start=0,duration=30*TICKS)])],audio_tracks=[])
-            with patch('editing_recipe.native_read',return_value=({},long)),patch('editing_recipe.approve') as approval:
+            with patch('editing_recipe.native_read',return_value=({},empty)),patch('editing_recipe.approve') as approval:
                 with self.assertRaises(ValueError):prepare(project,review,root/'out')
                 approval.assert_not_called();self.assertFalse((root/'out').exists())
             with patch('editing_recipe.native_read',return_value=({},short)),patch('editing_recipe.approve') as approval:
                 with self.assertRaisesRegex(ValueError,'cannot create approval'):prepare(project,review,root/'out')
                 approval.assert_not_called()
             save_json(root/'editing-recipe.json',dict(project=str(project)))
-            with patch('editing_recipe.native_read',return_value=({},long)):
+            with patch('editing_recipe.native_read',return_value=({},empty)):
                 with self.assertRaises(ValueError):preview(root,render=False)
                 self.assertFalse((root/'editing.lock').exists())
 
@@ -86,7 +86,7 @@ class EditingStudyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);study,path=self.fixture(root);out=root/'out'
             with patch('editing_study.ClefSession') as worker,patch('editing_study.inspect_media',return_value=self.probe(180)):
-                with self.assertRaisesRegex(ValueError,'two minutes'):run_study(path,out)
+                with self.assertRaisesRegex(ValueError,'does not match'):run_study(path,out)
                 worker.assert_not_called();self.assertFalse(out.exists())
             with patch('editing_study.inspect_media',return_value=self.probe()):
                 mutations=[lambda s:s['media'].update(sha256='b'*64),lambda s:s.update(duration_ms=29000),

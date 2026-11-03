@@ -1,9 +1,10 @@
 <!-- SPDX-License-Identifier: MIT OR Apache-2.0 -->
 # Short editing studies
 
-Creator policy, 2026-11-01: use **pop only**, continue experiments on complete videos
-of at most two minutes, and leave deployment disabled. Do not apply this system to
-the current John Wick project, GTA History or large videos. Calibration and high
+Creator policy, 2026-11-03: overlay entrances use **pop**, the motion-scene families
+in spearfia `docs/motion-scene-cues.md` are allowed, experiments run on complete
+videos of any length, and deployment stays disabled. Do not apply this system to
+the current John Wick project or GTA History. Calibration and high
 confidence cannot unlock application or HQ finalization. No source project,
 approvals, beat plans or previous reviews should be rewritten.
 
